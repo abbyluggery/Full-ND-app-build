@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Water_Intake_Range</fullName>
+    <active>true</active>
+    <description>Ensures water intake is a reasonable number (0-20 glasses)</description>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(Water_Intake__c)),
+  OR(Water_Intake__c &lt; 0, Water_Intake__c &gt; 20)
+)</errorConditionFormula>
+    <errorDisplayField>Water_Intake__c</errorDisplayField>
+    <errorMessage>Water intake must be between 0 and 20 glasses</errorMessage>
+</ValidationRule>

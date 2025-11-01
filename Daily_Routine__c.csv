@@ -1,0 +1,11 @@
+Date__c,Energy_Level__c,Pain_Level__c,Sleep_Hours__c,Medication_Taken__c,Exercise_Completed__c,Study_Hours__c,Job_Applications_Sent__c,Self_Care_Activities__c,Notes__c,Mood__c
+2025-10-23,9,2,8,Yes,Yes,4,5,"Morning meditation, evening walk, journaling","Excellent day! Felt focused and productive. Applied to 5 high-priority positions and completed LWC module.","Energized"
+2025-10-24,7,3,7.5,Yes,Yes,3,3,"Gentle stretching, read for pleasure","Good solid day. Energy dipped after lunch but recovered. Customized 3 resumes for targeted positions.","Focused"
+2025-10-25,6,4,6.5,Yes,No,2.5,2,"Heating pad, listened to podcast","Moderate day. Managed to complete planned study time but felt fatigue. Shortened job search to conserve energy.","Steady"
+2025-10-26,4,6,5,Yes,No,1,1,"Rest breaks, gentle movement, heating pad","Struggled today. Pain flared up. Focused on one quality application rather than pushing through multiple. Adjusted schedule accordingly.","Managing"
+2025-10-27,2,8,4,Yes,No,0,0,"Complete rest, medication management, heating pad, watched comfort show","Fibro flare. Honored need for rest. No guilt about productivity. Health first.","Resting"
+2025-10-28,3,7,9,Yes,No,0.5,0,"Extra sleep, gentle movement, meal prep","Still recovering from flare. Did 30 min of light review reading. Focused on basic self-care and rest.","Recovering"
+2025-10-29,6,4,7.5,Yes,Yes,2,2,"Morning yoga, afternoon walk","Feeling better! Deployed wellness system to Salesforce. Energy improved throughout day. Applied to 2 remote positions.","Hopeful"
+2025-10-30,8,3,8,Yes,Yes,3.5,4,"Morning meditation, walked 30 min, cooking","Great momentum! Fixed API integration issues and completed flow deployments. Applied to 4 positions including dream job at Neurodiversity Tech Initiative.","Accomplished"
+2025-10-31,7,3,7,Yes,Yes,3,3,"Stretching, meal prep, journaling","Consistent energy. Worked on sample data creation and system testing. Feeling good about progress.","Balanced"
+2025-11-01,5,5,6,Yes,No,2,1,"Rest breaks, heat therapy, light reading","Energy fluctuated today. Morning was productive, afternoon required rest. Listening to body's signals.","Adaptable"

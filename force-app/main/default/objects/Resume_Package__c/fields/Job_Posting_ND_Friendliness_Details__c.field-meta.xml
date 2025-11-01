@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Posting_ND_Friendliness_Details__c</fullName>
+    <description>ND friendliness details from the linked job posting analysis</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
+    <label>Job Posting ND Friendliness Details</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

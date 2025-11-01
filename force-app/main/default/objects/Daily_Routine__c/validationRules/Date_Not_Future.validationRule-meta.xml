@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_Not_Future</fullName>
+    <active>true</active>
+    <description>Prevents creating daily routines for future dates</description>
+    <errorConditionFormula>Date__c &gt; TODAY()</errorConditionFormula>
+    <errorDisplayField>Date__c</errorDisplayField>
+    <errorMessage>Cannot create a daily routine for a future date. Daily routines can only be created for today or past dates.</errorMessage>
+</ValidationRule>

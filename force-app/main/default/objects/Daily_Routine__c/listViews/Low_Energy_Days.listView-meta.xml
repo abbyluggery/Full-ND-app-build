@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Low_Energy_Days</fullName>
+    <columns>NAME</columns>
+    <columns>Date__c</columns>
+    <columns>Energy_Level_Morning__c</columns>
+    <columns>Mood__c</columns>
+    <columns>Stress_Level__c</columns>
+    <columns>Challenges__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Energy_Level_Morning__c</field>
+        <operation>lessThan</operation>
+        <value>5</value>
+    </filters>
+    <filters>
+        <field>Date__c</field>
+        <operation>equals</operation>
+        <value>LAST_N_DAYS:30</value>
+    </filters>
+    <label>Low Energy Days (Past 30)</label>
+</ListView>

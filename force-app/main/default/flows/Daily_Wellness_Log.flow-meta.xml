@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Screen flow to log daily energy level</description>
+    <label>Daily Wellness Log</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Log_Energy_Level</name>
+        <label>Log Energy Level</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>energyLevel</name>
+            <dataType>Number</dataType>
+            <fieldText>Energy Level (1-10)</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <helpText>How energetic do you feel today?</helpText>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Log_Energy_Level</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <interviewLabel>Daily Wellness Log - {!$Flow.CurrentDateTime}</interviewLabel>
+</Flow>

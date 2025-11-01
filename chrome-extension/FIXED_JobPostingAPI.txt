@@ -1,0 +1,93 @@
+/**
+ * REST API for Chrome Extension to create Job Postings
+ * Copy this ENTIRE file into Developer Console
+ */
+
+@RestResource(urlMapping='/jobposting/*')
+global with sharing class JobPostingAPI {
+
+    @HttpPost
+    global static String createJobPosting(String title, String company, String location,
+                                          String description, String applyUrl, String provider,
+                                          String externalId, String salaryMin, String salaryMax) {
+
+        Map<String, Object> response = new Map<String, Object>();
+
+        try {
+            // Create the job posting record
+            Job_Posting__c job = new Job_Posting__c();
+            job.Title__c = title;
+            job.Company__c = company;
+            job.Location__c = location;
+            job.Description__c = description;
+            job.Apply_URL__c = applyUrl;
+            job.Provider__c = provider;
+            job.ExternalID__c = externalId;
+            job.Status__c = 'Active';
+            job.Posted_Date__c = Date.today();
+
+            // Parse workplace type and remote policy from description/title
+            job.Workplace_Type__c = determineWorkplaceType(title, location, description);
+            job.Remote_Policy__c = determineRemotePolicy(title, location, description);
+
+            // Parse salary if provided
+            if (String.isNotBlank(salaryMin)) {
+                try {
+                    job.Salary_Min__c = Decimal.valueOf(salaryMin);
+                } catch (Exception e) {
+                    System.debug('Could not parse salary min: ' + salaryMin);
+                }
+            }
+
+            if (String.isNotBlank(salaryMax)) {
+                try {
+                    job.Salary_Max__c = Decimal.valueOf(salaryMax);
+                } catch (Exception e) {
+                    System.debug('Could not parse salary max: ' + salaryMax);
+                }
+            }
+
+            // Insert the job (trigger will fire and analyze with Claude!)
+            insert job;
+
+            response.put('success', true);
+            response.put('jobId', job.Id);
+            response.put('message', 'Job posting created successfully! Claude is analyzing it now.');
+
+        } catch (Exception e) {
+            response.put('success', false);
+            response.put('message', 'Error creating job posting: ' + e.getMessage());
+            System.debug(LoggingLevel.ERROR, 'JobPostingAPI Error: ' + e.getMessage());
+        }
+
+        return JSON.serialize(response);
+    }
+
+    private static String determineWorkplaceType(String title, String location, String description) {
+        String combined = (title + ' ' + location + ' ' + description).toLowerCase();
+
+        if (combined.contains('remote') || combined.contains('work from home')) {
+            return 'Remote';
+        } else if (combined.contains('hybrid')) {
+            return 'Hybrid';
+        } else if (combined.contains('on-site') || combined.contains('onsite') || combined.contains('office')) {
+            return 'On-site';
+        }
+
+        return 'Remote'; // Default to remote for your search
+    }
+
+    private static String determineRemotePolicy(String title, String location, String description) {
+        String combined = (title + ' ' + location + ' ' + description).toLowerCase();
+
+        if (combined.contains('fully remote') || combined.contains('100% remote')) {
+            return 'Fully Remote';
+        } else if (combined.contains('remote-first') || combined.contains('remote first')) {
+            return 'Remote-First';
+        } else if (combined.contains('hybrid')) {
+            return 'Hybrid (2-3 days office)';
+        }
+
+        return 'Fully Remote'; // Default for your search
+    }
+}

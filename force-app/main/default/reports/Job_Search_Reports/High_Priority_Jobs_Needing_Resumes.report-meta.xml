@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Company__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Title__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.ND_Friendliness_Score__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Fit_Score__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Salary_Min__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Salary_Max__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Location__c</field>
+    </columns>
+    <columns>
+        <field>Job_Posting__c.Research_Date__c</field>
+    </columns>
+    <description>High-priority jobs (ND Score &gt;= 8) that need resume packages generated</description>
+    <filter>
+        <criteriaItems>
+            <column>Job_Posting__c.ND_Friendliness_Score__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterOrEqual</operator>
+            <value>8</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Job_Posting__c.Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Resume Generated,Applied,Rejected</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>High Priority Jobs Needing Resumes</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Job_Posting__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Job_Posting__c.ND_Friendliness_Score__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Job_Posting__c.Research_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

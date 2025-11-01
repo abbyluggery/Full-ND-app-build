@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dashboard xmlns="http://soap.sforce.com/2006/04/metadata">
+    <backgroundEndColor>#FFFFFF</backgroundEndColor>
+    <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
+    <backgroundStartColor>#FFFFFF</backgroundStartColor>
+    <dashboardType>SpecifiedUser</dashboardType>
+    <description>Primary dashboard showing job search activity, pipeline, and ND-specific metrics</description>
+    <isGridLayout>true</isGridLayout>
+    <leftSection>
+        <columnSize>Medium</columnSize>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Metric</componentType>
+            <displayUnits>Auto</displayUnits>
+            <groupingColumn>Job_Posting__c.Research_Date__c</groupingColumn>
+            <header>Jobs Analyzed This Week</header>
+            <indicatorBreakpoint1>5</indicatorBreakpoint1>
+            <indicatorBreakpoint2>10</indicatorBreakpoint2>
+            <indicatorHighColor>#00D28E</indicatorHighColor>
+            <indicatorLowColor>#C23934</indicatorLowColor>
+            <indicatorMiddleColor>#FFB75D</indicatorMiddleColor>
+            <metricLabel>Jobs Analyzed</metricLabel>
+            <report>Job_Search_Reports/Jobs_Analyzed_This_Week</report>
+        </components>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Metric</componentType>
+            <displayUnits>Auto</displayUnits>
+            <groupingSortProperties/>
+            <header>High-Priority Jobs (ND >= 8)</header>
+            <indicatorBreakpoint1>1</indicatorBreakpoint1>
+            <indicatorBreakpoint2>3</indicatorBreakpoint2>
+            <indicatorHighColor>#00D28E</indicatorHighColor>
+            <indicatorLowColor>#C23934</indicatorLowColor>
+            <indicatorMiddleColor>#FFB75D</indicatorMiddleColor>
+            <metricLabel>Needs Action</metricLabel>
+            <report>Job_Search_Reports/High_Priority_Jobs_Needing_Resumes</report>
+                    </components>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>BarGrouped</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>false</drillEnabled>
+            <drillToDetailEnabled>false</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <groupingColumn>BucketField_ND_Score_Range</groupingColumn>
+            <header>Jobs by ND Score Range</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>Job_Search_Reports/Jobs_by_ND_Friendliness_Score</report>
+            <showPercentage>false</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
+        </components>
+    </leftSection>
+    <middleSection>
+        <columnSize>Medium</columnSize>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Funnel</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>false</drillEnabled>
+            <drillToDetailEnabled>false</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <groupingColumn>Job_Posting__c.Status__c</groupingColumn>
+            <header>Application Pipeline</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>Job_Search_Reports/Application_Pipeline_by_Status</report>
+            <showPercentage>false</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
+        </components>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>LineGrouped</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>false</drillEnabled>
+            <drillToDetailEnabled>false</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <groupingColumn>Job_Posting__c.Research_Date__c</groupingColumn>
+            <header>Jobs Analyzed Trend (7 Days)</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>Job_Search_Reports/Jobs_Analyzed_This_Week</report>
+            <showPercentage>false</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
+        </components>
+    </middleSection>
+    <rightSection>
+        <columnSize>Medium</columnSize>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <componentType>Table</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>false</drillEnabled>
+            <drillToDetailEnabled>false</drillToDetailEnabled>
+            <header>Upcoming Interviews</header>
+            <indicatorHighColor>#00D28E</indicatorHighColor>
+            <indicatorLowColor>#C23934</indicatorLowColor>
+            <indicatorMiddleColor>#FFB75D</indicatorMiddleColor>
+            <maxValuesDisplayed>10</maxValuesDisplayed>
+            <report>Job_Search_Reports/Upcoming_Interviews</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+        <components>
+            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <componentType>Table</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>false</drillEnabled>
+            <drillToDetailEnabled>false</drillToDetailEnabled>
+            <header>High Priority - Need Resumes</header>
+            <indicatorHighColor>#00D28E</indicatorHighColor>
+            <indicatorLowColor>#C23934</indicatorLowColor>
+            <indicatorMiddleColor>#FFB75D</indicatorMiddleColor>
+            <maxValuesDisplayed>10</maxValuesDisplayed>
+            <report>Job_Search_Reports/High_Priority_Jobs_Needing_Resumes</report>
+            <showPicturesOnTables>false</showPicturesOnTables>
+            <sortBy>RowValueDescending</sortBy>
+        </components>
+    </rightSection>
+    <runningUser>admin@assistant.com</runningUser>
+    <textColor>#000000</textColor>
+    <title>Job Search Overview</title>
+    <titleColor>#000000</titleColor>
+    <titleSize>12</titleSize>
+</Dashboard>

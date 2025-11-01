@@ -1,0 +1,53 @@
+Id,Resume_Content__c,Technical_Skills__c,Key_Achievements__c,Cover_Letter_Template__c
+PASTE_RECORD_ID_HERE,"Abby Luggery | 561-758-7434 | abbyluggery@gmail.com
+Salesforce Analyst with 2.5+ years of Administrator-level access and 5+ years of data analytics experience. Proven track record maintaining data integrity across 1000+ records with 99%+ accuracy while supporting global user bases.
+
+EXPERIENCE:
+Macquarie | Data Operations Analyst | Oct 2022 – Mar 2025
+• Managed user profiles, roles, permissions for 1000+ records with 99% data integrity
+• Contributed to Agentforce implementation reducing manual processing by 35%
+• Created SOQL/SOSL queries supporting $50M+ deal flow
+• Redesigned validation workflows reducing processing time by 40%
+Environment: Salesforce Multi-Cloud, Service Cloud, Agentforce, SOQL, Tableau CRM
+
+Freedom Mortgage | Client Underwriting Specialist | Sep 2020 – May 2022
+• Achieved 98% accuracy in high-volume data entry
+• Built Excel automation tools improving efficiency by 35%
+• Implemented validation protocols reducing default risk by 15%
+• Maintained 100% regulatory compliance
+
+Citigroup | AML Analyst Level II | Mar 2015 – Apr 2016
+• Utilized SQL for transaction pattern analysis
+• Created compliance dashboards and SARs reports
+
+Firefly Legal | Office Manager | Dec 2008 – Apr 2011
+• Led database beta testing: 93% error reduction, 57% efficiency gain
+• Delivered $250K annual savings
+
+EDUCATION: Daytona State College - Programming & Database Management | GPA: 3.8
+CERTIFICATIONS: Agentforce for Service Superbadge, Prompt Builder Superbadge, Agent Blazer Champion, 92 Badges
+
+PROJECTS:
+AI Job Search Assistant - Salesforce + Claude AI Integration
+Chrome Extension for job capture, REST API integration, Automated ND scoring","Salesforce: Administration, Service Cloud, Lightning Experience, Multi-Cloud, User Profiles & Permissions, Security, Flow Builder, Process Automation, SOQL/SOSL, Data Loader, Custom Objects, Validation Rules, Agentforce Builder, Case Management, Sandbox Management, Change Sets
+
+Data & Analytics: SQL, Tableau CRM, Advanced Excel (VBA, Pivot Tables), Data Visualization, ETL, Data Migration, Data Quality Management, Performance Analytics
+
+Tools: Jira, Agile Methodology, API Integration, MuleSoft, HTML, CSS, Database Management, System Troubleshooting, Reporting & Dashboards","• Maintained 99% data integrity across 1000+ enterprise Salesforce records
+• Contributed to Agentforce implementation reducing manual inquiry processing by 35%
+• Redesigned data validation workflows reducing processing time by 40%
+• Created SOQL/SOSL queries supporting $50M+ deal flow
+• Built Excel automation tools improving operational efficiency by 35%
+• Led database beta testing reducing errors by 93% and improving efficiency by 57%
+• Delivered $250K annual savings through regulatory compliance analysis
+• Achieved Agent Blazer Champion status with 92 Trailhead badges and 2 Superbadges
+• Built production AI-integrated Salesforce application","Dear Hiring Manager,
+
+I am writing to express my interest in the [POSITION] role at [COMPANY]. With 2.5+ years of Salesforce Administrator experience and 5+ years in data analytics, I am excited about the opportunity to contribute to your team.
+
+[Claude will customize this section based on the job description]
+
+Thank you for your consideration.
+
+Best regards,
+Abby Luggery"

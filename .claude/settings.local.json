@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell:*)",
+      "Bash(fc:*)",
+      "Bash(Select-String -Pattern \"JobPostingAPI\")",
+      "Bash(sf org display:*)",
+      "Bash(findstr:*)",
+      "Bash(sf org list metadata:*)",
+      "Bash(sf org describe:*)",
+      "Bash(dir \"C:\\Users\\Abbyl\\OneDrive\\Desktop\\Salesforce Training\\Assistant\\Assistant\")",
+      "Bash(Select-String -Pattern \"resume\" -CaseSensitive:$false)",
+      "Bash(sf data query:*)",
+      "Bash(sf project deploy start:*)",
+      "Bash(dir:*)",
+      "Read(//c/Users/Abbyl/OneDrive/Desktop/**)",
+      "Bash(\"C:\\Program Files\\sf\\bin\\sf.cmd\" data query --query \"SELECT Id, Name, Job_Posting__c, Resume_Content__c, Cover_Letter__c FROM Resume_Package__c ORDER BY CreatedDate DESC LIMIT 1\" --target-org abbyluggery@curious-goat-9gl69m.com --json)",
+      "Bash(where:*)",
+      "Bash(Select-String -Pattern \"Job|Resume|Claude\")",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,25 @@
+// Bulk insert 10 Daily_Routine__c records
+List<Daily_Routine__c> routines = new List<Daily_Routine__c>();
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,23),Energy_Level_Morning__c=9,Energy_Level_Afternoon__c=9,Energy_Level_Evening__c=8,Mood__c='Energized',Stress_Level__c=3,Exercise_Completed__c=true,Exercise_Type__c='Walk',Water_Intake__c=8,Morning_Routine_Complete__c=true,Accomplished_Today__c='Applied to 5 high-priority positions and completed LWC module',Challenges__c='None',Gratitude__c='Feeling focused and productive',Tomorrow_Priorities__c='Continue job applications'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,24),Energy_Level_Morning__c=8,Energy_Level_Afternoon__c=6,Energy_Level_Evening__c=7,Mood__c='Focused',Stress_Level__c=4,Exercise_Completed__c=true,Exercise_Type__c='Stretching',Water_Intake__c=7,Morning_Routine_Complete__c=true,Accomplished_Today__c='Customized 3 resumes for targeted positions',Challenges__c='Energy dipped after lunch but recovered',Gratitude__c='Good solid day',Tomorrow_Priorities__c='Follow up on applications'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,25),Energy_Level_Morning__c=7,Energy_Level_Afternoon__c=5,Energy_Level_Evening__c=6,Mood__c='Steady',Stress_Level__c=5,Exercise_Completed__c=false,Water_Intake__c=6,Morning_Routine_Complete__c=true,Accomplished_Today__c='Completed planned study time',Challenges__c='Felt fatigue, shortened job search to conserve energy',Gratitude__c='Managed to complete study goals',Tomorrow_Priorities__c='Focus on self-care'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,26),Energy_Level_Morning__c=4,Energy_Level_Afternoon__c=4,Energy_Level_Evening__c=4,Mood__c='Managing',Stress_Level__c=7,Exercise_Completed__c=false,Water_Intake__c=5,Morning_Routine_Complete__c=false,Accomplished_Today__c='Focused on one quality application',Challenges__c='Pain flared up today',Gratitude__c='Adjusted schedule appropriately',Tomorrow_Priorities__c='Rest and recovery'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,27),Energy_Level_Morning__c=2,Energy_Level_Afternoon__c=2,Energy_Level_Evening__c=2,Mood__c='Resting',Stress_Level__c=8,Exercise_Completed__c=false,Water_Intake__c=4,Morning_Routine_Complete__c=false,Accomplished_Today__c='Complete rest day',Challenges__c='Fibro flare',Gratitude__c='No guilt about productivity - health first',Tomorrow_Priorities__c='Continue resting'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,28),Energy_Level_Morning__c=3,Energy_Level_Afternoon__c=3,Energy_Level_Evening__c=3,Mood__c='Recovering',Stress_Level__c=7,Exercise_Completed__c=false,Water_Intake__c=6,Morning_Routine_Complete__c=false,Accomplished_Today__c='30 min of light review reading',Challenges__c='Still recovering from flare',Gratitude__c='Extra sleep helped',Tomorrow_Priorities__c='Gradual return to routine'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,29),Energy_Level_Morning__c=6,Energy_Level_Afternoon__c=6,Energy_Level_Evening__c=6,Mood__c='Hopeful',Stress_Level__c=5,Exercise_Completed__c=true,Exercise_Type__c='Yoga',Water_Intake__c=7,Morning_Routine_Complete__c=true,Accomplished_Today__c='Deployed wellness system to Salesforce, applied to 2 remote positions',Challenges__c='Energy improved throughout day',Gratitude__c='Feeling better!',Tomorrow_Priorities__c='Build on this momentum'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,30),Energy_Level_Morning__c=8,Energy_Level_Afternoon__c=8,Energy_Level_Evening__c=8,Mood__c='Accomplished',Stress_Level__c=3,Exercise_Completed__c=true,Exercise_Type__c='Walk',Water_Intake__c=8,Morning_Routine_Complete__c=true,Accomplished_Today__c='Fixed API integration issues and completed flow deployments, applied to 4 positions including dream job',Challenges__c='None',Gratitude__c='Great momentum!',Tomorrow_Priorities__c='Continue system testing'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,10,31),Energy_Level_Morning__c=7,Energy_Level_Afternoon__c=7,Energy_Level_Evening__c=7,Mood__c='Balanced',Stress_Level__c=4,Exercise_Completed__c=true,Exercise_Type__c='Stretching',Water_Intake__c=7,Morning_Routine_Complete__c=true,Accomplished_Today__c='Worked on sample data creation and system testing',Challenges__c='None',Gratitude__c='Feeling good about progress',Tomorrow_Priorities__c='Finalize testing'));
+
+routines.add(new Daily_Routine__c(Date__c=Date.newInstance(2025,11,1),Energy_Level_Morning__c=6,Energy_Level_Afternoon__c=4,Energy_Level_Evening__c=5,Mood__c='Adaptable',Stress_Level__c=5,Exercise_Completed__c=false,Water_Intake__c=6,Morning_Routine_Complete__c=true,Accomplished_Today__c='Morning was productive',Challenges__c='Afternoon required rest',Gratitude__c='Listening to body signals',Tomorrow_Priorities__c='Continue being flexible'));
+
+insert routines;
+System.debug('✅ SUCCESS! Inserted ' + routines.size() + ' Daily Routine records');

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Automatically updates Job Posting status to &quot;Resume Generated&quot; when a Resume Package is created, and creates a task to review the resume.</description>
+    <label>Auto Update Job Status on Resume Generation</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Job_Posting_Status</targetReference>
+        </connector>
+        <object>Resume_Package__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <recordUpdates>
+        <name>Update_Job_Posting_Status</name>
+        <label>Update Job Posting Status</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <connector>
+            <targetReference>Create_Review_Task</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Resume Generated</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Job_Posting__r</inputReference>
+    </recordUpdates>
+    <recordCreates>
+        <name>Create_Review_Task</name>
+        <label>Create Review Task</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Review Resume Package Before Sending</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>A new resume package has been generated. Please review:
+- Resume content for accuracy and completeness
+- Cover letter personalization
+- ALL jobs are included (check employment history)
+- No AI hallucinations or fabricated experience
+- Tailoring matches job requirements
+
+Company: {!$Record.Job_Posting__r.Company__c}
+Title: {!$Record.Job_Posting__r.Title__c}
+ND Friendliness Score: {!$Record.Job_Posting__r.ND_Friendliness_Score__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Job_Posting__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+</Flow>

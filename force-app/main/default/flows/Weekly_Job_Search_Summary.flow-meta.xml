@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Scheduled flow that runs every Monday at 8 AM to send weekly job search summary with action items</description>
+    <label>Weekly Job Search Summary</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Jobs_Analyzed_This_Week</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Weekly</frequency>
+            <startDate>2025-11-03</startDate>
+            <startTime>08:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <recordLookups>
+        <name>Get_Jobs_Analyzed_This_Week</name>
+        <label>Get Jobs Analyzed This Week</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_High_Priority_Jobs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Research_Date__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>LastWeekStartDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_High_Priority_Jobs</name>
+        <label>Get High Priority Jobs Without Resumes</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Upcoming_Interviews</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ND_Friendliness_Score__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Resume Generated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Applied</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Rejected</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Upcoming_Interviews</name>
+        <label>Get Upcoming Interviews This Week</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Build_Email_Body</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>LessThanOrEqualTo</operator>
+            <value>
+                <elementReference>NextWeekEndDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Completed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <formulas>
+        <name>LastWeekStartDate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() - 7</expression>
+    </formulas>
+    <formulas>
+        <name>NextWeekEndDate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 7</expression>
+    </formulas>
+    <textTemplates>
+        <name>Build_Email_Body</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;📊 Weekly Job Search Summary&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Week of: {!$Flow.CurrentDate}&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;📈 THIS WEEK&apos;S ACTIVITY:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Jobs Analyzed: &lt;b&gt;{!Get_Jobs_Analyzed_This_Week}&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;High Priority Jobs Found: &lt;b&gt;{!Get_High_Priority_Jobs}&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Interviews Scheduled: &lt;b&gt;{!Get_Upcoming_Interviews}&lt;/b&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;🎯 ACTION ITEMS FOR THIS WEEK:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;1. High-Priority Jobs Needing Resumes:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;These jobs scored ND Score &amp;gt;= 8 but don&apos;t have resume packages yet. Generate resumes and apply!&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;2. Upcoming Interviews This Week:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Review your interview preparation tasks and notes!&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;💡 TIPS FOR THIS WEEK:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Focus on high ND-friendliness scores (&amp;gt;= 8)&lt;/li&gt;
+&lt;li&gt;Use the &quot;Generate Resume Package&quot; button to save time&lt;/li&gt;
+&lt;li&gt;Review interview notes 3 days before scheduled interviews&lt;/li&gt;
+&lt;li&gt;Track red flags and patterns across companies&lt;/li&gt;
+&lt;li&gt;Celebrate small wins - every step forward counts!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;🌟 MOTIVATION:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Remember: You&apos;re not just looking for any job - you&apos;re finding the RIGHT job that values your neurodivergent strengths, supports your needs, and aligns with your goals. Quality over quantity!&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;View full details in your &lt;a href=&quot;[ORG_URL]/lightning/o/Job_Posting__c/list&quot;&gt;Job Search Dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;---&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Sent by your AI-powered ND-Friendly Job Search Assistant&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <actionCalls>
+        <name>Send_Weekly_Summary_Email</name>
+        <label>Send Weekly Summary Email</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>📊 Your Weekly Job Search Summary - {!$Flow.CurrentDate}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Build_Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+</Flow>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Creates reminder tasks 3 days and 1 day before scheduled interview to help with preparation</description>
+    <label>Interview Reminder Tasks</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Interview_Date_Set</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Completed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Job_Posting__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <decisions>
+        <name>Check_Interview_Date_Set</name>
+        <label>Check Interview Date Set</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Create_3_Day_Reminder</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Interview Date Is Set</defaultConnectorLabel>
+    </decisions>
+    <formulas>
+        <name>ThreeDaysBeforeInterview</name>
+        <dataType>Date</dataType>
+        <expression>{!$Record.Interview_Date__c} - 3</expression>
+    </formulas>
+    <formulas>
+        <name>OneDayBeforeInterview</name>
+        <dataType>Date</dataType>
+        <expression>{!$Record.Interview_Date__c} - 1</expression>
+    </formulas>
+    <recordCreates>
+        <name>Create_3_Day_Reminder</name>
+        <label>Create 3-Day Reminder Task</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <connector>
+            <targetReference>Create_1_Day_Reminder</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Prepare for Interview - {!$Record.Company__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>🎯 INTERVIEW PREPARATION - 3 Days to Go
+
+Company: {!$Record.Company__c}
+Position: {!$Record.Title__c}
+Interview Date: {!$Record.Interview_Date__c}
+ND Friendliness Score: {!$Record.ND_Friendliness_Score__c}
+
+✅ PREPARATION CHECKLIST:
+□ Review job description and requirements
+□ Review Interview_Notes__c field for research
+□ Research company values and recent news
+□ Prepare examples from your experience
+□ Review green flags: {!$Record.Green_Flags__c}
+□ Prepare questions about red flags: {!$Record.Red_Flags__c}
+□ Test video/audio setup (if remote)
+□ Plan outfit and travel time
+□ Review your generated resume for this job
+□ Prepare ND accommodation requests if needed
+
+💡 INTERVIEW STRATEGY:
+- Lead with Agentforce expertise (your differentiator)
+- Ask about flexible hours and remote work
+- Gauge ND-friendly culture through questions
+- Confirm salary range matches expectations
+
+Good luck! You've got this! 🚀</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>ThreeDaysBeforeInterview</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_1_Day_Reminder</name>
+        <label>Create 1-Day Reminder Task</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Final Interview Prep - TOMORROW - {!$Record.Company__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>🔥 FINAL INTERVIEW PREP - Interview is TOMORROW!
+
+Company: {!$Record.Company__c}
+Position: {!$Record.Title__c}
+Interview Date: {!$Record.Interview_Date__c}
+
+✅ LAST-MINUTE CHECKLIST:
+□ Review your preparation notes from 3-day task
+□ Re-read Interview_Notes__c field
+□ Print/have resume ready
+□ Prepare questions list
+□ Get good sleep tonight
+□ Set multiple alarms
+□ Confirm meeting link/location
+□ Prepare energy management plan (ND considerations)
+□ Have water and snacks ready
+□ Plan for post-interview decompression time
+
+🎯 KEY TALKING POINTS:
+1. Agentforce + AI agent expertise
+2. Data quality track record (99% integrity)
+3. ND strengths: Pattern recognition, deep focus, attention to detail
+4. Ask about: Flexible schedule, quiet workspace, written communication
+
+Remember: You're interviewing THEM too. This is a two-way conversation to ensure mutual fit.
+
+You're prepared. You're qualified. You've got this! 💪</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>OneDayBeforeInterview</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+</Flow>

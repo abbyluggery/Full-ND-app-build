@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Stores your master resume content for tailored resume generation</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Master Resume</label>
+    <visibility>Public</visibility>
+    <fields>
+        <fullName>Resume_Content__c</fullName>
+        <description>Your complete master resume content with all experience, skills, and achievements</description>
+        <externalId>false</externalId>
+        <label>Resume Content</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Key_Achievements__c</fullName>
+        <description>Your most important quantified achievements (STAR format examples)</description>
+        <externalId>false</externalId>
+        <label>Key Achievements</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Technical_Skills__c</fullName>
+        <description>All your technical skills, certifications, tools, and technologies</description>
+        <externalId>false</externalId>
+        <label>Technical Skills</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Cover_Letter_Template__c</fullName>
+        <description>Your preferred cover letter style/template for Claude to follow</description>
+        <externalId>false</externalId>
+        <label>Cover Letter Template</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+</CustomObject>

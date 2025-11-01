@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Full access to all platform features: Job Search, Wellness Tracking, and future modules (Meal Planning, Household Management). Ideal for primary user testing the complete holistic neurodivergent life management platform.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Full Platform Access</label>
+
+    <!-- Job Search Objects -->
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Job_Posting__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Resume_Package__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Master_Resume_Config__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+
+    <!-- Wellness Objects -->
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Daily_Routine__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+
+    <!-- Job Search Apex Classes -->
+    <classAccesses>
+        <apexClass>ClaudeAPIService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>JobPostingAnalyzer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>ResumeGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>ClaudeAPIServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>JobPostingAnalyzerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>ResumeGeneratorTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <!-- Wellness Apex Classes -->
+    <classAccesses>
+        <apexClass>EnergyAdaptiveScheduler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>EnergyAdaptiveSchedulerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <classAccesses>
+        <apexClass>DailyRoutineInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <!-- Tab Visibility -->
+    <tabSettings>
+        <tab>Job_Posting__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+
+    <tabSettings>
+        <tab>Daily_Routine__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+
+    <!-- Note: Resume_Package__c and Master_Resume_Config__c tabs will be added when those tabs are created -->
+
+    <!-- Note: Admin permissions like ViewSetup and ModifyAllData have been removed.
+         These require many dependent permissions and are not needed for standard users.
+         Users can still create/edit/delete their own records via object permissions above. -->
+</PermissionSet>

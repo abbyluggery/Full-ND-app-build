@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Improved Job Search Bookmarklet</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 { color: #0176d3; }
+        .bookmarklet {
+            background: #f3f3f3;
+            border: 2px dashed #0176d3;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .bookmarklet a {
+            display: inline-block;
+            background: #0176d3;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .bookmarklet a:hover { background: #014486; }
+        .instructions {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 Improved Job Search Bookmarklet</h1>
+
+    <p><strong>New Version:</strong> Shows a popup form where you can edit job details before saving!</p>
+
+    <div class="bookmarklet">
+        <h2>Drag this NEW bookmarklet to your bookmarks bar</h2>
+        <p style="color: #856404; font-size: 14px; margin-bottom: 15px;">
+            ⚠️ Remove the old one first, then drag this one
+        </p>
+        <a href="javascript:(function()%7Bvar%20s%3Ddocument.createElement('div')%3Bs.id%3D'sf-job-capture-modal'%3Bs.innerHTML%3D'%3Cdiv%20style%3D%22position%3Afixed%3Btop%3A0%3Bleft%3A0%3Bwidth%3A100%25%3Bheight%3A100%25%3Bbackground%3Argba(0%2C0%2C0%2C0.8)%3Bz-index%3A999999%3Bdisplay%3Aflex%3Balign-items%3Acenter%3Bjustify-content%3Acenter%3B%22%3E%3Cdiv%20style%3D%22background%3Awhite%3Bpadding%3A30px%3Bborder-radius%3A10px%3Bmax-width%3A600px%3Bwidth%3A90%25%3Bmax-height%3A90vh%3Boverflow-y%3Aauto%3B%22%3E%3Ch2%20style%3D%22margin%3A0%200%2020px%200%3Bcolor%3A%230176d3%3B%22%3E%F0%9F%92%BC%20Capture%20Job%20to%20Salesforce%3C%2Fh2%3E%3Cform%20id%3D%22sf-job-form%22%3E%3Clabel%20style%3D%22display%3Ablock%3Bmargin%3A10px%200%205px%3Bfont-weight%3A600%3B%22%3EJob%20Title%3A%3C%2Flabel%3E%3Cinput%20type%3D%22text%22%20id%3D%22job-title%22%20style%3D%22width%3A100%25%3Bpadding%3A8px%3Bborder%3A1px%20solid%20%23ccc%3Bborder-radius%3A4px%3Bbox-sizing%3Aborder-box%3B%22%20required%3E%3Clabel%20style%3D%22display%3Ablock%3Bmargin%3A10px%200%205px%3Bfont-weight%3A600%3B%22%3ECompany%3A%3C%2Flabel%3E%3Cinput%20type%3D%22text%22%20id%3D%22job-company%22%20style%3D%22width%3A100%25%3Bpadding%3A8px%3Bborder%3A1px%20solid%20%23ccc%3Bborder-radius%3A4px%3Bbox-sizing%3Aborder-box%3B%22%20required%3E%3Clabel%20style%3D%22display%3Ablock%3Bmargin%3A10px%200%205px%3Bfont-weight%3A600%3B%22%3ELocation%3A%3C%2Flabel%3E%3Cinput%20type%3D%22text%22%20id%3D%22job-location%22%20style%3D%22width%3A100%25%3Bpadding%3A8px%3Bborder%3A1px%20solid%20%23ccc%3Bborder-radius%3A4px%3Bbox-sizing%3Aborder-box%3B%22%3E%3Clabel%20style%3D%22display%3Ablock%3Bmargin%3A10px%200%205px%3Bfont-weight%3A600%3B%22%3EDescription%3A%3C%2Flabel%3E%3Ctextarea%20id%3D%22job-description%22%20rows%3D%225%22%20style%3D%22width%3A100%25%3Bpadding%3A8px%3Bborder%3A1px%20solid%20%23ccc%3Bborder-radius%3A4px%3Bbox-sizing%3Aborder-box%3B%22%3E%3C%2Ftextarea%3E%3Cdiv%20style%3D%22margin-top%3A20px%3B%22%3E%3Cbutton%20type%3D%22submit%22%20style%3D%22background%3A%230176d3%3Bcolor%3Awhite%3Bpadding%3A12px%2030px%3Bborder%3Anone%3Bborder-radius%3A5px%3Bfont-weight%3A600%3Bcursor%3Apointer%3Bmargin-right%3A10px%3B%22%3ESave%20to%20Salesforce%3C%2Fbutton%3E%3Cbutton%20type%3D%22button%22%20onclick%3D%22document.getElementById('sf-job-capture-modal').remove()%22%20style%3D%22background%3A%23706e6b%3Bcolor%3Awhite%3Bpadding%3A12px%2030px%3Bborder%3Anone%3Bborder-radius%3A5px%3Bfont-weight%3A600%3Bcursor%3Apointer%3B%22%3ECancel%3C%2Fbutton%3E%3C%2Fdiv%3E%3C%2Fform%3E%3C%2Fdiv%3E%3C%2Fdiv%3E'%3Bdocument.body.appendChild(s)%3Bvar%20t%3Ddocument.querySelector('h1')%3F.textContent%3F.trim()%7C%7C''%3Bvar%20selectors%3D%5B'.job-details-jobs-unified-top-card__job-title'%2C'.jobs-unified-top-card__job-title'%2C'.jobsearch-JobInfoHeader-title'%2C'%5Bdata-testid%3D%22jobTitle%22%5D'%5D%3Bfor(var%20i%3D0%3Bi%3Cselectors.length%3Bi%2B%2B)%7Bvar%20el%3Ddocument.querySelector(selectors%5Bi%5D)%3Bif(el)%7Bt%3Del.textContent.trim()%3Bbreak%3B%7D%7Ddocument.getElementById('job-title').value%3Dt%3Bvar%20c%3D''%3Bvar%20cSelectors%3D%5B'.job-details-jobs-unified-top-card__company-name'%2C'.jobs-unified-top-card__company-name'%2C'%5Bdata-company-name%3D%22true%22%5D'%2C'%5Bdata-testid%3D%22jobCompanyName%22%5D'%5D%3Bfor(var%20i%3D0%3Bi%3CcSelectors.length%3Bi%2B%2B)%7Bvar%20el%3Ddocument.querySelector(cSelectors%5Bi%5D)%3Bif(el)%7Bc%3Del.textContent.trim()%3Bbreak%3B%7D%7Ddocument.getElementById('job-company').value%3Dc%3Bvar%20l%3D''%3Bvar%20lSelectors%3D%5B'.job-details-jobs-unified-top-card__bullet'%2C'.jobs-unified-top-card__bullet'%2C'%5Bdata-testid%3D%22job-location%22%5D'%5D%3Bfor(var%20i%3D0%3Bi%3ClSelectors.length%3Bi%2B%2B)%7Bvar%20el%3Ddocument.querySelector(lSelectors%5Bi%5D)%3Bif(el)%7Bl%3Del.textContent.trim()%3Bbreak%3B%7D%7Ddocument.getElementById('job-location').value%3Dl%3Bvar%20d%3D''%3Bvar%20dSelectors%3D%5B'.jobs-description__content'%2C'.jobs-box__html-content'%2C'%23jobDescriptionText'%5D%3Bfor(var%20i%3D0%3Bi%3CdSelectors.length%3Bi%2B%2B)%7Bvar%20el%3Ddocument.querySelector(dSelectors%5Bi%5D)%3Bif(el)%7Bd%3Del.textContent.trim().substring(0%2C5000)%3Bbreak%3B%7D%7Ddocument.getElementById('job-description').value%3Dd%3Bdocument.getElementById('sf-job-form').onsubmit%3Dfunction(e)%7Be.preventDefault()%3Bvar%20sfUrl%3D'https%3A%2F%2Forgfarm-d7ac6d4026-dev-ed.develop.my.salesforce.com'%3Bvar%20url%3DsfUrl%2B'%2Flightning%2Fo%2FJob_Posting__c%2Fnew%3FdefaultFieldValues%3D'%2BencodeURIComponent('Title__c%3D'%2Bdocument.getElementById('job-title').value%2B'%2CCompany__c%3D'%2Bdocument.getElementById('job-company').value%2B'%2CLocation__c%3D'%2Bdocument.getElementById('job-location').value%2B'%2CDescription__c%3D'%2Bdocument.getElementById('job-description').value%2B'%2CApply_URL__c%3D'%2Bwindow.location.href%2B'%2CProvider__c%3DLinkedIn%2CStatus__c%3DActive%2CPosted_Date__c%3D'%2Bnew%20Date().toISOString().split('T')%5B0%5D)%3Bwindow.open(url%2C'_blank')%3Bdocument.getElementById('sf-job-capture-modal').remove()%3B%7D%3B%7D)()%3B">💼 Capture Job (NEW)</a>
+    </div>
+
+    <div class="instructions">
+        <h3>✨ What's New?</h3>
+        <ul>
+            <li>✅ Shows a popup form on the current page</li>
+            <li>✅ Auto-fills job details (works better across different sites)</li>
+            <li>✅ You can edit/fix any fields before saving</li>
+            <li>✅ Then opens Salesforce with the corrected data</li>
+            <li>✅ Much more reliable!</li>
+        </ul>
+    </div>
+
+    <div class="instructions">
+        <h3>🚀 How to Use</h3>
+        <div style="margin: 15px 0;">
+            <strong>1.</strong> Go to a job posting page
+        </div>
+        <div style="margin: 15px 0;">
+            <strong>2.</strong> Click the bookmarklet
+        </div>
+        <div style="margin: 15px 0;">
+            <strong>3.</strong> A popup appears with job details pre-filled
+        </div>
+        <div style="margin: 15px 0;">
+            <strong>4.</strong> Edit any fields that are wrong or missing
+        </div>
+        <div style="margin: 15px 0;">
+            <strong>5.</strong> Click "Save to Salesforce"
+        </div>
+        <div style="margin: 15px 0;">
+            <strong>6.</strong> Salesforce opens → Click Save → Claude analyzes! ✨
+        </div>
+    </div>
+
+    <div style="background: #d4edda; border-left: 4px solid #155724; padding: 15px; margin: 20px 0;">
+        <h3 style="margin-top: 0;">✅ Why This Version is Better</h3>
+        <ul>
+            <li>You can see and fix the captured data before it goes to Salesforce</li>
+            <li>Works on ANY website (not just LinkedIn/Indeed)</li>
+            <li>Handles sites with weird HTML structures</li>
+            <li>You're in control - no surprises!</li>
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Search Bookmarklet - Install</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #0176d3;
+        }
+        .bookmarklet {
+            background: #f3f3f3;
+            border: 2px dashed #0176d3;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .bookmarklet a {
+            display: inline-block;
+            background: #0176d3;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .bookmarklet a:hover {
+            background: #014486;
+        }
+        .instructions {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        code {
+            background: #f3f3f3;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 Job Search Assistant - One-Click Capture</h1>
+
+    <p>This bookmarklet lets you capture job postings from any website with one click!</p>
+
+    <div class="bookmarklet">
+        <h2>Step 1: Drag this button to your bookmarks bar</h2>
+        <a href="javascript:(function()%7B%2F*%20Job%20Capture%20Bookmarklet%20*%2Fvar%20hostname%3Dwindow.location.hostname%3Bvar%20jobData%3D%7Btitle%3A''%2Ccompany%3A''%2Clocation%3A''%2Csalary%3A''%2Cdescription%3A''%7D%3B%2F*%20LinkedIn%20*%2Fif(hostname.includes('linkedin.com'))%7BjobData.title%3Ddocument.querySelector('.job-details-jobs-unified-top-card__job-title'%2C'.jobs-unified-top-card__job-title')%3F.textContent%3F.trim()%7C%7C''%3BjobData.company%3Ddocument.querySelector('.job-details-jobs-unified-top-card__company-name'%2C'.jobs-unified-top-card__company-name')%3F.textContent%3F.trim()%7C%7C''%3BjobData.location%3Ddocument.querySelector('.job-details-jobs-unified-top-card__bullet'%2C'.jobs-unified-top-card__bullet')%3F.textContent%3F.trim()%7C%7C''%3BjobData.description%3Ddocument.querySelector('.jobs-description__content'%2C'.jobs-box__html-content')%3F.textContent%3F.trim()%7C%7C''%3B%7D%2F*%20Indeed%20*%2Felse%20if(hostname.includes('indeed.com'))%7BjobData.title%3Ddocument.querySelector('.jobsearch-JobInfoHeader-title')%3F.textContent%3F.trim()%7C%7C''%3BjobData.company%3Ddocument.querySelector('%5Bdata-company-name%3D%22true%22%5D')%3F.textContent%3F.trim()%7C%7C''%3BjobData.location%3Ddocument.querySelector('%5Bdata-testid%3D%22job-location%22%5D')%3F.textContent%3F.trim()%7C%7C''%3BjobData.description%3Ddocument.querySelector('%23jobDescriptionText')%3F.textContent%3F.trim()%7C%7C''%3B%7D%2F*%20Generic%20fallback%20*%2Felse%7BjobData.title%3Ddocument.querySelector('h1')%3F.textContent%3F.trim()%7C%7C''%3B%7D%2F*%20Open%20Salesforce%20with%20pre-filled%20data%20*%2Fvar%20sfUrl%3D'https%3A%2F%2Forgfarm-d7ac6d4026-dev-ed.develop.my.salesforce.com'%3Bvar%20newUrl%3DsfUrl%2B'%2Flightning%2Fo%2FJob_Posting__c%2Fnew%3F'%2B'defaultFieldValues%3D'%2BencodeURIComponent('Title__c%3D'%2BjobData.title%2B'%2CCompany__c%3D'%2BjobData.company%2B'%2CLocation__c%3D'%2BjobData.location%2B'%2CDescription__c%3D'%2BjobData.description%2B'%2CApply_URL__c%3D'%2Bwindow.location.href%2B'%2CProvider__c%3DLinkedIn%2CStatus__c%3DActive%2CPosted_Date__c%3D'%2Bnew%20Date().toISOString().split('T')%5B0%5D)%3Bwindow.open(newUrl%2C'_blank')%3B%7D)()%3B">💼 Capture Job to SF</a>
+        <p style="margin-top: 15px; font-size: 14px; color: #666;">
+            ⬆️ Drag this button to your bookmarks bar
+        </p>
+    </div>
+
+    <div class="instructions">
+        <h3>📖 How to Install</h3>
+
+        <div class="step">
+            <strong>1.</strong> Make sure your bookmarks bar is visible in Chrome
+            <ul>
+                <li>Press <code>Ctrl+Shift+B</code> (Windows) or <code>Cmd+Shift+B</code> (Mac)</li>
+                <li>Or go to Chrome menu → Bookmarks → Show bookmarks bar</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <strong>2.</strong> Drag the blue <strong>"💼 Capture Job to SF"</strong> button above to your bookmarks bar
+        </div>
+
+        <div class="step">
+            <strong>3.</strong> That's it! You're ready to capture jobs.
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h3>🚀 How to Use</h3>
+
+        <div class="step">
+            <strong>1.</strong> Go to any job posting page (LinkedIn, Indeed, Glassdoor, etc.)
+        </div>
+
+        <div class="step">
+            <strong>2.</strong> Click the <strong>"💼 Capture Job to SF"</strong> bookmark in your bookmarks bar
+        </div>
+
+        <div class="step">
+            <strong>3.</strong> A new tab opens in Salesforce with the job details pre-filled!
+        </div>
+
+        <div class="step">
+            <strong>4.</strong> Review/edit the details and click <strong>Save</strong>
+        </div>
+
+        <div class="step">
+            <strong>5.</strong> Claude automatically analyzes the job in ~15 seconds! ✨
+        </div>
+    </div>
+
+    <div class="warning">
+        <h3>⚠️ Important Notes</h3>
+        <ul>
+            <li>You must be logged into Salesforce for this to work</li>
+            <li>The bookmarklet auto-detects job details from LinkedIn and Indeed</li>
+            <li>For other sites, you may need to manually fill some fields</li>
+            <li>After saving the job, wait 10-15 seconds for Claude to analyze it</li>
+        </ul>
+    </div>
+
+    <h2>✅ What Happens Automatically</h2>
+    <ul>
+        <li>✅ Job details extracted from the page</li>
+        <li>✅ Salesforce opens with pre-filled form</li>
+        <li>✅ You review and click Save</li>
+        <li>✅ Your trigger fires automatically</li>
+        <li>✅ Claude analyzes the job</li>
+        <li>✅ ND-Friendliness score, Green/Red flags populated</li>
+    </ul>
+
+    <h2>🎯 Supported Job Boards</h2>
+    <ul>
+        <li>✅ LinkedIn (best support - auto-fills everything)</li>
+        <li>✅ Indeed (good support - auto-fills most fields)</li>
+        <li>✅ Glassdoor (basic support)</li>
+        <li>✅ Any website (manual entry)</li>
+    </ul>
+
+    <hr style="margin: 40px 0;">
+
+    <h2>🔧 Troubleshooting</h2>
+
+    <h3>Bookmarklet doesn't work?</h3>
+    <ul>
+        <li>Make sure you're logged into Salesforce first</li>
+        <li>Check that your Salesforce URL is correct</li>
+        <li>Try clicking the bookmarklet again</li>
+    </ul>
+
+    <h3>Fields not auto-filling?</h3>
+    <ul>
+        <li>The job board's HTML might be different</li>
+        <li>Just manually fill the missing fields</li>
+        <li>It will still work and Claude will still analyze!</li>
+    </ul>
+
+    <h3>Want to customize?</h3>
+    <p>See <code>BOOKMARKLET_SOURCE.js</code> for the unminified source code you can edit.</p>
+
+</body>
+</html>

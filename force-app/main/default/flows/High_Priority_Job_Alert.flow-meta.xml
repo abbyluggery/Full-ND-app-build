@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Sends alert and creates high-priority task when an excellent job match is found (ND Score &gt;= 9 AND Fit Score &gt;= 8)</description>
+    <label>High Priority Job Alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Scores</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Analyzed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ND_Friendliness_Score__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <numberValue>9.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Fit_Score__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
+        </filters>
+        <object>Job_Posting__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <decisions>
+        <name>Check_Scores</name>
+        <label>Check Scores Meet Criteria</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Create_Alert_Task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Excellent Match Found</defaultConnectorLabel>
+    </decisions>
+    <recordCreates>
+        <name>Create_Alert_Task</name>
+        <label>Create High-Priority Alert Task</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <connector>
+            <targetReference>Send_Email_Alert</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>🎯 EXCELLENT MATCH - Apply ASAP to {!$Record.Company__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>⭐ EXCELLENT JOB MATCH FOUND! ⭐
+
+This job scored exceptionally high on both ND-friendliness AND overall fit!
+
+🏢 COMPANY: {!$Record.Company__c}
+💼 POSITION: {!$Record.Title__c}
+📍 LOCATION: {!$Record.Location__c}
+
+📊 SCORES:
+• ND Friendliness: {!$Record.ND_Friendliness_Score__c}/10 (EXCELLENT!)
+• Overall Fit: {!$Record.Fit_Score__c}/10 (EXCELLENT!)
+
+✅ GREEN FLAGS:
+{!$Record.Green_Flags__c}
+
+⚠️ RED FLAGS (if any):
+{!$Record.Red_Flags__c}
+
+💰 SALARY: ${!$Record.Salary_Min__c} - ${!$Record.Salary_Max__c}
+
+🔗 APPLY HERE: {!$Record.URL__c}
+
+🚀 RECOMMENDED ACTIONS:
+1. Generate tailored resume using "Generate Resume Package" button
+2. Review resume for accuracy (ALL jobs included?)
+3. Customize cover letter with specific company research
+4. Apply within 24-48 hours while position is fresh
+5. Follow up with hiring manager if possible
+
+💡 WHY THIS IS A GREAT MATCH:
+This job meets your must-haves (remote, ND-friendly, salary) AND nice-to-haves. The AI analysis indicates this company has strong ND support culture. Don't let this one slip away!
+
+PRIORITY: HIGH - Act on this ASAP! ⏰</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+    <actionCalls>
+        <name>Send_Email_Alert</name>
+        <label>Send Email Alert</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🎯 EXCELLENT JOB MATCH - {!$Record.Company__c} - ND Score: {!$Record.ND_Friendliness_Score__c}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>Hi Abby,
+
+Your Job Search Assistant found an EXCELLENT match!
+
+Company: {!$Record.Company__c}
+Position: {!$Record.Title__c}
+Location: {!$Record.Location__c}
+
+ND Friendliness Score: {!$Record.ND_Friendliness_Score__c}/10 ⭐
+Overall Fit Score: {!$Record.Fit_Score__c}/10 ⭐
+
+Green Flags:
+{!$Record.Green_Flags__c}
+
+Salary: ${!$Record.Salary_Min__c} - ${!$Record.Salary_Max__c}
+
+Apply here: {!$Record.URL__c}
+
+Action: Generate resume and apply within 24-48 hours!
+
+This job meets your must-haves AND has exceptional ND-friendliness. Don't miss this opportunity!
+
+---
+Sent by your AI-powered Job Search Assistant
+View full details in Salesforce</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+</Flow>

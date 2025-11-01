@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Generates a tailored resume and cover letter for this job posting using Claude AI</description>
+    <label>Generate Resume Package</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <flowDefinition>Generate_Resume_Package_for_Job</flowDefinition>
+    <type>Flow</type>
+</QuickAction>

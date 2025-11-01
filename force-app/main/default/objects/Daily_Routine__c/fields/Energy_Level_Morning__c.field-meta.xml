@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Energy_Level_Morning__c</fullName>
+    <description>Energy level upon waking (1-10 scale). Used to adapt daily schedule recommendations.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Rate your energy level when you wake up: 1-2 = Flare-up, 3-4 = Low, 5-7 = Medium, 8-10 = High</inlineHelpText>
+    <label>Energy Level (Morning)</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

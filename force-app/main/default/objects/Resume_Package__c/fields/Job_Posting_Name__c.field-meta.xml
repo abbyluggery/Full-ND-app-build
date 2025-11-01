@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Posting_Name__c</fullName>
+    <description>Display name for the linked job posting</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
+    <label>Job Posting Name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+</CustomField>

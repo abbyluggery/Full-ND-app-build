@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Energy_Level_Range</fullName>
+    <active>true</active>
+    <description>Ensures energy levels are between 1 and 10</description>
+    <errorConditionFormula>OR(
+  AND(NOT(ISBLANK(Energy_Level_Morning__c)), OR(Energy_Level_Morning__c &lt; 1, Energy_Level_Morning__c &gt; 10)),
+  AND(NOT(ISBLANK(Energy_Level_Afternoon__c)), OR(Energy_Level_Afternoon__c &lt; 1, Energy_Level_Afternoon__c &gt; 10)),
+  AND(NOT(ISBLANK(Energy_Level_Evening__c)), OR(Energy_Level_Evening__c &lt; 1, Energy_Level_Evening__c &gt; 10))
+)</errorConditionFormula>
+    <errorDisplayField>Energy_Level_Morning__c</errorDisplayField>
+    <errorMessage>Energy levels must be between 1 and 10</errorMessage>
+</ValidationRule>

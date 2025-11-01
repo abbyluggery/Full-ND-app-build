@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Posting_Overall_Score__c</fullName>
+    <description>Overall score from the linked job posting analysis</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
+    <label>Job Posting Overall Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Posting_Expertise_Match__c</fullName>
+    <description>Expertise match from the linked job posting analysis</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
+    <label>Job Posting Expertise Match</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+</CustomField>
