@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Job_Posting__c.Application_Status__c</members>
+        <members>Job_Posting__c.Recruiter_Name__c</members>
+        <members>Job_Posting__c.Recruiter_Email__c</members>
+        <members>Job_Posting__c.Recruiter_Phone__c</members>
+        <members>Job_Posting__c.Recruiter_LinkedIn__c</members>
+        <members>Job_Posting__c.Recruiter_Title__c</members>
+        <members>Opportunity.Job_Posting__c</members>
+        <members>Contact.LinkedIn__c</members>
+        <name>CustomField</name>
+    </types>
+    <version>62.0</version>
+</Package>

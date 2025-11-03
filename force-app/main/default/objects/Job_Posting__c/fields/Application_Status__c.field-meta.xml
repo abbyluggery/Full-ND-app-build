@@ -23,6 +23,11 @@
                 <label>Applied</label>
             </value>
             <value>
+                <fullName>Callback Received</fullName>
+                <default>false</default>
+                <label>Callback Received</label>
+            </value>
+            <value>
                 <fullName>Phone Screen</fullName>
                 <default>false</default>
                 <label>Phone Screen</label>

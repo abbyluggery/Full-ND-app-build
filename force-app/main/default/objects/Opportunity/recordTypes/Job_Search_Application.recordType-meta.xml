@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Search_Application</fullName>
+    <active>true</active>
+    <description>Record type for job search application tracking</description>
+    <label>Job Search Application</label>
+</RecordType>
