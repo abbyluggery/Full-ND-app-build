@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>NeuroThrive PWA</label>
+    <contactEmail>abbyluggery179@agentforce.com</contactEmail>
+    <oauthConfig>
+        <callbackUrl>https://abbyluggery.github.io/Full-ND-app-build/oauth-callback.html</callbackUrl>
+        <callbackUrl>http://localhost:8080/oauth-callback.html</callbackUrl>
+        <consumerKey>NeuroThrivePWA</consumerKey>
+        <scopes>Full</scopes>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+</ConnectedApp>

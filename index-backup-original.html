@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#6B46C1">
+    <meta name="description" content="NeuroThrive Daily - Your neurodivergent support companion">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="NeuroThrive">
+    
+    <title>NeuroThrive Daily</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icon using emoji -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6B46C1;
+            --secondary: #4CAF50;
+            --accent: #FFB300;
+            --warning: #FF5252;
+            --background: #F5F5F5;
+            --surface: #FFFFFF;
+            --text: #212121;
+            --text-secondary: #757575;
+            --success: #4CAF50;
+            --error: #F44336;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .install-button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: none;
+            transition: all 0.3s;
+        }
+
+        .install-button:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 60px;
+            z-index: 90;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tabs-inner {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .nav-tab:hover {
+            background: rgba(107, 70, 193, 0.05);
+        }
+
+        /* Main Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 80px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Dashboard Specific */
+        .energy-meter {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .energy-bar {
+            flex: 1;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--error), var(--accent), var(--success));
+            border-radius: 15px;
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quick-action {
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-action:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quick-action-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Journal Win Parser */
+        .win-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .win-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .win-preview {
+            background: rgba(107, 70, 193, 0.05);
+            border: 2px dashed var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .win-item {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .win-bullet {
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        .win-category {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Mood Tracking */
+        .mood-tracker {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .mood-time {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mood-time.completed {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .mood-time:hover {
+            border-color: var(--primary);
+        }
+
+        .mood-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mood-label {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .mood-value {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Routine Timers */
+        .timer-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-info {
+            flex: 1;
+        }
+
+        .timer-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timer-duration {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: monospace;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .timer-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .timer-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .timer-button.active {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: white;
+        }
+
+        /* Hard Stop Banner */
+        .hard-stop-banner {
+            background: var(--warning);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .hard-stop-icon {
+            font-size: 2rem;
+        }
+
+        .hard-stop-text {
+            flex: 1;
+        }
+
+        .hard-stop-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .acknowledge-button {
+            background: white;
+            color: var(--warning);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .acknowledge-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Imposter Counter */
+        .imposter-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .imposter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .counter-facts {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .fact-item {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .fact-icon {
+            color: var(--success);
+        }
+
+        .believability-scale {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+
+        .scale-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .scale-button:hover {
+            border-color: var(--primary);
+        }
+
+        .scale-button.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.3s;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary);
+        }
+
+        .bottom-nav-icon {
+            font-size: 1.5rem;
+        }
+
+        .bottom-nav-label {
+            font-size: 0.75rem;
+        }
+
+        /* Success Messages */
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                top: 56px;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .mood-tracker {
+                flex-direction: column;
+            }
+            
+            .mood-time {
+                width: 100%;
+            }
+        }
+
+        /* PWA Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 200;
+            display: none;
+            animation: slideUp 0.5s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .install-prompt-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .install-prompt-icon {
+            font-size: 3rem;
+        }
+
+        .install-prompt-text {
+            flex: 1;
+        }
+
+        .install-prompt-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .install-prompt-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .install-accept {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .install-decline {
+            flex: 1;
+            background: #e0e0e0;
+            color: var(--text);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Gratitude Section */
+        .gratitude-entry {
+            background: rgba(255, 179, 0, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .gratitude-text {
+            margin-bottom: 0.5rem;
+        }
+
+        .gratitude-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Button Styles */
+        .button-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
+        }
+
+        .button-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Checkbox Lists */
+        .checklist {
+            margin: 1rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .checklist-item.completed {
+            background: rgba(76, 175, 80, 0.05);
+            border-color: var(--success);
+        }
+
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .checklist-label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .checklist-item.completed .checklist-label {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>🧠</span>
+                <span>NeuroThrive Daily</span>
+            </div>
+            <button class="install-button" id="installButton">
+                Install App
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <div class="nav-tabs-inner">
+            <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-tab" data-tab="journal">Journal</button>
+            <button class="nav-tab" data-tab="routine">Routine</button>
+            <button class="nav-tab" data-tab="therapy">Therapy</button>
+            <button class="nav-tab" data-tab="jobsearch">Job Search</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <!-- Today's Energy -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>⚡</span>
+                    Today's Energy Level
+                </h2>
+                <div class="energy-meter">
+                    <div class="energy-bar">
+                        <div class="energy-fill" id="energyFill" style="width: 70%">
+                            7/10
+                        </div>
+                    </div>
+                </div>
+                <p class="card-subtitle">Based on your morning check-in</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <h2 class="card-title">Quick Actions</h2>
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="showMoodDialog()">
+                        <div class="quick-action-icon">😊</div>
+                        <div>Mood Check</div>
+                    </div>
+                    <div class="quick-action" onclick="switchTab('journal')">
+                        <div class="quick-action-icon">🏆</div>
+                        <div>Log Win</div>
+                    </div>
+                    <div class="quick-action" onclick="startGardenBreak()">
+                        <div class="quick-action-icon">🌿</div>
+                        <div>Garden Break</div>
+                    </div>
+                    <div class="quick-action" onclick="switchTab('jobsearch')">
+                        <div class="quick-action-icon">💼</div>
+                        <div>Job Search</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manifestation Progress -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>🎯</span>
+                    Manifestation Progress
+                </h2>
+                <p class="card-subtitle">$155K Salary Goal</p>
+                <div class="energy-meter">
+                    <div class="energy-bar">
+                        <div class="energy-fill" style="width: 45%; background: linear-gradient(90deg, #6B46C1, #FFB300)">
+                            45%
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 0.5rem; color: var(--text-secondary)">
+                    3 applications this week • 2 interviews scheduled
+                </p>
+            </div>
+
+            <!-- 5:15 PM Boundary -->
+            <div class="card" id="boundaryCard" style="display: none;">
+                <div class="hard-stop-banner">
+                    <div class="hard-stop-icon">🛑</div>
+                    <div class="hard-stop-text">
+                        <div class="hard-stop-title">5:15 PM - HARD STOP!</div>
+                        <div>Time to disconnect and start evening routine</div>
+                    </div>
+                    <button class="acknowledge-button" onclick="acknowledgeBoundary()">
+                        I'm stopping now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journal Tab -->
+        <div id="journal" class="tab-content">
+            <!-- Win Entry -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>🏆</span>
+                    Log Your Wins
+                </h2>
+                <p class="card-subtitle">Enter in any format - bullets, lists, or paragraphs</p>
+                <textarea class="win-input" id="winInput" placeholder="Examples:
+• Completed morning routine
+• Applied to 3 jobs
+• Managed anxiety well
+1. Took garden break
+2. Ate healthy lunch
+
+Or just write naturally..." oninput="parseWins()"></textarea>
+                
+                <div id="winPreview" style="display: none;">
+                    <div class="win-preview">
+                        <strong>Detected <span id="winCount">0</span> wins:</strong>
+                        <div id="winList"></div>
+                    </div>
+                </div>
+                
+                <button class="button-primary" onclick="saveWins()" style="width: 100%; margin-top: 1rem;">
+                    Save Wins
+                </button>
+            </div>
+
+            <!-- Mood Tracking -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>📊</span>
+                    Today's Mood Tracking
+                </h2>
+                <p class="card-subtitle">Track 3x daily for best insights</p>
+                <div class="mood-tracker">
+                    <div class="mood-time" id="morningMood" onclick="showMoodDialog('morning')">
+                        <div class="mood-emoji">🌅</div>
+                        <div class="mood-label">Morning</div>
+                        <div class="mood-value">Not logged</div>
+                    </div>
+                    <div class="mood-time" id="middayMood" onclick="showMoodDialog('midday')">
+                        <div class="mood-emoji">☀️</div>
+                        <div class="mood-label">Midday</div>
+                        <div class="mood-value">Not logged</div>
+                    </div>
+                    <div class="mood-time" id="eveningMood" onclick="showMoodDialog('evening')">
+                        <div class="mood-emoji">🌙</div>
+                        <div class="mood-label">Evening</div>
+                        <div class="mood-value">Not logged</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gratitude -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>💛</span>
+                    Gratitude Journal
+                </h2>
+                <input type="text" class="imposter-input" id="gratitudeInput" 
+                       placeholder="What are you grateful for?" 
+                       onkeypress="if(event.key==='Enter') addGratitude()">
+                <button class="button-primary" onclick="addGratitude()" style="width: 100%; margin-top: 0.5rem;">
+                    Add Gratitude
+                </button>
+                <div id="gratitudeList" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Routine Tab -->
+        <div id="routine" class="tab-content">
+            <!-- Time-based routine display -->
+            <div id="routineContent"></div>
+        </div>
+
+        <!-- Therapy Tab -->
+        <div id="therapy" class="tab-content">
+            <!-- Imposter Syndrome Counter -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>🎭</span>
+                    Imposter Syndrome Counter
+                </h2>
+                <p class="card-subtitle">Type your thought and I'll help counter it with facts</p>
+                
+                <input type="text" class="imposter-input" id="imposterInput" 
+                       placeholder="What's the imposter thought?" 
+                       oninput="detectImposter()">
+                
+                <div id="imposterDetected" style="display: none; margin: 1rem 0;">
+                    <div style="background: rgba(255,193,7,0.1); padding: 0.5rem; border-radius: 8px; color: #F57C00;">
+                        ⚠️ Imposter thought detected
+                    </div>
+                </div>
+                
+                <div id="believabilityBefore" style="display: none;">
+                    <p style="margin: 1rem 0;">How believable is this thought? (1-10)</p>
+                    <div class="believability-scale">
+                        <button class="scale-button" onclick="setBelievability('before', 1)">1</button>
+                        <button class="scale-button" onclick="setBelievability('before', 2)">2</button>
+                        <button class="scale-button" onclick="setBelievability('before', 3)">3</button>
+                        <button class="scale-button" onclick="setBelievability('before', 4)">4</button>
+                        <button class="scale-button" onclick="setBelievability('before', 5)">5</button>
+                        <button class="scale-button" onclick="setBelievability('before', 6)">6</button>
+                        <button class="scale-button" onclick="setBelievability('before', 7)">7</button>
+                        <button class="scale-button" onclick="setBelievability('before', 8)">8</button>
+                        <button class="scale-button" onclick="setBelievability('before', 9)">9</button>
+                        <button class="scale-button" onclick="setBelievability('before', 10)">10</button>
+                    </div>
+                </div>
+                
+                <div id="counterFacts" style="display: none;">
+                    <div class="counter-facts">
+                        <h3>📝 Evidence Against This Thought:</h3>
+                        <div id="factsList"></div>
+                    </div>
+                    
+                    <div id="believabilityAfter">
+                        <p style="margin: 1rem 0;">After seeing these facts, how believable is it now? (1-10)</p>
+                        <div class="believability-scale">
+                            <button class="scale-button" onclick="setBelievability('after', 1)">1</button>
+                            <button class="scale-button" onclick="setBelievability('after', 2)">2</button>
+                            <button class="scale-button" onclick="setBelievability('after', 3)">3</button>
+                            <button class="scale-button" onclick="setBelievability('after', 4)">4</button>
+                            <button class="scale-button" onclick="setBelievability('after', 5)">5</button>
+                            <button class="scale-button" onclick="setBelievability('after', 6)">6</button>
+                            <button class="scale-button" onclick="setBelievability('after', 7)">7</button>
+                            <button class="scale-button" onclick="setBelievability('after', 8)">8</button>
+                            <button class="scale-button" onclick="setBelievability('after', 9)">9</button>
+                            <button class="scale-button" onclick="setBelievability('after', 10)">10</button>
+                        </div>
+                    </div>
+                    
+                    <button class="button-primary" onclick="saveImposterSession()" style="width: 100%; margin-top: 1rem;">
+                        Save Session
+                    </button>
+                </div>
+            </div>
+
+            <!-- Therapy Techniques -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>🧘</span>
+                    Therapy Techniques
+                </h2>
+                <div class="checklist">
+                    <div class="checklist-item" onclick="toggleTherapyTechnique(this, 'grounding')">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <label class="checklist-label">5-4-3-2-1 Grounding (Used: 3x)</label>
+                    </div>
+                    <div class="checklist-item" onclick="toggleTherapyTechnique(this, 'breathing')">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <label class="checklist-label">Box Breathing (Used: 5x)</label>
+                    </div>
+                    <div class="checklist-item" onclick="toggleTherapyTechnique(this, 'thought')">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <label class="checklist-label">Thought Record (Used: 2x)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Search Tab -->
+        <div id="jobsearch" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">
+                    <span>💼</span>
+                    Job Applications
+                </h2>
+                <p class="card-subtitle">This week: 3 applied, 1 interview scheduled</p>
+                
+                <button class="button-primary" onclick="addJobApplication()" style="width: 100%; margin: 1rem 0;">
+                    + Add New Application
+                </button>
+                
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <span style="flex: 1;">Salesforce Admin - TechCorp</span>
+                        <span class="win-category">Phone Screen</span>
+                    </div>
+                    <div class="checklist-item">
+                        <span style="flex: 1;">Business Analyst - DataCo</span>
+                        <span class="win-category">Applied</span>
+                    </div>
+                    <div class="checklist-item">
+                        <span style="flex: 1;">Operations Analyst - CloudInc</span>
+                        <span class="win-category">Applied</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="bottom-nav-item active" onclick="switchTab('dashboard')">
+            <span class="bottom-nav-icon">🏠</span>
+            <span class="bottom-nav-label">Home</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('journal')">
+            <span class="bottom-nav-icon">📝</span>
+            <span class="bottom-nav-label">Journal</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('routine')">
+            <span class="bottom-nav-icon">✅</span>
+            <span class="bottom-nav-label">Routine</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('therapy')">
+            <span class="bottom-nav-icon">🧘</span>
+            <span class="bottom-nav-label">Therapy</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('jobsearch')">
+            <span class="bottom-nav-icon">💼</span>
+            <span class="bottom-nav-label">Jobs</span>
+        </button>
+    </nav>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-prompt-content">
+            <div class="install-prompt-icon">📱</div>
+            <div class="install-prompt-text">
+                <div class="install-prompt-title">Install NeuroThrive Daily</div>
+                <div>Add to your home screen for easy access</div>
+            </div>
+        </div>
+        <div class="install-prompt-buttons">
+            <button class="install-accept" onclick="installApp()">Install</button>
+            <button class="install-decline" onclick="dismissInstall()">Not Now</button>
+        </div>
+    </div>
+
+    <script>
+        // PWA Installation
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+        const installPrompt = document.getElementById('installPrompt');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+            
+            // Show install prompt after 30 seconds
+            setTimeout(() => {
+                if (deferredPrompt) {
+                    installPrompt.style.display = 'block';
+                }
+            }, 30000);
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response: ${outcome}`);
+                deferredPrompt = null;
+                installButton.style.display = 'none';
+            }
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted installation');
+                    }
+                    deferredPrompt = null;
+                    installPrompt.style.display = 'none';
+                });
+            }
+        }
+
+        function dismissInstall() {
+            installPrompt.style.display = 'none';
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update bottom nav
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.textContent.toLowerCase().includes(tabName.substring(0, 4))) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Special handling for routine tab
+            if (tabName === 'routine') {
+                loadRoutineForTime();
+            }
+        }
+
+        // Nav tab click handlers
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Win Parser
+        function parseWins() {
+            const input = document.getElementById('winInput').value;
+            if (!input.trim()) {
+                document.getElementById('winPreview').style.display = 'none';
+                return;
+            }
+            
+            const lines = input.split('\n');
+            const wins = [];
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (!trimmed) return;
+                
+                // Check for bullet points
+                const bulletMatch = trimmed.match(/^[•\-\*]\s+(.+)$/);
+                if (bulletMatch) {
+                    wins.push(bulletMatch[1]);
+                    return;
+                }
+                
+                // Check for numbered lists
+                const numberMatch = trimmed.match(/^\d+[.)]\s+(.+)$/);
+                if (numberMatch) {
+                    wins.push(numberMatch[1]);
+                    return;
+                }
+                
+                // Otherwise treat the whole line as a win if it's long enough
+                if (trimmed.length > 5) {
+                    wins.push(trimmed);
+                }
+            });
+            
+            if (wins.length > 0) {
+                document.getElementById('winPreview').style.display = 'block';
+                document.getElementById('winCount').textContent = wins.length;
+                
+                const winList = document.getElementById('winList');
+                winList.innerHTML = wins.map(win => {
+                    const category = categorizeWin(win);
+                    return `
+                        <div class="win-item">
+                            <span class="win-bullet">✓</span>
+                            <span>${win}</span>
+                            <span class="win-category">${category}</span>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                document.getElementById('winPreview').style.display = 'none';
+            }
+        }
+
+        function categorizeWin(text) {
+            const lower = text.toLowerCase();
+            if (lower.includes('job') || lower.includes('applied') || lower.includes('interview')) {
+                return 'Job Search';
+            }
+            if (lower.includes('routine') || lower.includes('morning') || lower.includes('evening')) {
+                return 'Routine';
+            }
+            if (lower.includes('health') || lower.includes('medication') || lower.includes('exercise')) {
+                return 'Health';
+            }
+            return 'Personal';
+        }
+
+        function saveWins() {
+            const wins = [];
+            document.querySelectorAll('#winList .win-item').forEach(item => {
+                wins.push(item.textContent.trim());
+            });
+            
+            if (wins.length > 0) {
+                // Save to localStorage
+                const today = new Date().toISOString().split('T')[0];
+                const savedWins = JSON.parse(localStorage.getItem('wins') || '{}');
+                savedWins[today] = (savedWins[today] || []).concat(wins);
+                localStorage.setItem('wins', JSON.stringify(savedWins));
+                
+                // Clear input and show success
+                document.getElementById('winInput').value = '';
+                document.getElementById('winPreview').style.display = 'none';
+                
+                // Show success message
+                const card = document.querySelector('#journal .card');
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.textContent = `${wins.length} wins saved! 🎉`;
+                card.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.remove();
+                }, 3000);
+            }
+        }
+
+        // Mood Tracking
+        function showMoodDialog(timeOfDay) {
+            // Simple prompt for demo - in real app would be a proper dialog
+            const mood = prompt(`Rate your mood (1-10):`);
+            const energy = prompt(`Rate your energy (1-10):`);
+            
+            if (mood && energy) {
+                const moodElement = document.getElementById(`${timeOfDay}Mood`);
+                moodElement.classList.add('completed');
+                moodElement.querySelector('.mood-value').textContent = `Mood: ${mood}, Energy: ${energy}`;
+                
+                // Save to localStorage
+                const today = new Date().toISOString().split('T')[0];
+                const moods = JSON.parse(localStorage.getItem('moods') || '{}');
+                moods[today] = moods[today] || {};
+                moods[today][timeOfDay] = { mood: parseInt(mood), energy: parseInt(energy) };
+                localStorage.setItem('moods', JSON.stringify(moods));
+            }
+        }
+
+        // Gratitude
+        function addGratitude() {
+            const input = document.getElementById('gratitudeInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const now = new Date();
+                const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+                const gratitudeList = document.getElementById('gratitudeList');
+                const entry = document.createElement('div');
+                entry.className = 'gratitude-entry';
+                entry.innerHTML = `
+                    <div class="gratitude-text">${text}</div>
+                    <div class="gratitude-time">${time}</div>
+                `;
+                gratitudeList.insertBefore(entry, gratitudeList.firstChild);
+                
+                // Save to localStorage
+                const today = new Date().toISOString().split('T')[0];
+                const gratitudes = JSON.parse(localStorage.getItem('gratitudes') || '{}');
+                gratitudes[today] = (gratitudes[today] || []).concat({ text, time });
+                localStorage.setItem('gratitudes', JSON.stringify(gratitudes));
+                
+                input.value = '';
+            }
+        }
+
+        // Routine Management
+        function loadRoutineForTime() {
+            const now = new Date();
+            const hour = now.getHours();
+            const content = document.getElementById('routineContent');
+            
+            if (hour < 11) {
+                // Morning routine
+                content.innerHTML = `
+                    <div class="card">
+                        <h2 class="card-title">🌅 Morning Routine</h2>
+                        <p class="card-subtitle">Start your day right</p>
+                        <div class="checklist">
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Wake up naturally</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Take medications</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Check blood sugar</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Light breakfast</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Review daily affirmation</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Set top 3 priorities</label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (hour >= 11 && hour < 15) {
+                // Midday routine with timers
+                content.innerHTML = `
+                    <div class="card">
+                        <h2 class="card-title">☀️ Midday Routine</h2>
+                        <p class="card-subtitle">11:00 AM - 3:00 PM window</p>
+                        
+                        <div class="timer-card">
+                            <div class="timer-info">
+                                <div class="timer-name">Garden Break 🌿</div>
+                                <div class="timer-duration">15 minutes</div>
+                            </div>
+                            <div class="timer-controls">
+                                <div class="timer-display" id="timer1">15:00</div>
+                                <button class="timer-button" onclick="toggleTimer(1, 15)">▶</button>
+                            </div>
+                        </div>
+                        
+                        <div class="timer-card">
+                            <div class="timer-info">
+                                <div class="timer-name">Late Lunch 🥗</div>
+                                <div class="timer-duration">30 minutes</div>
+                            </div>
+                            <div class="timer-controls">
+                                <div class="timer-display" id="timer2">30:00</div>
+                                <button class="timer-button" onclick="toggleTimer(2, 30)">▶</button>
+                            </div>
+                        </div>
+                        
+                        <div class="timer-card">
+                            <div class="timer-info">
+                                <div class="timer-name">Light Stretching 🤸</div>
+                                <div class="timer-duration">10 minutes</div>
+                            </div>
+                            <div class="timer-controls">
+                                <div class="timer-display" id="timer3">10:00</div>
+                                <button class="timer-button" onclick="toggleTimer(3, 10)">▶</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (hour >= 17) {
+                // Evening routine
+                const is515 = hour === 17 && now.getMinutes() >= 15;
+                
+                content.innerHTML = `
+                    ${is515 ? `
+                        <div class="hard-stop-banner">
+                            <div class="hard-stop-icon">🛑</div>
+                            <div class="hard-stop-text">
+                                <div class="hard-stop-title">5:15 PM - HARD STOP!</div>
+                                <div>Time to disconnect and start evening routine</div>
+                            </div>
+                            <button class="acknowledge-button" onclick="this.parentElement.style.display='none'">
+                                I'm stopping now
+                            </button>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="card">
+                        <h2 class="card-title">🌙 Evening Routine</h2>
+                        <p class="card-subtitle">5:15 PM - 10:00 PM window</p>
+                        <div class="checklist">
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Stop work at 5:15 PM</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Log daily wins</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Evening mood check-in</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Take evening medications</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Check blood sugar</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Gratitude reflection</label>
+                            </div>
+                            <div class="checklist-item" onclick="toggleRoutineItem(this)">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <label class="checklist-label">Bedtime routine</label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="card">
+                        <h2 class="card-title">🕐 Outside Routine Hours</h2>
+                        <p class="card-subtitle">Routine reminders will appear at the right times</p>
+                        <ul style="margin-top: 1rem; line-height: 2;">
+                            <li>Morning Routine: Before 11:00 AM</li>
+                            <li>Midday Routine: 11:00 AM - 3:00 PM</li>
+                            <li>Evening Routine: 5:15 PM - 10:00 PM</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleRoutineItem(item) {
+            const checkbox = item.querySelector('.checklist-checkbox');
+            checkbox.checked = !checkbox.checked;
+            item.classList.toggle('completed');
+            
+            // Check if all items completed
+            const allItems = item.parentElement.querySelectorAll('.checklist-item');
+            const completedItems = item.parentElement.querySelectorAll('.checklist-item.completed');
+            
+            if (allItems.length === completedItems.length && allItems.length > 0) {
+                // Show celebration
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.textContent = 'Routine complete! Great job! 🎉';
+                item.parentElement.parentElement.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.remove();
+                }, 3000);
+            }
+        }
+
+        // Timer functionality
+        let timers = {};
+
+        function toggleTimer(id, minutes) {
+            const button = event.target;
+            const display = document.getElementById(`timer${id}`);
+            
+            if (timers[id]) {
+                // Stop timer
+                clearInterval(timers[id].interval);
+                delete timers[id];
+                button.textContent = '▶';
+                button.classList.remove('active');
+            } else {
+                // Start timer
+                let seconds = minutes * 60;
+                timers[id] = {
+                    seconds: seconds,
+                    interval: setInterval(() => {
+                        seconds--;
+                        const mins = Math.floor(seconds / 60);
+                        const secs = seconds % 60;
+                        display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                        
+                        if (seconds <= 0) {
+                            clearInterval(timers[id].interval);
+                            delete timers[id];
+                            button.textContent = '▶';
+                            button.classList.remove('active');
+                            alert(`Timer complete! 🎉`);
+                            display.textContent = `${minutes}:00`;
+                        }
+                    }, 1000)
+                };
+                button.textContent = '⏸';
+                button.classList.add('active');
+            }
+        }
+
+        // Imposter Syndrome Detection
+        const imposterPatterns = [
+            'not good enough',
+            'fraud',
+            "don't deserve",
+            'imposter',
+            'fake it',
+            'everyone else',
+            'just lucky',
+            "they'll find out",
+            'not qualified'
+        ];
+
+        function detectImposter() {
+            const input = document.getElementById('imposterInput').value.toLowerCase();
+            const detected = imposterPatterns.some(pattern => input.includes(pattern));
+            
+            if (detected && input.length > 10) {
+                document.getElementById('imposterDetected').style.display = 'block';
+                document.getElementById('believabilityBefore').style.display = 'block';
+                generateCounterFacts();
+            } else {
+                document.getElementById('imposterDetected').style.display = 'none';
+                document.getElementById('believabilityBefore').style.display = 'none';
+                document.getElementById('counterFacts').style.display = 'none';
+            }
+        }
+
+        function generateCounterFacts() {
+            const thought = document.getElementById('imposterInput').value.toLowerCase();
+            const facts = [];
+            
+            if (thought.includes('not good enough')) {
+                facts.push('You maintained 99% data integrity for 10+ years');
+                facts.push("You're in the top 5% of Agentforce learners");
+                facts.push('You earned 96 Trailhead badges + 2 superbadges');
+            }
+            
+            if (thought.includes("don't deserve")) {
+                facts.push('You have 13 months of hands-on Actimize experience');
+                facts.push('Your neurodivergent perspective adds unique value');
+                facts.push('You have expertise in both Salesforce and compliance');
+            }
+            
+            if (facts.length === 0) {
+                facts.push('You have overcome significant challenges');
+                facts.push('Your skills are rare and valuable');
+                facts.push('You consistently deliver quality work');
+            }
+            
+            const factsList = document.getElementById('factsList');
+            factsList.innerHTML = facts.map(fact => `
+                <div class="fact-item">
+                    <span class="fact-icon">✓</span>
+                    <span>${fact}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('counterFacts').style.display = 'block';
+        }
+
+        let believabilityBefore = 0;
+        let believabilityAfter = 0;
+
+        function setBelievability(type, value) {
+            if (type === 'before') {
+                believabilityBefore = value;
+                document.querySelectorAll('#believabilityBefore .scale-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                event.target.classList.add('selected');
+            } else {
+                believabilityAfter = value;
+                document.querySelectorAll('#believabilityAfter .scale-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                event.target.classList.add('selected');
+                
+                if (believabilityAfter < believabilityBefore) {
+                    const reduction = believabilityBefore - believabilityAfter;
+                    alert(`Great job! You reduced the thought's power by ${reduction} points! 🎉`);
+                }
+            }
+        }
+
+        function saveImposterSession() {
+            const thought = document.getElementById('imposterInput').value;
+            const session = {
+                thought,
+                believabilityBefore,
+                believabilityAfter,
+                date: new Date().toISOString(),
+                reduction: believabilityBefore - believabilityAfter
+            };
+            
+            const sessions = JSON.parse(localStorage.getItem('imposterSessions') || '[]');
+            sessions.push(session);
+            localStorage.setItem('imposterSessions', JSON.stringify(sessions));
+            
+            // Reset form
+            document.getElementById('imposterInput').value = '';
+            document.getElementById('imposterDetected').style.display = 'none';
+            document.getElementById('believabilityBefore').style.display = 'none';
+            document.getElementById('counterFacts').style.display = 'none';
+            
+            // Show success
+            const card = document.querySelector('#therapy .card');
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.textContent = 'Session saved! Keep challenging those thoughts! 💪';
+            card.appendChild(successMsg);
+            
+            setTimeout(() => {
+                successMsg.remove();
+            }, 3000);
+        }
+
+        function toggleTherapyTechnique(item, technique) {
+            const checkbox = item.querySelector('.checklist-checkbox');
+            checkbox.checked = !checkbox.checked;
+            item.classList.toggle('completed');
+            
+            if (checkbox.checked) {
+                // Increment counter in localStorage
+                const techniques = JSON.parse(localStorage.getItem('therapyTechniques') || '{}');
+                techniques[technique] = (techniques[technique] || 0) + 1;
+                localStorage.setItem('therapyTechniques', JSON.stringify(techniques));
+                
+                // Update display
+                const label = item.querySelector('.checklist-label');
+                const currentText = label.textContent;
+                const match = currentText.match(/Used: (\d+)x/);
+                if (match) {
+                    const newCount = parseInt(match[1]) + 1;
+                    label.textContent = currentText.replace(/Used: \d+x/, `Used: ${newCount}x`);
+                }
+            }
+        }
+
+        // Quick Actions
+        function startGardenBreak() {
+            if (confirm('Start 15-minute garden break?')) {
+                alert('Enjoy your garden break! Timer set for 15 minutes. 🌿');
+                // In real app, would start a timer
+            }
+        }
+
+        function addJobApplication() {
+            const company = prompt('Company name:');
+            const position = prompt('Position:');
+            if (company && position) {
+                alert(`Added: ${position} at ${company}`);
+                // In real app, would save to database
+            }
+        }
+
+        // 5:15 PM Boundary Check
+        function checkBoundary() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            
+            if (hour === 17 && minute >= 15) {
+                document.getElementById('boundaryCard').style.display = 'block';
+            }
+        }
+
+        function acknowledgeBoundary() {
+            document.getElementById('boundaryCard').style.display = 'none';
+            alert('Great job respecting your boundaries! Starting evening routine...');
+            switchTab('routine');
+        }
+
+        // Check boundary every minute
+        setInterval(checkBoundary, 60000);
+        checkBoundary(); // Check on load
+
+        // Initialize
+        window.addEventListener('load', () => {
+            // Load saved data from localStorage
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Load gratitude entries for today
+            const gratitudes = JSON.parse(localStorage.getItem('gratitudes') || '{}');
+            if (gratitudes[today]) {
+                const gratitudeList = document.getElementById('gratitudeList');
+                gratitudes[today].forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'gratitude-entry';
+                    div.innerHTML = `
+                        <div class="gratitude-text">${entry.text}</div>
+                        <div class="gratitude-time">${entry.time}</div>
+                    `;
+                    gratitudeList.appendChild(div);
+                });
+            }
+            
+            // Load mood data for today
+            const moods = JSON.parse(localStorage.getItem('moods') || '{}');
+            if (moods[today]) {
+                ['morning', 'midday', 'evening'].forEach(time => {
+                    if (moods[today][time]) {
+                        const element = document.getElementById(`${time}Mood`);
+                        element.classList.add('completed');
+                        element.querySelector('.mood-value').textContent = 
+                            `Mood: ${moods[today][time].mood}, Energy: ${moods[today][time].energy}`;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

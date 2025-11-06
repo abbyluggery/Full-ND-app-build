@@ -48,7 +48,19 @@
       "Bash(\"C:\\Program Files\\sf\\bin\\sf.cmd\" project deploy start --source-dir force-app/main/default/pages --target-org abbyluggery179@agentforce.com --wait 15)",
       "Bash(sf org display:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nComplete Salesforce Job Search AI Assistant - Nov 5, 2025 Backup\n\nThis is a comprehensive backup of the complete project including all recent work:\n\n## Major Features:\n- AI-powered job analysis using Claude API\n- Resume and cover letter generation\n- Opportunity automation and tracking\n- Email templates for job search workflow\n- Wellness tracking with energy-adaptive scheduling\n- Multi-user permission sets\n\n## Recent Updates (Oct 30 - Nov 5):\n- Wellness System: Daily_Routine__c object with energy tracking\n- Energy-Adaptive Scheduler (99% test coverage)\n- PDF Generation Fix: Added controllers to bypass 4,096 char URL limit\n- ResumePDFController and CoverLetterPDFController\n- Updated Visualforce pages (ResumePDF, CoverLetterPDF)\n- Email templates (5 templates for job search)\n- Chrome extension configuration\n- Multi-user permission sets\n\n## Test Coverage:\n- 68 passing tests\n- ~95% overall coverage\n- Job Search: 54 tests\n- Wellness: 14 tests\n\n## Known Issues:\n- Resume PDF generation still debugging (deployed fix, needs verification)\n- DailyRoutineInvocable pending manual deployment\n\n## Deployment Status:\n- Dev Hub: abbyluggery179@agentforce.com\n- All metadata deployed successfully\n- Tests passing in production\n\nGenerated with Claude Code\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(mkdir:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git pull:*)",
+      "Bash(git merge:*)",
+      "Bash(\"C:\\Program Files\\sf\\bin\\sf.cmd\" org display --json)",
+      "Bash(\"C:\\Program Files\\sf\\bin\\sf.cmd\" data query --query \"SELECT QualifiedApiName, Label FROM EntityDefinition WHERE QualifiedApiName LIKE ''%Meal%'' OR QualifiedApiName LIKE ''%Recipe%'' OR QualifiedApiName LIKE ''%Shopping%''\" --target-org abbyluggery179@agentforce.com --json)",
+      "Bash(xcopy:*)",
+      "Bash(robocopy:*)",
+      "Bash(del force-appmaindefaultclassesMealPlanAPI.cls force-appmaindefaultclassesMealPlanAPI.cls-meta.xml force-appmaindefaultclassesMealPlanAPITest.cls force-appmaindefaultclassesMealPlanAPITest.cls-meta.xml)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Meal__c</members>
+        <members>Weekly_Meal_Plan__c</members>
+        <members>Planned_Meal__c</members>
+        <members>Shopping_List__c</members>
+        <name>CustomObject</name>
+    </types>
+    <version>65.0</version>
+</Package>
