@@ -1,0 +1,6 @@
+Store__c,Item_Name__c,Discount_Type__c,Discount_Value__c,Valid_From__c,Valid_To__c,Source__c,Requires_Clipping__c,Notes__c
+Publix,Chicken Breast,Fixed Price,5.99,2025-11-09,2025-11-15,Manual Entry,FALSE,Example: Fixed price sale item
+Walmart,Ground Beef,BOGO,100,2025-11-09,2025-11-15,Manual Entry,FALSE,Example: Buy One Get One Free
+Costco,Ice Cream,Multi-Buy,10.00,2025-11-09,2025-11-15,Manual Entry,FALSE,Example: 5 for $10 (set Multi_Buy_Quantity__c = 5)
+Publix,Yogurt,Percentage,25,2025-11-09,2025-11-15,Digital Coupon,TRUE,Example: 25% off with digital coupon
+Walmart,Cereal,Dollar Amount,1.50,2025-11-09,2025-11-15,Manufacturer Coupon,FALSE,Example: $1.50 off any brand

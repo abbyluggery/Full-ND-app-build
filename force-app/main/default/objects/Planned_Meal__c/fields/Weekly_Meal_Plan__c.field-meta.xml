@@ -2,10 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Weekly_Meal_Plan__c</fullName>
     <label>Weekly Meal Plan</label>
-    <type>MasterDetail</type>
     <referenceTo>Weekly_Meal_Plan__c</referenceTo>
     <relationshipLabel>Planned Meals</relationshipLabel>
     <relationshipName>Planned_Meals</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
 </CustomField>

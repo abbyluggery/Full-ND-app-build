@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <label>Source</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Store Ad</fullName>
+                <default>true</default>
+                <label>Store Ad</label>
+            </value>
+            <value>
+                <fullName>Manufacturer Coupon</fullName>
+                <default>false</default>
+                <label>Manufacturer Coupon</label>
+            </value>
+            <value>
+                <fullName>Digital Coupon</fullName>
+                <default>false</default>
+                <label>Digital Coupon</label>
+            </value>
+            <value>
+                <fullName>Rebate App</fullName>
+                <default>false</default>
+                <label>Rebate App (Ibotta/Fetch)</label>
+            </value>
+            <value>
+                <fullName>Southern Savers</fullName>
+                <default>false</default>
+                <label>Southern Savers</label>
+            </value>
+            <value>
+                <fullName>Krazy Coupon Lady</fullName>
+                <default>false</default>
+                <label>Krazy Coupon Lady</label>
+            </value>
+            <value>
+                <fullName>Walgreens API</fullName>
+                <default>false</default>
+                <label>Walgreens API</label>
+            </value>
+            <value>
+                <fullName>CVS API</fullName>
+                <default>false</default>
+                <label>CVS API</label>
+            </value>
+            <value>
+                <fullName>Publix API</fullName>
+                <default>false</default>
+                <label>Publix API</label>
+            </value>
+            <value>
+                <fullName>API Import</fullName>
+                <default>false</default>
+                <label>API Import (Generic)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

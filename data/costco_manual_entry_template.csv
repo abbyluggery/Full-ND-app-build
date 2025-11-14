@@ -1,0 +1,11 @@
+Store__c,Item_Name__c,Discount_Type__c,Discount_Value__c,Valid_From__c,Valid_To__c,Source__c,Requires_Clipping__c,Notes__c
+Costco,Chicken Breast (Boneless Skinless),Fixed Price,5.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Per pound price
+Costco,Ground Beef (90/10),Fixed Price,4.49,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Per pound price
+Costco,Salmon Fillets,Fixed Price,12.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Per pound price
+Costco,Organic Eggs (24 count),Fixed Price,6.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Pack price
+Costco,Milk (Organic Whole - 2 half gallons),Fixed Price,7.49,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,2-pack price
+Costco,Mixed Greens (Organic),Fixed Price,4.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Large container
+Costco,Avocados (Bag of 6),Fixed Price,5.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Bag price
+Costco,Rotisserie Chicken,Fixed Price,4.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,Cooked whole chicken
+Costco,Shredded Cheese (Cheddar 2 lb),Fixed Price,8.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,2 lb bag
+Costco,Olive Oil (Extra Virgin 2L),Fixed Price,14.99,2025-11-09,2025-11-15,Costco Weekly Savings,FALSE,2 liter bottle

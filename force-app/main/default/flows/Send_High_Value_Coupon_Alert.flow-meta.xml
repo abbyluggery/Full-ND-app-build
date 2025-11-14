@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Coupon_Alert_Email</name>
+        <label>Send Coupon Alert Email</label>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>{!$User.Email}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>💰 ${!$Record.Savings_Amount__c} in Coupons Match Your {!$Record.Store_Location__c} List!</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>GREAT SAVINGS ALERT! High-Value Coupons Match Your Shopping List
+========================================
+
+Hello!
+
+We found {!$Record.Coupons_Applied_Count__c} valuable coupons that match items on your shopping list for {!$Record.Store_Location__c}.
+
+POTENTIAL SAVINGS
+========================================
+
+Total Estimated Savings: ${!$Record.Savings_Amount__c}
+Shopping List Total: ${!$Record.Estimated_Cost__c}
+
+Your matched coupons include high-value offers that could save you significant money on this shopping trip.
+
+WHAT TO DO NOW
+========================================
+
+1. Open your shopping list in Salesforce
+2. Review all matched coupons before they expire
+3. Clip digital coupons to your store loyalty card
+4. Print any paper coupons you need
+5. Check expiration dates - some coupons may expire soon!
+
+TIPS FOR MAXIMUM SAVINGS
+========================================
+
+- Stack manufacturer coupons with store sales when possible
+- Check if your store doubles coupons
+- Watch for BOGO (Buy One Get One) opportunities
+- Consider buying extra of non-perishables with great deals
+
+Happy saving!</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <decisions>
+        <name>Check_High_Value_Coupons</name>
+        <label>Check High Value Coupons</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_High_Value_Coupons</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Savings_Amount__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>3.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Coupons_Applied_Count__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>5.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Coupon_Alert_Email</targetReference>
+            </connector>
+            <label>Has High Value Coupons</label>
+        </rules>
+    </decisions>
+    <description>Sends email alert when shopping list has high-value matched coupons ($3+ savings or 5+ coupons)</description>
+    <interviewLabel>Send High Value Coupon Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send High Value Coupon Alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_High_Value_Coupons</targetReference>
+        </connector>
+        <object>Shopping_List__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

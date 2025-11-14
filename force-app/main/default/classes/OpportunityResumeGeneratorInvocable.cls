@@ -80,13 +80,10 @@ public with sharing class OpportunityResumeGeneratorInvocable {
                 opp.StageName = 'Application Prepared'; // Advance to Application Prepared stage
                 update opp;
 
-                // Generate PDF files for the resume and cover letter
-                try {
-                    ResumePDFGenerator.generateResumeFiles(resumePackage.Id);
-                } catch (Exception pdfException) {
-                    System.debug('PDF generation failed: ' + pdfException.getMessage());
-                    // Continue even if PDF generation fails
-                }
+                // Generate PDF files asynchronously to avoid transaction rollback issues
+                // This ensures the Resume Package is committed before PDF generation
+                System.debug('Queueing async PDF generation for Resume Package: ' + resumePackage.Id);
+                System.enqueueJob(new ResumePDFGeneratorAsync(resumePackage.Id));
 
                 res.resumePackageId = resumePackage.Id;
                 res.success = true;

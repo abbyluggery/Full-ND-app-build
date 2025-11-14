@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Send_Meal_Plan_Email</members>
+        <members>Send_High_Value_Coupon_Alert</members>
+        <members>Send_Shopping_List_Ready_Email</members>
+        <name>Flow</name>
+    </types>
+    <version>65.0</version>
+</Package>

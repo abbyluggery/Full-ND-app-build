@@ -1,0 +1,50 @@
+Your Shopping List is Ready for {!Shopping_List__c.Store_Location__c}
+========================================
+
+Hello!
+
+Your shopping list for {!Shopping_List__c.Store_Location__c} has been generated and is ready to use.
+
+SHOPPING LIST SUMMARY
+========================================
+
+Store: {!Shopping_List__c.Store_Location__c}
+Shopping Date: {!Shopping_List__c.Shopping_Date__c}
+Status: {!Shopping_List__c.Status__c}
+
+Estimated Cost: ${!Shopping_List__c.Estimated_Cost__c}
+Coupons Matched: {!Shopping_List__c.Coupons_Applied_Count__c}
+Potential Savings: ${!Shopping_List__c.Savings_Amount__c}
+
+BEFORE YOU SHOP
+========================================
+
+✓ Review your list and check off any items you already have
+✓ Clip all matched digital coupons to your loyalty card
+✓ Print any paper coupons needed
+✓ Check store hours and plan your shopping time
+✓ Bring reusable bags
+
+MONEY-SAVING TIPS
+========================================
+
+• Shop the perimeter first for fresh items
+• Compare unit prices, not just package prices
+• Check expiration dates on sale items
+• Consider store brands for additional savings
+• Use your store's app for additional digital-only deals
+
+AFTER SHOPPING
+========================================
+
+Don't forget to update your shopping list in Salesforce with:
+- Actual costs paid (helps with budgeting)
+- Mark items as purchased
+- Track your actual savings
+
+View Your Shopping List: [Link to Shopping_List__c]
+
+Happy shopping!
+
+---
+This is an automated notification from your Meal Planning Assistant.

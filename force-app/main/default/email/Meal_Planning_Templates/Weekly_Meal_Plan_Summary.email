@@ -1,0 +1,24 @@
+Your Meal Plan for {!Weekly_Meal_Plan__c.Week_Start_Date__c} - {!Weekly_Meal_Plan__c.Week_End_Date__c}
+
+Hello!
+
+Your meal plan "{!Weekly_Meal_Plan__c.Plan_Name__c}" is ready with {!Weekly_Meal_Plan__c.Number_of_People__c} servings per meal.
+
+WEEK AT A GLANCE
+========================================
+
+Shopping Lists Created: Yes
+Total Estimated Cost: ${!Weekly_Meal_Plan__c.Budget_Target__c}
+Matched Coupons: Check your shopping lists for savings!
+
+NEXT STEPS
+========================================
+
+1. Review your shopping lists by store
+2. Clip any digital coupons before shopping
+3. Check off items as you shop
+4. Track actual costs for budget insights
+
+View Full Plan: [Link to Weekly_Meal_Plan__c]
+
+Happy meal planning!

@@ -1,0 +1,51 @@
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            return 'Final Interview';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            return 'Technical Interview';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            return 'Phone Screen';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            return 'Screening Call';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            return 'Phone Screen'; // Default to Phone Screen for generic "Interview"
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            'Screening Call' => 40,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            'Phone Screen' => 50,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            'Technical Interview' => 60,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomation.cls:            'Final Interview' => 75,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            Subject = 'Screening Call with Recruiter',
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Screening Call', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Opportunity stage should be updated to Screening Call');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        // Update to Screening Call stage first
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        opp.StageName = 'Screening Call';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            Subject = 'Phone Screen - Technical Discussion',
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Phone Screen', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Opportunity stage should be updated to Phone Screen');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        // Update to Phone Screen stage first
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        opp.StageName = 'Phone Screen';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            Subject = 'Technical Interview - Coding Assessment',
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Technical Interview', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Opportunity stage should be updated to Technical Interview');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        // Update to Technical Interview stage first
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        opp.StageName = 'Technical Interview';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            Subject = 'Final Interview with Hiring Manager',
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Final Interview', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Opportunity stage should be updated to Final Interview');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        // Set to Final Interview stage
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        opp.StageName = 'Final Interview';
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            Subject = 'Screening Call',
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Final Interview', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Opportunity stage should NOT move backward from Final Interview to Screening Call');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        // Verify stage defaults to Phone Screen
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:        System.assertEquals('Phone Screen', opp.StageName,
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/classes/OpportunityProgressAutomationTest.cls:            'Generic interview should default to Phone Screen stage');
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/email/Job_Search_Templates/Thank_You_After_Final_Interview.email-meta.xml:    <name>Thank You After Final Interview</name>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/email/Job_Search_Templates/Thank_You_After_Final_Interview.email-meta.xml:    <subject>Thank You - {!Opportunity.Name} Final Interview</subject>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/email/Job_Search_Templates/Thank_You_After_Phone_Screen.email-meta.xml:    <name>Thank You After Phone Screen</name>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/email/Job_Search_Templates/Thank_You_After_Phone_Screen.email-meta.xml:    <subject>Thank You - {!Opportunity.Name} Phone Screen</subject>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/email/Job_Search_Templates/Thank_You_After_Technical_Interview.email-meta.xml:    <name>Thank You After Technical Interview</name>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/flows/Interview_Reminder_Tasks.flow-meta.xml:                <stringValue>Final Interview Prep - TOMORROW - {!$Record.Company__c}</stringValue>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/objects/Job_Posting__c/fields/Application_Status__c.field-meta.xml:                <fullName>Phone Screen</fullName>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/objects/Job_Posting__c/fields/Application_Status__c.field-meta.xml:                <label>Phone Screen</label>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <fullName>Screening Call</fullName>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <label>Screening Call</label>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <fullName>Phone Screen</fullName>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <label>Phone Screen</label>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <fullName>Technical Interview</fullName>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <label>Technical Interview</label>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <fullName>Final Interview</fullName>
+C:\Users\Abbyl\OneDrive\Desktop\Salesforce Training\Assistant\Assistant\force-app/main/default/standardValueSets/OpportunityStage.standardValueSet-meta.xml:        <label>Final Interview</label>

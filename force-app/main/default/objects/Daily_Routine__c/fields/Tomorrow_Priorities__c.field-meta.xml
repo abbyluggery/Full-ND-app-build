@@ -2,9 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Tomorrow_Priorities__c</fullName>
     <description>Top 3 priorities for tomorrow</description>
-    <externalId>false</externalId>
     <inlineHelpText>What are your top 3 priorities for tomorrow?</inlineHelpText>
-    <label>Tomorrow's Priorities</label>
+    <label>Tomorrow&apos;s Priorities</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

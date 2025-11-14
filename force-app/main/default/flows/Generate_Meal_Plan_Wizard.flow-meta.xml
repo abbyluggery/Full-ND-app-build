@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Generate_Meal_Plan</name>
+        <label>Generate Meal Plan</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <actionName>MealPlanGeneratorInvocable</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Success_Screen</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>startDate</name>
+            <value>
+                <elementReference>Start_Date</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>numberOfPeople</name>
+            <value>
+                <elementReference>Number_of_People</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <description>User-friendly wizard for generating 2-week meal plans with AI-powered recipe selection</description>
+    <environments>Default</environments>
+    <interviewLabel>Generate Meal Plan Wizard {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Generate Meal Plan Wizard</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Input_Screen</name>
+        <label>Plan Your Meals</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Generate_Meal_Plan</targetReference>
+        </connector>
+        <fields>
+            <name>Welcome_Text</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Welcome to the Meal Plan Wizard!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This wizard will help you create a 2-week meal plan with:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Balanced nutrition across all meals&lt;/li&gt;&lt;li&gt;Protein variety (no repeats within 5 days)&lt;/li&gt;&lt;li&gt;Quick weeknight meals (≤30 min)&lt;/li&gt;&lt;li&gt;Automatic shopping list generation&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Let&apos;s get started!&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Start_Date</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </defaultValue>
+            <fieldText>Start Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>Select the first day of your meal plan (typically Monday or Sunday)</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Number_of_People</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <numberValue>5.0</numberValue>
+            </defaultValue>
+            <fieldText>Number of People</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>How many people will you be feeding? (Default: 5)</helpText>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Success_Screen</name>
+        <label>Meal Plan Created!</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Success_Message</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 128, 0);&quot;&gt;Success! Your meal plan has been created.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Your 2-week meal plan is ready! Here&apos;s what was generated:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;14 breakfast, lunch, and dinner meals&lt;/li&gt;&lt;li&gt;Balanced across protein types&lt;/li&gt;&lt;li&gt;Weeknight-friendly quick meals&lt;/li&gt;&lt;li&gt;Complete ingredient lists&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Next Steps:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;1. Review your meal plan in the Weekly Meal Plans tab&lt;/p&gt;&lt;p&gt;2. Shopping lists will be auto-generated&lt;/p&gt;&lt;p&gt;3. Check for coupon matches to save money!&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Input_Screen</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>

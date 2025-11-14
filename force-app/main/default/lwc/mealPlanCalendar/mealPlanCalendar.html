@@ -1,0 +1,190 @@
+<template>
+    <lightning-card title="2-Week Meal Plan" icon-name="custom:custom85">
+        <div slot="actions">
+            <lightning-button
+                label="Refresh"
+                icon-name="utility:refresh"
+                onclick={handleRefresh}
+                disabled={isLoading}
+            ></lightning-button>
+            <lightning-button
+                variant="brand"
+                label="Generate New Plan"
+                icon-name="utility:rotate"
+                onclick={handleGeneratePlan}
+                disabled={isLoading}
+            ></lightning-button>
+        </div>
+
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Date Range Header -->
+            <template if:true={hasData}>
+                <div class="slds-text-heading_small slds-m-bottom_small slds-text-align_center">
+                    {formattedDateRange}
+                    <span class="slds-text-body_small slds-m-left_small">
+                        ({numberOfPeople} people)
+                    </span>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="meal-calendar">
+                    <template for:each={calendarWeeks} for:item="week">
+                        <div key={week.weekNumber} class="calendar-week">
+                            <!-- Week Header -->
+                            <div class="week-header slds-text-heading_small slds-m-vertical_small">
+                                Week {week.weekNumber}
+                            </div>
+
+                            <!-- Days Grid -->
+                            <div class="days-grid">
+                                <template for:each={week.days} for:item="day">
+                                    <div key={day.dateKey} class="day-card">
+                                        <!-- Day Header -->
+                                        <div class="day-header">
+                                            <div class="day-name">{day.dayName}</div>
+                                            <div class="day-date">{day.dayNumber}</div>
+                                        </div>
+
+                                        <!-- Meals -->
+                                        <div class="meals-container">
+                                            <!-- Breakfast -->
+                                            <div class="meal-slot breakfast">
+                                                <div class="meal-label">Breakfast</div>
+                                                <template if:true={day.breakfast}>
+                                                    <div
+                                                        class="meal-item"
+                                                        data-meal-id={day.breakfast.id}
+                                                        data-meal-time="Breakfast"
+                                                        data-date={day.dateKey}
+                                                        onclick={handleMealClick}
+                                                    >
+                                                        <div class="meal-name">{day.breakfast.mealName}</div>
+                                                        <div class="meal-time">{day.breakfast.totalTime} min</div>
+                                                        <template if:true={day.breakfast.hasLeftovers}>
+                                                            <lightning-icon
+                                                                icon-name="utility:food_and_drink"
+                                                                size="x-small"
+                                                                title="Has leftovers"
+                                                                class="leftover-icon"
+                                                            ></lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                                <template if:false={day.breakfast}>
+                                                    <div class="meal-empty">No meal planned</div>
+                                                </template>
+                                            </div>
+
+                                            <!-- Lunch -->
+                                            <div class="meal-slot lunch">
+                                                <div class="meal-label">Lunch</div>
+                                                <template if:true={day.lunch}>
+                                                    <div
+                                                        class="meal-item"
+                                                        data-meal-id={day.lunch.id}
+                                                        data-meal-time="Lunch"
+                                                        data-date={day.dateKey}
+                                                        onclick={handleMealClick}
+                                                    >
+                                                        <div class="meal-name">{day.lunch.mealName}</div>
+                                                        <div class="meal-time">{day.lunch.totalTime} min</div>
+                                                        <template if:true={day.lunch.hasLeftovers}>
+                                                            <lightning-icon
+                                                                icon-name="utility:food_and_drink"
+                                                                size="x-small"
+                                                                title="Has leftovers"
+                                                                class="leftover-icon"
+                                                            ></lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                                <template if:false={day.lunch}>
+                                                    <div class="meal-empty">No meal planned</div>
+                                                </template>
+                                            </div>
+
+                                            <!-- Dinner -->
+                                            <div class="meal-slot dinner">
+                                                <div class="meal-label">Dinner</div>
+                                                <template if:true={day.dinner}>
+                                                    <div
+                                                        class="meal-item"
+                                                        data-meal-id={day.dinner.id}
+                                                        data-meal-time="Dinner"
+                                                        data-date={day.dateKey}
+                                                        onclick={handleMealClick}
+                                                    >
+                                                        <div class="meal-name">{day.dinner.mealName}</div>
+                                                        <div class="meal-time">{day.dinner.totalTime} min</div>
+                                                        <template if:true={day.dinner.hasLeftovers}>
+                                                            <lightning-icon
+                                                                icon-name="utility:food_and_drink"
+                                                                size="x-small"
+                                                                title="Has leftovers"
+                                                                class="leftover-icon"
+                                                            ></lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                                <template if:false={day.dinner}>
+                                                    <div class="meal-empty">No meal planned</div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Empty State -->
+            <template if:false={hasData}>
+                <div class="slds-text-align_center slds-m-vertical_large">
+                    <lightning-icon
+                        icon-name="custom:custom85"
+                        size="large"
+                        class="slds-m-bottom_small"
+                    ></lightning-icon>
+                    <div class="slds-text-heading_small">No meal plan yet</div>
+                    <div class="slds-text-body_regular slds-m-top_small">
+                        Click "Generate New Plan" to create your 2-week meal plan
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Generate Confirmation Dialog -->
+    <template if:true={showGenerateDialog}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Generate New Meal Plan</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>This will create a new 2-week meal plan with automated recipe selection.</p>
+                    <p class="slds-m-top_small">Are you sure you want to continue?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick={handleCancelGenerate}
+                    ></lightning-button>
+                    <lightning-button
+                        variant="brand"
+                        label="Generate"
+                        onclick={handleConfirmGenerate}
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

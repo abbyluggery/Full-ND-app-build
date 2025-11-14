@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Job_Posting__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Links the resume package to a Job Posting</description>
-    <externalId>false</externalId>
     <label>Job Posting</label>
     <referenceTo>Job_Posting__c</referenceTo>
     <relationshipLabel>Resume Packages</relationshipLabel>
@@ -10,5 +10,4 @@
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
-    <deleteConstraint>SetNull</deleteConstraint>
 </CustomField>

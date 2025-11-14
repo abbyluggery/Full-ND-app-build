@@ -1,0 +1,39 @@
+GREAT SAVINGS ALERT! High-Value Coupons Match Your Shopping List
+========================================
+
+Hello!
+
+We found {!Shopping_List__c.Coupons_Applied_Count__c} valuable coupons that match items on your shopping list for {!Shopping_List__c.Store_Location__c}.
+
+POTENTIAL SAVINGS
+========================================
+
+Total Estimated Savings: ${!Shopping_List__c.Savings_Amount__c}
+Shopping List Total: ${!Shopping_List__c.Estimated_Cost__c}
+
+Your matched coupons include high-value offers that could save you significant money on this shopping trip.
+
+WHAT TO DO NOW
+========================================
+
+1. Open your shopping list in Salesforce
+2. Review all matched coupons before they expire
+3. Clip digital coupons to your store loyalty card
+4. Print any paper coupons you need
+5. Check expiration dates - some coupons may expire soon!
+
+TIPS FOR MAXIMUM SAVINGS
+========================================
+
+- Stack manufacturer coupons with store sales when possible
+- Check if your store doubles coupons
+- Watch for BOGO (Buy One Get One) opportunities
+- Consider buying extra of non-perishables with great deals
+
+View Your Shopping List: [Link to Shopping_List__c]
+
+Happy saving!
+
+---
+This is an automated notification from your Meal Planning Assistant.
+You received this because high-value coupons ($3+ savings or BOGO offers) were matched to your shopping list.

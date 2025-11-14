@@ -25,5 +25,18 @@ trigger JobPostingTrigger on Job_Posting__c (after insert, after update) {
     if (Trigger.isAfter && Trigger.isUpdate) {
         // Updated job postings - re-analyze if description changed
         JobPostingTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
+
+        // Sync interview fields to related Opportunity records
+        List<Job_Posting__c> jobsWithInterviewChanges = new List<Job_Posting__c>();
+        for (Job_Posting__c jp : Trigger.new) {
+            Job_Posting__c oldJP = Trigger.oldMap.get(jp.Id);
+            if (OpportunityInterviewSync.hasJobPostingInterviewFieldsChanged(jp, oldJP)) {
+                jobsWithInterviewChanges.add(jp);
+            }
+        }
+
+        if (!jobsWithInterviewChanges.isEmpty()) {
+            OpportunityInterviewSync.syncToOpportunity(jobsWithInterviewChanges);
+        }
     }
 }

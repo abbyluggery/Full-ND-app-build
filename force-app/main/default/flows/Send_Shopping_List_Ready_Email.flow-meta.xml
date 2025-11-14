@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Shopping_List_Email</name>
+        <label>Send Shopping List Email</label>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>{!$User.Email}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Your {!$Record.Store_Location__c} Shopping List is Ready - ${!$Record.Estimated_Cost__c}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>Your Shopping List is Ready for {!$Record.Store_Location__c}
+========================================
+
+Hello!
+
+Your shopping list for {!$Record.Store_Location__c} has been generated and is ready to use.
+
+SHOPPING LIST SUMMARY
+========================================
+
+Store: {!$Record.Store_Location__c}
+Shopping Date: {!$Record.Shopping_Date__c}
+Status: {!$Record.Status__c}
+
+Estimated Cost: ${!$Record.Estimated_Cost__c}
+Coupons Matched: {!$Record.Coupons_Applied_Count__c}
+Potential Savings: ${!$Record.Savings_Amount__c}
+
+BEFORE YOU SHOP
+========================================
+
+✓ Review your list and check off any items you already have
+✓ Clip all matched digital coupons to your loyalty card
+✓ Print any paper coupons needed
+✓ Check store hours and plan your shopping time
+✓ Bring reusable bags
+
+MONEY-SAVING TIPS
+========================================
+
+• Shop the perimeter first for fresh items
+• Compare unit prices, not just package prices
+• Check expiration dates on sale items
+• Consider store brands for additional savings
+• Use your store's app for additional digital-only deals
+
+AFTER SHOPPING
+========================================
+
+Don't forget to update your shopping list in Salesforce with:
+- Actual costs paid (helps with budgeting)
+- Mark items as purchased
+- Track your actual savings
+
+Happy shopping!</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <decisions>
+        <name>Check_If_New_List</name>
+        <label>Check If New List</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_New_List</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Active</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Shopping_List_Email</targetReference>
+            </connector>
+            <label>Is New List</label>
+        </rules>
+    </decisions>
+    <description>Sends email notification when a new shopping list is created with Active status</description>
+    <interviewLabel>Send Shopping List Ready Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Shopping List Ready Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_If_New_List</targetReference>
+        </connector>
+        <object>Shopping_List__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

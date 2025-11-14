@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Job_Discovered_Date__c</fullName>
+    <businessStatus>Active</businessStatus>
     <description>Date when the job opportunity was first discovered/created</description>
-    <externalId>false</externalId>
     <label>Job Discovered</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>

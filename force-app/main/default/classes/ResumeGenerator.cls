@@ -23,6 +23,9 @@ public with sharing class ResumeGenerator {
             LIMIT 1
         ];
 
+        // Get company research if available
+        CompanyResearcher.ResearchResult companyResearch = getCompanyResearch(jobPostingId);
+
         // Get your master resume content from Master Resume Config object
         List<Master_Resume_Config__c> masterResumeList = [
             SELECT Id, Resume_Content__c, Key_Achievements__c,
@@ -40,8 +43,8 @@ public with sharing class ResumeGenerator {
         // Build the system context for Claude
         String systemContext = buildResumeSystemContext();
 
-        // Build the resume generation prompt
-        String resumePrompt = buildResumePrompt(job, masterResume);
+        // Build the resume generation prompt with company research
+        String resumePrompt = buildResumePrompt(job, masterResume, companyResearch);
 
         // Call Claude to generate the resume
         ClaudeAPIService.ClaudeResponse resumeResponse = ClaudeAPIService.generateText(
@@ -51,8 +54,8 @@ public with sharing class ResumeGenerator {
 
         String resumeContent = ClaudeAPIService.extractTextContent(resumeResponse);
 
-        // Build the cover letter generation prompt
-        String coverLetterPrompt = buildCoverLetterPrompt(job, masterResume);
+        // Build the cover letter generation prompt with company research
+        String coverLetterPrompt = buildCoverLetterPrompt(job, masterResume, companyResearch);
 
         // Call Claude to generate the cover letter
         ClaudeAPIService.ClaudeResponse coverLetterResponse = ClaudeAPIService.generateText(
@@ -76,6 +79,74 @@ public with sharing class ResumeGenerator {
     }
 
     /**
+     * @description Retrieves company research for a job posting (or from Opportunity)
+     * @param jobPostingId The Job_Posting__c ID
+     * @return CompanyResearcher.ResearchResult Company research data (or null if not found)
+     */
+    private static CompanyResearcher.ResearchResult getCompanyResearch(Id jobPostingId) {
+        try {
+            // Check if company research exists for this Job_Posting__c
+            List<Company_Research__c> research = [
+                SELECT Id, Company_Overview__c, Recent_News__c, Culture_Insights__c,
+                       Key_Products_Services__c, Interview_Talking_Points__c,
+                       Why_This_Company__c, Potential_Challenges__c
+                FROM Company_Research__c
+                WHERE Job_Posting__c = :jobPostingId
+                ORDER BY Research_Date__c DESC
+                LIMIT 1
+            ];
+
+            if (!research.isEmpty()) {
+                return convertToResearchResult(research[0]);
+            }
+
+            // If no research found for Job_Posting__c, check if there's an Opportunity with research
+            List<Opportunity> opps = [
+                SELECT Id, (SELECT Id, Company_Overview__c, Recent_News__c, Culture_Insights__c,
+                                   Key_Products_Services__c, Interview_Talking_Points__c,
+                                   Why_This_Company__c, Potential_Challenges__c
+                            FROM Company_Research__r
+                            ORDER BY Research_Date__c DESC
+                            LIMIT 1)
+                FROM Opportunity
+                WHERE Job_Posting__c = :jobPostingId
+                LIMIT 1
+            ];
+
+            if (!opps.isEmpty() && !opps[0].Company_Research__r.isEmpty()) {
+                return convertToResearchResult(opps[0].Company_Research__r[0]);
+            }
+
+            return null; // No research found
+        } catch (Exception e) {
+            System.debug('Could not retrieve company research: ' + e.getMessage());
+            return null; // Graceful degradation if research not available
+        }
+    }
+
+    /**
+     * @description Converts Company_Research__c record to ResearchResult wrapper
+     */
+    private static CompanyResearcher.ResearchResult convertToResearchResult(Company_Research__c rec) {
+        CompanyResearcher.ResearchResult result = new CompanyResearcher.ResearchResult();
+        result.companyOverview = rec.Company_Overview__c;
+        result.recentNews = rec.Recent_News__c;
+        result.cultureInsights = rec.Culture_Insights__c;
+        result.keyProducts = rec.Key_Products_Services__c;
+        result.whyThisCompany = rec.Why_This_Company__c;
+
+        // Parse talking points and challenges from text fields
+        if (String.isNotBlank(rec.Interview_Talking_Points__c)) {
+            result.talkingPoints = rec.Interview_Talking_Points__c.split('\n\n');
+        }
+        if (String.isNotBlank(rec.Potential_Challenges__c)) {
+            result.potentialChallenges = rec.Potential_Challenges__c.split('\n\n');
+        }
+
+        return result;
+    }
+
+    /**
      * @description Builds the system context for resume generation
      */
     private static String buildResumeSystemContext() {
@@ -91,7 +162,7 @@ public with sharing class ResumeGenerator {
     /**
      * @description Builds the prompt for resume generation with STRONG hallucination prevention
      */
-    private static String buildResumePrompt(Job_Posting__c job, Master_Resume_Config__c masterResume) {
+    private static String buildResumePrompt(Job_Posting__c job, Master_Resume_Config__c masterResume, CompanyResearcher.ResearchResult companyResearch) {
         String prompt = '## Task: Generate a Tailored Resume\n\n';
 
         prompt += '### Job Details:\n';
@@ -99,6 +170,21 @@ public with sharing class ResumeGenerator {
         prompt += '**Company:** ' + job.Company__c + '\n';
         if (String.isNotBlank(job.Description__c)) {
             prompt += '**Job Description:**\n' + job.Description__c.substring(0, Math.min(3000, job.Description__c.length())) + '\n\n';
+        }
+
+        // Add company research if available
+        if (companyResearch != null) {
+            prompt += '### Company Research (For Context Only - DO NOT Fabricate Experience):\n';
+            if (String.isNotBlank(companyResearch.companyOverview)) {
+                prompt += '**Company Overview:** ' + companyResearch.companyOverview + '\n';
+            }
+            if (String.isNotBlank(companyResearch.keyProducts)) {
+                prompt += '**Key Products/Services:** ' + companyResearch.keyProducts + '\n';
+            }
+            if (String.isNotBlank(companyResearch.cultureInsights)) {
+                prompt += '**Culture Insights:** ' + companyResearch.cultureInsights + '\n';
+            }
+            prompt += '**⚠️ Use this ONLY to understand what the company values. DO NOT add it to work history.**\n\n';
         }
 
         prompt += '### Candidate\'s Master Resume:\n';

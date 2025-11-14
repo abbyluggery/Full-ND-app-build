@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Job_Posting_Research_JSON__c</fullName>
     <description>Full Claude response from the linked job posting analysis</description>
-    <externalId>false</externalId>
     <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
     <label>Job Posting Research JSON</label>
     <length>32768</length>

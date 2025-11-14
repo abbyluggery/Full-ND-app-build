@@ -3,8 +3,8 @@
     <fullName>Interview_Completed__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Checkbox to indicate if interview has been completed</description>
-    <externalId>false</externalId>
     <label>Interview Completed</label>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

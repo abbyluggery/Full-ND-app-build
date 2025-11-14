@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <description>Scheduled flow that sends job search summary with action items. Configurable frequency.</description>
+    <label>Weekly Job Search Summary</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Jobs_Analyzed_This_Week</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Weekly</frequency>
+            <startDate>2025-11-18</startDate>
+            <startTime>08:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+
+    <!-- Get Jobs Analyzed This Week -->
+    <recordLookups>
+        <name>Get_Jobs_Analyzed_This_Week</name>
+        <label>Get Jobs Analyzed This Week</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_High_Priority_Jobs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Research_Date__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>LastWeekStartDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+
+    <!-- Get High Priority Jobs -->
+    <recordLookups>
+        <name>Get_High_Priority_Jobs</name>
+        <label>Get High Priority Jobs Without Resumes</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Upcoming_Interviews</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ND_Friendliness_Score__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Application_Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Applied</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Application_Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Rejected</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+
+    <!-- Get Upcoming Interviews -->
+    <recordLookups>
+        <name>Get_Upcoming_Interviews</name>
+        <label>Get Upcoming Interviews This Week</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_Summary_Email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>LessThanOrEqualTo</operator>
+            <value>
+                <elementReference>NextWeekEndDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Completed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Posting__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+
+    <!-- Send Email Action -->
+    <actionCalls>
+        <name>Send_Summary_Email</name>
+        <label>Send Weekly Summary Email</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>📊 Your Job Search Summary - Week of {!$Flow.CurrentDate}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>📊 WEEKLY JOB SEARCH SUMMARY
+========================================
+
+Week of: {!$Flow.CurrentDate}
+
+
+📈 THIS WEEK'S ACTIVITY:
+========================================
+
+• Jobs Analyzed: {!Get_Jobs_Analyzed_This_Week}
+• High Priority Jobs (ND Score ≥ 8): {!Get_High_Priority_Jobs}
+• Upcoming Interviews: {!Get_Upcoming_Interviews}
+
+
+🎯 ACTION ITEMS FOR THIS WEEK:
+========================================
+
+1. HIGH-PRIORITY JOBS NEEDING ATTENTION
+   ▸ You have {!Get_High_Priority_Jobs} jobs with ND Friendliness Score ≥ 8
+   ▸ These jobs haven't been applied to yet
+   ▸ ACTION: Generate resume packages and apply!
+
+2. UPCOMING INTERVIEWS
+   ▸ You have {!Get_Upcoming_Interviews} interviews scheduled in the next 7 days
+   ▸ ACTION: Review your interview preparation tasks
+   ▸ Check the 3-day and 1-day reminder tasks
+
+
+💡 TIPS FOR THIS WEEK:
+========================================
+
+✓ Focus on high ND-friendliness scores (≥ 8)
+✓ Use "Generate Resume Package" button to save time
+✓ Review interview notes 3 days before scheduled interviews
+✓ Track patterns in red flags across companies
+✓ Celebrate small wins - every step forward counts!
+
+
+🌟 REMEMBER:
+========================================
+
+You're not just looking for any job - you're finding the RIGHT job
+that values your neurodivergent strengths, supports your needs,
+and aligns with your goals. Quality over quantity!
+
+
+VIEW DETAILS:
+========================================
+
+Open your Job Search Dashboard in Salesforce to see full details:
+Setup → Job_Posting__c → List Views → All Jobs
+
+
+---
+Sent by your AI-powered ND-Friendly Job Search Assistant
+To adjust frequency: Setup → Flows → Weekly Job Search Summary → Edit Schedule</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>{!$User.Email}</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+
+    <!-- Formulas -->
+    <formulas>
+        <name>LastWeekStartDate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() - 7</expression>
+    </formulas>
+    <formulas>
+        <name>NextWeekEndDate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 7</expression>
+    </formulas>
+</Flow>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Cover_Letter__c</fullName>
     <description>The generated cover letter content</description>
-    <externalId>false</externalId>
     <inlineHelpText>Paste or generate the cover letter here.</inlineHelpText>
     <label>Cover Letter</label>
     <length>32768</length>

@@ -1,0 +1,33 @@
+.full-width-button {
+    width: 100%;
+}
+
+.session-card {
+    background: #f3f3f3;
+    border-left: 4px solid #0176d3;
+    transition: all 0.2s ease;
+}
+
+.session-card:hover {
+    background: #e8e8e8;
+    cursor: pointer;
+    transform: translateX(4px);
+}
+
+.question-card {
+    border-left: 4px solid #0176d3;
+    padding: 1rem;
+}
+
+.feedback-card {
+    border-left: 4px solid #4bca81;
+    padding: 1rem;
+}
+
+.slds-badge_success {
+    background-color: #4bca81;
+}
+
+.slds-badge_warning {
+    background-color: #ffb75d;
+}

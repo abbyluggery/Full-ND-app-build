@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Servings__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Prep_Time_Minutes__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Total_Time_Minutes__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Calories__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Protein_g__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Difficulty__c</field>
+    </columns>
+    <columns>
+        <field>Meal__c.Is_Weeknight_Friendly__c</field>
+    </columns>
+    <description>Find the most cost-effective meals based on cost per serving, prep time, and nutrition</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Meal__c.Protein_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Most Cost-Effective Meals</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Meal__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Meal__c.Total_Time_Minutes__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Meal_Plans</fullName>
+    <columns>NAME</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Weekly_Meal_Plan__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>My Meal Plans</label>
+</ListView>

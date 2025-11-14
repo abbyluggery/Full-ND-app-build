@@ -3,7 +3,6 @@
     <fullName>Morning_Routine_Complete__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Did you complete your morning wellness routine today?</description>
-    <externalId>false</externalId>
     <inlineHelpText>Check this if you completed your slow wake-up, family care, and mindfulness routine</inlineHelpText>
     <label>Morning Routine Complete</label>
     <trackHistory>true</trackHistory>

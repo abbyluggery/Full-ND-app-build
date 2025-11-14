@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Pantry_Staple__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if this ingredient is a common pantry staple (salt, pepper, oil, etc.) that is usually always on hand</description>
+    <inlineHelpText>Check this if the ingredient is a common staple you usually have in your pantry (e.g., salt, pepper, olive oil, butter, eggs)</inlineHelpText>
+    <label>Is Pantry Staple</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

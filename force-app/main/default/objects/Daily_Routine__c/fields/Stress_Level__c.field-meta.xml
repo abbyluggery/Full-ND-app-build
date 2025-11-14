@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stress_Level__c</fullName>
     <description>Stress level for the day</description>
-    <externalId>false</externalId>
     <inlineHelpText>How stressed are you feeling today?</inlineHelpText>
     <label>Stress Level</label>
     <required>false</required>

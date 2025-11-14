@@ -3,7 +3,6 @@
     <fullName>Exercise_Completed__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Did you do any movement or exercise today?</description>
-    <externalId>false</externalId>
     <label>Exercise Completed</label>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

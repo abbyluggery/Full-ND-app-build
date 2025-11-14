@@ -1,0 +1,185 @@
+<template>
+    <lightning-card title="Interview Prep Agent" icon-name="standard:coaching">
+        <!-- Session Selection -->
+        <div class="slds-p-around_medium">
+            <!-- No active session - show start options -->
+            <template if:false={hasActiveSession}>
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    Start Interview Practice
+                </div>
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <lightning-button
+                            label="Behavioral"
+                            variant="brand"
+                            onclick={startBehavioralSession}
+                            class="slds-m-bottom_small full-width-button">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <lightning-button
+                            label="Technical"
+                            variant="brand"
+                            onclick={startTechnicalSession}
+                            class="slds-m-bottom_small full-width-button">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <lightning-button
+                            label="Situational"
+                            variant="brand"
+                            onclick={startSituationalSession}
+                            class="slds-m-bottom_small full-width-button">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <lightning-button
+                            label="Culture Fit"
+                            variant="brand"
+                            onclick={startCultureFitSession}
+                            class="slds-m-bottom_small full-width-button">
+                        </lightning-button>
+                    </div>
+                </div>
+
+                <!-- Previous Sessions -->
+                <template if:true={hasPreviousSessions}>
+                    <div class="slds-m-top_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">
+                            Previous Sessions
+                        </div>
+                        <template for:each={previousSessions} for:item="session">
+                            <div key={session.Id} class="session-card slds-box slds-m-bottom_small">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <div>
+                                        <div class="slds-text-body_small slds-text-color_weak">
+                                            {session.formattedDate}
+                                        </div>
+                                        <div class="slds-text-heading_small">
+                                            {session.Session_Type__c}
+                                        </div>
+                                        <div class="slds-text-body_small">
+                                            {session.Questions_Answered__c} questions answered
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <lightning-badge
+                                            label={session.Session_Status__c}
+                                            class={session.statusClass}>
+                                        </lightning-badge>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Active session - show question/answer interface -->
+            <template if:true={hasActiveSession}>
+                <!-- Current Question -->
+                <template if:true={currentQuestion}>
+                    <div class="question-card slds-box slds-theme_shade slds-m-bottom_medium">
+                        <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                            Question {currentQuestion.Question_Number__c} of {totalQuestions}
+                        </div>
+                        <div class="slds-text-heading_medium slds-m-bottom_small">
+                            {currentQuestion.Question_Text__c}
+                        </div>
+                        <lightning-badge label={currentQuestion.Question_Type__c}></lightning-badge>
+                    </div>
+
+                    <!-- Response Input -->
+                    <div class="slds-m-bottom_medium">
+                        <lightning-textarea
+                            label="Your Response"
+                            value={userResponse}
+                            onchange={handleResponseChange}
+                            placeholder="Take your time to craft a thoughtful response..."
+                            rows="6">
+                        </lightning-textarea>
+
+                        <!-- Timer -->
+                        <div class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                            Response time: {responseTime} seconds
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning-button
+                                label="Submit Response"
+                                variant="brand"
+                                onclick={submitResponse}
+                                disabled={isSubmitting}
+                                class="full-width-button">
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button
+                                label="End Session"
+                                variant="destructive"
+                                onclick={endSession}
+                                class="full-width-button">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Loading State -->
+                <template if:true={isLoading}>
+                    <div class="slds-text-align_center slds-p-around_large">
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        <div class="slds-m-top_small">Generating next question...</div>
+                    </div>
+                </template>
+
+                <!-- AI Feedback (after response submission) -->
+                <template if:true={hasFeedback}>
+                    <div class="feedback-card slds-box slds-theme_success slds-m-top_medium">
+                        <div class="slds-text-heading_small slds-m-bottom_small">
+                            AI Feedback
+                        </div>
+                        <div class="slds-grid slds-gutters slds-m-bottom_small">
+                            <div class="slds-col">
+                                <div class="slds-text-body_small slds-text-color_weak">Score</div>
+                                <div class="slds-text-heading_large">{latestResponse.Score__c}/100</div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-text-body_small slds-text-color_weak">Confidence</div>
+                                <div class="slds-text-heading_medium">{latestResponse.Confidence_Level__c}/5</div>
+                            </div>
+                        </div>
+                        <div class="slds-m-bottom_small">
+                            <div class="slds-text-body_small slds-text-color_weak">Strengths</div>
+                            <div class="slds-text-body_regular">{latestResponse.Strengths__c}</div>
+                        </div>
+                        <div class="slds-m-bottom_small">
+                            <div class="slds-text-body_small slds-text-color_weak">Areas for Improvement</div>
+                            <div class="slds-text-body_regular">{latestResponse.Areas_for_Improvement__c}</div>
+                        </div>
+                        <div class="slds-m-top_small">
+                            <lightning-button
+                                label="Next Question"
+                                variant="brand"
+                                onclick={getNextQuestion}
+                                class="full-width-button">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Messages -->
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_medium">
+                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                        <span class="slds-assistive-text">error</span>
+                        <h2>{errorMessage}</h2>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,151 @@
+.summary-bar {
+    background: #f3f3f3;
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    color: #706e6b;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #080707;
+}
+
+.summary-value.savings {
+    color: #2e844a;
+}
+
+.shopping-list-card {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.list-header {
+    background: #032d60;
+    color: white;
+    padding: 1rem;
+}
+
+.store-name {
+    color: white;
+    margin-bottom: 0.25rem;
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+.list-body {
+    padding: 1rem;
+}
+
+.category-section {
+    margin-bottom: 1.5rem;
+}
+
+.category-header {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #080707;
+    text-transform: uppercase;
+    border-bottom: 2px solid #dddbda;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.shopping-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #f3f3f3;
+    transition: background 0.2s;
+}
+
+.shopping-item:hover {
+    background: #fafaf9;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #080707;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.item-quantity {
+    font-size: 0.75rem;
+    color: #706e6b;
+}
+
+.coupon-icon {
+    color: #2e844a;
+}
+
+.item-price {
+    text-align: right;
+    font-weight: 600;
+}
+
+.original-price {
+    font-size: 0.75rem;
+    color: #706e6b;
+    text-decoration: line-through;
+}
+
+.discounted-price {
+    font-size: 1rem;
+    color: #2e844a;
+}
+
+.list-footer {
+    background: #f3f3f3;
+    padding: 1rem;
+    border-top: 1px solid #dddbda;
+}
+
+.savings-text {
+    color: #2e844a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .summary-bar .slds-grid {
+        display: block;
+    }
+
+    .summary-item {
+        margin-bottom: 1rem;
+    }
+
+    .shopping-item {
+        grid-template-columns: auto 1fr;
+        gap: 0.5rem;
+    }
+
+    .item-price {
+        grid-column: 2;
+        text-align: left;
+        margin-top: 0.5rem;
+    }
+}

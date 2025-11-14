@@ -3,7 +3,7 @@
     <fullName>Apply_URL__c</fullName>
     <description>Clickable link to apply for the job (from related Job Posting)</description>
     <externalId>false</externalId>
-    <formula>HYPERLINK(Job_Posting__r.Apply_URL__c, "Apply to Job", "_blank")</formula>
+    <formula>HYPERLINK(Job_Posting__r.Apply_URL__c, &quot;Apply to Job&quot;, &quot;_blank&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Apply URL</label>
     <required>false</required>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Generation_Method__c</fullName>
+    <label>Generation Method</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Manual</fullName>
+                <default>true</default>
+                <label>Manual</label>
+            </value>
+            <value>
+                <fullName>AI Assisted</fullName>
+                <default>false</default>
+                <label>AI Assisted</label>
+            </value>
+            <value>
+                <fullName>Fully Automated</fullName>
+                <default>false</default>
+                <label>Fully Automated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

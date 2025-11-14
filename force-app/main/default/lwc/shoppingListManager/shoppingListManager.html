@@ -1,0 +1,176 @@
+<template>
+    <lightning-card title="Shopping Lists" icon-name="custom:custom108">
+        <div slot="actions">
+            <lightning-button
+                label="Generate Lists"
+                icon-name="utility:add"
+                onclick={handleGenerateLists}
+                disabled={isLoading}
+                class="slds-m-right_x-small"
+            ></lightning-button>
+            <lightning-button
+                label="Match Coupons"
+                icon-name="utility:moneybag"
+                onclick={handleMatchCoupons}
+                disabled={isLoading}
+                class="slds-m-right_x-small"
+            ></lightning-button>
+            <lightning-button
+                label="Refresh"
+                icon-name="utility:refresh"
+                onclick={handleRefresh}
+                disabled={isLoading}
+            ></lightning-button>
+        </div>
+
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Summary Bar -->
+            <template if:true={hasShoppingLists}>
+                <div class="summary-bar slds-box slds-m-bottom_medium">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="summary-item">
+                                <div class="summary-label">Total Items</div>
+                                <div class="summary-value">{totalItemsAcrossLists}</div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="summary-item">
+                                <div class="summary-label">Estimated Cost</div>
+                                <div class="summary-value">${totalCostAcrossLists}</div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="summary-item">
+                                <div class="summary-label">Potential Savings</div>
+                                <div class="summary-value savings">${totalSavingsAcrossLists}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Store Filter -->
+                <div class="slds-m-bottom_medium">
+                    <lightning-combobox
+                        label="Filter by Store"
+                        value={selectedStore}
+                        options={storeOptions}
+                        onchange={handleStoreFilter}
+                    ></lightning-combobox>
+                </div>
+
+                <!-- Shopping Lists by Store -->
+                <template for:each={filteredShoppingLists} for:item="shoppingList">
+                    <div key={shoppingList.id} class="shopping-list-card slds-m-bottom_medium">
+                        <!-- List Header -->
+                        <div class="list-header">
+                            <div class="slds-grid slds-grid_align-spread">
+                                <div class="slds-col">
+                                    <h3 class="slds-text-heading_small store-name">{shoppingList.store}</h3>
+                                    <div class="slds-text-body_small slds-text-color_weak">
+                                        {shoppingList.shoppingDate}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-no-flex">
+                                    <lightning-progress-indicator
+                                        type="base"
+                                        current-step={shoppingList.progressPercent}
+                                    >
+                                    </lightning-progress-indicator>
+                                    <div class="progress-text">
+                                        {shoppingList.purchasedCount} of {shoppingList.totalItems} items
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Items by Category -->
+                        <div class="list-body">
+                            <template for:each={shoppingList.itemsByCategory} for:item="categoryGroup">
+                                <div key={categoryGroup.category} class="category-section">
+                                    <h4 class="category-header">{categoryGroup.category}</h4>
+
+                                    <template for:each={categoryGroup.items} for:item="item">
+                                        <div key={item.id} class="shopping-item">
+                                            <lightning-input
+                                                type="checkbox"
+                                                checked={item.isPurchased}
+                                                data-item-id={item.id}
+                                                onchange={handleItemToggle}
+                                            ></lightning-input>
+
+                                            <div class="item-details">
+                                                <div class="item-name">
+                                                    {item.name}
+                                                    <template if:true={item.hasCoupon}>
+                                                        <lightning-icon
+                                                            icon-name="utility:moneybag"
+                                                            size="x-small"
+                                                            title="Coupon available"
+                                                            class="coupon-icon"
+                                                        ></lightning-icon>
+                                                    </template>
+                                                </div>
+                                                <div class="item-quantity">
+                                                    {item.quantity} {item.unit}
+                                                </div>
+                                            </div>
+
+                                            <div class="item-price">
+                                                <template if:true={item.hasCoupon}>
+                                                    <div class="original-price">${item.estimatedPrice}</div>
+                                                    <div class="discounted-price">
+                                                        ${item.finalPrice}
+                                                    </div>
+                                                </template>
+                                                <template if:false={item.hasCoupon}>
+                                                    ${item.estimatedPrice}
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- List Footer -->
+                        <div class="list-footer">
+                            <div class="slds-grid slds-grid_align-spread">
+                                <div class="slds-col">
+                                    <strong>Total:</strong> ${shoppingList.totalCost}
+                                </div>
+                                <template if:true={shoppingList.totalSavings}>
+                                    <div class="slds-col slds-no-flex">
+                                        <strong class="savings-text">
+                                            Savings: ${shoppingList.totalSavings}
+                                        </strong>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Empty State -->
+            <template if:false={hasShoppingLists}>
+                <div class="slds-text-align_center slds-m-vertical_large">
+                    <lightning-icon
+                        icon-name="custom:custom108"
+                        size="large"
+                        class="slds-m-bottom_small"
+                    ></lightning-icon>
+                    <div class="slds-text-heading_small">No shopping lists yet</div>
+                    <div class="slds-text-body_regular slds-m-top_small">
+                        Click "Generate Lists" to create shopping lists from your meal plan
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

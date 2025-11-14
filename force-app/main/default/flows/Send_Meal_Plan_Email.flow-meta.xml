@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Meal_Plan_Summary_Email</name>
+        <label>Send Meal Plan Summary Email</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>{!$User.Email}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Your Meal Plan is Ready for {!$Record.Week_Start_Date__c}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>Your Meal Plan for {!$Record.Week_Start_Date__c} - {!$Record.Week_End_Date__c}
+
+Hello!
+
+Your meal plan "{!$Record.Plan_Name__c}" is ready with {!$Record.Number_of_People__c} servings per meal.
+
+WEEK AT A GLANCE
+========================================
+
+Shopping Lists Created: Yes
+Total Estimated Cost: ${!$Record.Budget_Target__c}
+Matched Coupons: Check your shopping lists for savings!
+
+NEXT STEPS
+========================================
+
+1. Review your shopping lists by store
+2. Clip any digital coupons before shopping
+3. Check off items as you shop
+4. Track actual costs for budget insights
+
+Happy meal planning!</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <description>Sends weekly meal plan summary email when a new meal plan is created with status Active</description>
+    <interviewLabel>Send Meal Plan Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Meal Plan Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Send_Meal_Plan_Summary_Email</targetReference>
+        </connector>
+        <object>Weekly_Meal_Plan__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

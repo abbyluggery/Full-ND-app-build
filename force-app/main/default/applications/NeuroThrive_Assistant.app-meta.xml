@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>NeuroThrive Assistant - Wellness, Job Search, and Meal Planning</description>
+    <formFactors>Large</formFactors>
+    <label>NeuroThrive Assistant</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+
+    <!-- Job Search -->
+    <tabs>Job_Posting__c</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>Resume_Package__c</tabs>
+
+    <!-- Wellness -->
+    <tabs>Daily_Routine__c</tabs>
+
+    <!-- Meal Planning -->
+    <tabs>Meal__c</tabs>
+    <tabs>Weekly_Meal_Plan__c</tabs>
+    <tabs>Planned_Meal__c</tabs>
+    <tabs>Shopping_List__c</tabs>
+
+    <uiType>Lightning</uiType>
+</CustomApplication>

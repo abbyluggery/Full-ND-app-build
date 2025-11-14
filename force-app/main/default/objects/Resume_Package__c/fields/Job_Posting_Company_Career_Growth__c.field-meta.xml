@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Job_Posting_Company_Career_Growth__c</fullName>
     <description>Company career growth from the linked job posting analysis</description>
-    <externalId>false</externalId>
     <inlineHelpText>Auto-populated from the linked job posting.</inlineHelpText>
     <label>Job Posting Company Career Growth</label>
     <length>32768</length>

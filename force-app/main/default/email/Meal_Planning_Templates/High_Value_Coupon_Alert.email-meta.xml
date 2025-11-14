@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Alert sent when high-value coupons ($3+ or BOGO) match shopping list items</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>High-Value Coupon Alert</name>
+    <style>none</style>
+    <subject>💰 ${!Shopping_List__c.Savings_Amount__c} in Coupons Match Your {!Shopping_List__c.Store_Location__c} List!</subject>
+    <textOnly>true</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

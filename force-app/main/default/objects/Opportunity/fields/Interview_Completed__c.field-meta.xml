@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interview_Completed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checkbox to indicate if the interview has been completed. Auto-set when Event.EndDateTime passes. This field syncs with Job_Posting__c.Interview_Completed__c</description>
+    <externalId>false</externalId>
+    <label>Interview Completed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

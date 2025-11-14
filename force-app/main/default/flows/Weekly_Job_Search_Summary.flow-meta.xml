@@ -100,7 +100,7 @@
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Build_Email_Body</targetReference>
+            <targetReference>Send_Weekly_Summary_Email</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>

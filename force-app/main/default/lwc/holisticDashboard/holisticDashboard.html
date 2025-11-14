@@ -1,0 +1,364 @@
+<template>
+    <lightning-card title="Holistic Life Dashboard" icon-name="custom:custom63">
+        <!-- Refresh Button -->
+        <div slot="actions">
+            <lightning-button
+                label="Refresh"
+                icon-name="utility:refresh"
+                onclick={handleRefresh}
+                disabled={isLoading}
+            ></lightning-button>
+        </div>
+
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-is-relative slds-m-around_large">
+                <lightning-spinner alternative-text="Loading dashboard data..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error Display -->
+        <template if:true={error}>
+            <div class="slds-m-around_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <h2>Error loading dashboard</h2>
+                    <p>{error}</p>
+                </div>
+            </div>
+        </template>
+
+        <!-- Dashboard Content -->
+        <template if:false={isLoading}>
+            <div class="dashboard-container">
+
+                <!-- Job Search Section -->
+                <div class="dashboard-section">
+                    <div class="section-header" onclick={toggleJobSearchSection}>
+                        <lightning-icon icon-name="standard:work_order" size="small"></lightning-icon>
+                        <h3 class="section-title">Job Search Assistant</h3>
+                        <template if:true={showJobSearch}>
+                            <lightning-icon icon-name="utility:chevrondown" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                        <template if:false={showJobSearch}>
+                            <lightning-icon icon-name="utility:chevronright" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                    </div>
+
+                    <template if:true={showJobSearch}>
+                        <div class="section-content">
+                            <template if:true={hasJobSearchData}>
+                                <!-- Job Pipeline Metrics -->
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">{jobSearchStats.totalJobs}</div>
+                                        <div class="metric-label">Total Jobs</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{jobSearchStats.applicationsThisWeek}</div>
+                                        <div class="metric-label">Applied This Week</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{jobSearchStats.jobsInterviewing}</div>
+                                        <div class="metric-label">Interviewing</div>
+                                    </div>
+                                    <div class="metric-card highlight">
+                                        <div class="metric-value">{jobSearchStats.jobsOffers}</div>
+                                        <div class="metric-label">Offers</div>
+                                    </div>
+                                </div>
+
+                                <!-- Job Pipeline Stages -->
+                                <div class="pipeline-container">
+                                    <h4 class="subsection-title">Job Pipeline</h4>
+                                    <template for:each={jobSearchPipeline} for:item="stage">
+                                        <div key={stage.stage} class="pipeline-stage">
+                                            <span class="stage-name">{stage.stage}</span>
+                                            <div class="stage-bar-container">
+                                                <div class="stage-bar" style={stage.barWidth}></div>
+                                            </div>
+                                            <span class="stage-count">{stage.count}</span>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <!-- Upcoming Interviews -->
+                                <template if:true={hasUpcomingInterviews}>
+                                    <div class="subsection">
+                                        <h4 class="subsection-title">Upcoming Interviews</h4>
+                                        <template for:each={upcomingInterviews} for:item="interview">
+                                            <div key={interview.id} class="interview-card">
+                                                <div class="interview-header">
+                                                    <span class="interview-company">{interview.company}</span>
+                                                    <span class="interview-date">{interview.interviewDate}</span>
+                                                </div>
+                                                <div class="interview-details">
+                                                    <span class="interview-position">{interview.position}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- Action Button -->
+                                <div class="action-button-container">
+                                    <lightning-button
+                                        label="View All Jobs"
+                                        variant="brand"
+                                        onclick={navigateToJobSearch}
+                                    ></lightning-button>
+                                </div>
+
+                            </template>
+                            <template if:false={hasJobSearchData}>
+                                <div class="empty-state">
+                                    <p>No active job search data. Start by adding a job posting.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Meal Planning Section -->
+                <div class="dashboard-section">
+                    <div class="section-header" onclick={toggleMealPlanningSection}>
+                        <lightning-icon icon-name="standard:service_appointment" size="small"></lightning-icon>
+                        <h3 class="section-title">Meal Planning</h3>
+                        <template if:true={showMealPlanning}>
+                            <lightning-icon icon-name="utility:chevrondown" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                        <template if:false={showMealPlanning}>
+                            <lightning-icon icon-name="utility:chevronright" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                    </div>
+
+                    <template if:true={showMealPlanning}>
+                        <div class="section-content">
+                            <template if:true={hasMealPlanningData}>
+                                <!-- Meal Plan Metrics -->
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">{mealPlanningStats.totalMeals}</div>
+                                        <div class="metric-label">Total Recipes</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{mealPlanningStats.plannedMealsThisWeek}</div>
+                                        <div class="metric-label">Planned This Week</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{mealPlanningStats.completedMealsThisWeek}</div>
+                                        <div class="metric-label">Completed</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{mealCompletionPercent}%</div>
+                                        <div class="metric-label">Progress</div>
+                                    </div>
+                                </div>
+
+                                <!-- This Week's Meals Preview -->
+                                <div class="subsection">
+                                    <h4 class="subsection-title">This Week's Meals</h4>
+                                    <div class="meals-preview">
+                                        <template for:each={thisWeekMeals} for:item="meal">
+                                            <div key={meal.id} class="meal-card">
+                                                <div class="meal-day">{meal.dayOfWeek}</div>
+                                                <div class="meal-name">{meal.mealName}</div>
+                                                <div class="meal-time">{meal.mealTime}</div>
+                                                <template if:true={meal.isCompleted}>
+                                                    <lightning-icon icon-name="utility:check" size="xx-small" class="completed-icon"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Weekly Progress</span>
+                                        <span>{mealCompletionPercent}%</span>
+                                    </div>
+                                    <lightning-progress-bar value={mealCompletionPercent}></lightning-progress-bar>
+                                </div>
+
+                                <!-- Action Button -->
+                                <div class="action-button-container">
+                                    <lightning-button
+                                        label="View Meal Plan"
+                                        variant="brand"
+                                        onclick={navigateToMealPlanning}
+                                    ></lightning-button>
+                                </div>
+
+                            </template>
+                            <template if:false={hasMealPlanningData}>
+                                <div class="empty-state">
+                                    <p>No active meal plan. Create a weekly meal plan to get started.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Shopping & Coupons Section -->
+                <div class="dashboard-section">
+                    <div class="section-header" onclick={toggleShoppingSection}>
+                        <lightning-icon icon-name="standard:product" size="small"></lightning-icon>
+                        <h3 class="section-title">Shopping & Coupons</h3>
+                        <template if:true={showShopping}>
+                            <lightning-icon icon-name="utility:chevrondown" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                        <template if:false={showShopping}>
+                            <lightning-icon icon-name="utility:chevronright" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                    </div>
+
+                    <template if:true={showShopping}>
+                        <div class="section-content">
+                            <template if:true={hasShoppingData}>
+                                <!-- Shopping Metrics -->
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">{shoppingStats.listsReady}</div>
+                                        <div class="metric-label">Lists Ready</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{couponCount}</div>
+                                        <div class="metric-label">Active Coupons</div>
+                                    </div>
+                                    <div class="metric-card highlight">
+                                        <div class="metric-value savings">${estimatedSavings}</div>
+                                        <div class="metric-label">Est. Savings</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{shoppingStats.itemsOnLists}</div>
+                                        <div class="metric-label">Total Items</div>
+                                    </div>
+                                </div>
+
+                                <!-- High Value Coupons Alert -->
+                                <template if:true={shoppingStats.hasHighValueCoupons}>
+                                    <div class="alert-box savings-alert">
+                                        <lightning-icon icon-name="utility:moneybag" size="small"></lightning-icon>
+                                        <div class="alert-content">
+                                            <strong>High-Value Coupons Available!</strong>
+                                            <p>You have {shoppingStats.highValueCouponCount} coupons worth ${shoppingStats.highValueSavings} or more.</p>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Action Button -->
+                                <div class="action-button-container">
+                                    <lightning-button
+                                        label="View Shopping Lists"
+                                        variant="brand"
+                                        onclick={navigateToShopping}
+                                    ></lightning-button>
+                                </div>
+
+                            </template>
+                            <template if:false={hasShoppingData}>
+                                <div class="empty-state">
+                                    <p>No shopping lists ready. Activate a meal plan to generate shopping lists.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Wellness Section -->
+                <div class="dashboard-section">
+                    <div class="section-header" onclick={toggleWellnessSection}>
+                        <lightning-icon icon-name="standard:work_capacity_usage" size="small"></lightning-icon>
+                        <h3 class="section-title">Wellness & Routine</h3>
+                        <template if:true={showWellness}>
+                            <lightning-icon icon-name="utility:chevrondown" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                        <template if:false={showWellness}>
+                            <lightning-icon icon-name="utility:chevronright" size="x-small" class="toggle-icon"></lightning-icon>
+                        </template>
+                    </div>
+
+                    <template if:true={showWellness}>
+                        <div class="section-content">
+                            <template if:true={hasWellnessData}>
+                                <!-- Today's Wellness -->
+                                <div class="wellness-today">
+                                    <div class="wellness-mood">
+                                        <div class="mood-emoji">{moodEmoji}</div>
+                                        <div class="mood-label">{wellnessStats.todayMood}</div>
+                                    </div>
+
+                                    <div class="wellness-metrics">
+                                        <div class="wellness-metric">
+                                            <span class="wellness-label">Energy Level</span>
+                                            <div class="energy-bar-container">
+                                                <div class="energy-bar" style={energyBarWidth}></div>
+                                            </div>
+                                            <span class="wellness-value">{energyLevel}/10</span>
+                                        </div>
+
+                                        <div class="wellness-metric">
+                                            <span class="wellness-label">Stress Level</span>
+                                            <lightning-progress-bar
+                                                value={wellnessStats.todayStress}
+                                                variant={stressVariant}
+                                            ></lightning-progress-bar>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Routine Completion -->
+                                <div class="routine-status">
+                                    <template if:true={routineComplete}>
+                                        <div class="routine-complete">
+                                            <lightning-icon icon-name="utility:success" size="small"></lightning-icon>
+                                            <span>Morning routine complete</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={routineComplete}>
+                                        <div class="routine-incomplete">
+                                            <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                                            <span>Morning routine not logged yet</span>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <!-- Weekly Summary -->
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">{wellnessStats.routinesThisWeek}</div>
+                                        <div class="metric-label">Days Logged</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{wellnessStats.exerciseDaysThisWeek}</div>
+                                        <div class="metric-label">Exercise Days</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">{wellnessStats.avgMoodScore}</div>
+                                        <div class="metric-label">Avg Mood</div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Button -->
+                                <div class="action-button-container">
+                                    <lightning-button
+                                        label="View Wellness Log"
+                                        variant="brand"
+                                        onclick={navigateToWellness}
+                                    ></lightning-button>
+                                </div>
+
+                            </template>
+                            <template if:false={hasWellnessData}>
+                                <div class="empty-state">
+                                    <p>No wellness data for today. Log your daily routine to get started.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+        </template>
+    </lightning-card>
+</template>

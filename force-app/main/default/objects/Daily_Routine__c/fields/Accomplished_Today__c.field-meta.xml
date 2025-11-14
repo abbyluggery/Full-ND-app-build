@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Accomplished_Today__c</fullName>
     <description>What did you accomplish today? Celebrate your wins!</description>
-    <externalId>false</externalId>
     <inlineHelpText>List anything you accomplished today - big or small. Progress is progress!</inlineHelpText>
     <label>Accomplished Today</label>
     <length>32768</length>

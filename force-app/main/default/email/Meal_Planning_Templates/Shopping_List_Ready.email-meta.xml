@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification sent when a shopping list is generated and ready to use</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Shopping List Ready</name>
+    <style>none</style>
+    <subject>Your {!Shopping_List__c.Store_Location__c} Shopping List is Ready - ${!Shopping_List__c.Estimated_Cost__c}</subject>
+    <textOnly>true</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

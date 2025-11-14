@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Submitted_Date__c</fullName>
+    <description>Date and time when the application email was sent to the company</description>
+    <externalId>false</externalId>
+    <label>Application Submitted</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

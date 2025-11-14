@@ -25,6 +25,8 @@ public with sharing class JobPostingAnalyzer {
         public String redFlags;
         public String recommendation;
         public String reasoning;
+        public Boolean hasNdProgram;
+        public Boolean flexibleSchedule;
         public String fullResponse; // Complete JSON from Claude
 
         // Constructor for easy initialization
@@ -35,6 +37,8 @@ public with sharing class JobPostingAnalyzer {
             this.redFlags = '';
             this.recommendation = '';
             this.reasoning = '';
+            this.hasNdProgram = false;
+            this.flexibleSchedule = false;
             this.fullResponse = '';
         }
     }
@@ -163,9 +167,14 @@ public with sharing class JobPostingAnalyzer {
         context += '  "green_flags": "<bulleted list>",\n';
         context += '  "red_flags": "<bulleted list>",\n';
         context += '  "recommendation": "<HIGH PRIORITY|GOOD FIT|CONSIDER|SKIP>",\n';
-        context += '  "reasoning": "<detailed explanation>"\n';
+        context += '  "reasoning": "<detailed explanation>",\n';
+        context += '  "has_nd_program": <boolean true/false>,\n';
+        context += '  "flexible_schedule": <boolean true/false>\n';
         context += '}\n';
         context += '```\n\n';
+        context += '**Field Definitions:**\n';
+        context += '- `has_nd_program`: TRUE if job posting explicitly mentions neurodiversity programs, disability accommodations, autism hiring initiatives, or similar inclusive programs\n';
+        context += '- `flexible_schedule`: TRUE if job posting mentions flexible hours, flexible schedule, work-life balance, async work, or understanding of varied schedules\n\n';
 
         context += 'Be honest, evidence-based, and remember: Abby\'s well-being matters more than any job. ';
         context += 'It\'s better to pass on a "good" opportunity that lacks ND support than burn out in 3 months.';
@@ -256,6 +265,26 @@ public with sharing class JobPostingAnalyzer {
                 result.reasoning = String.valueOf(jsonMap.get('reasoning'));
             }
 
+            if (jsonMap.containsKey('has_nd_program')) {
+                Object hasNdProgramObj = jsonMap.get('has_nd_program');
+                if (hasNdProgramObj instanceof Boolean) {
+                    result.hasNdProgram = (Boolean) hasNdProgramObj;
+                } else if (hasNdProgramObj instanceof String) {
+                    // Handle "true"/"false" strings
+                    result.hasNdProgram = Boolean.valueOf((String) hasNdProgramObj);
+                }
+            }
+
+            if (jsonMap.containsKey('flexible_schedule')) {
+                Object flexibleScheduleObj = jsonMap.get('flexible_schedule');
+                if (flexibleScheduleObj instanceof Boolean) {
+                    result.flexibleSchedule = (Boolean) flexibleScheduleObj;
+                } else if (flexibleScheduleObj instanceof String) {
+                    // Handle "true"/"false" strings
+                    result.flexibleSchedule = Boolean.valueOf((String) flexibleScheduleObj);
+                }
+            }
+
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'JSON Parse Error: ' + e.getMessage());
             // Don't throw - return partial result with what we could parse
@@ -319,6 +348,8 @@ public with sharing class JobPostingAnalyzer {
             jobPosting.ND_Friendliness_Score__c = analysisResult.ndFriendlinessScore;
             jobPosting.Green_Flags__c = analysisResult.greenFlags;
             jobPosting.Red_Flags__c = analysisResult.redFlags;
+            jobPosting.Has_ND_Program__c = analysisResult.hasNdProgram;
+            jobPosting.Flexible_Schedule__c = analysisResult.flexibleSchedule;
             jobPosting.Research_JSON__c = analysisResult.fullResponse;
             jobPosting.Research_Date__c = DateTime.now();
 

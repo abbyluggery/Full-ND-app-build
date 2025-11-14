@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Mood__c</fullName>
     <description>Overall mood for the day</description>
-    <externalId>false</externalId>
     <inlineHelpText>How are you feeling overall today?</inlineHelpText>
     <label>Mood</label>
     <required>false</required>
