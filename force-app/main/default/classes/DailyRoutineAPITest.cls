@@ -206,9 +206,8 @@ private class DailyRoutineAPITest {
 
         // Verify mood entry created
         List<Mood_Entry__c> entries = [
-            SELECT Id, Mood_Score__c, Notes__c FROM Mood_Entry__c
-            WHERE Mood_Score__c = 9
-            LIMIT 1
+            SELECT Id, Mood_Score__c FROM Mood_Entry__c
+            WHERE Notes__c = 'Great afternoon'
         ];
         System.assertEquals(1, entries.size(), 'Mood entry should be created');
         System.assertEquals(9, entries[0].Mood_Score__c, 'Mood score should be set');
@@ -331,8 +330,7 @@ private class DailyRoutineAPITest {
         List<Mood_Entry__c> entries = [
             SELECT Id, Mood_Score__c, Notes__c
             FROM Mood_Entry__c
-            WHERE Mood_Score__c = 6
-            LIMIT 1
+            WHERE Notes__c LIKE '%Heavy traffic%'
         ];
         System.assertEquals(1, entries.size(), 'Entry should be created');
         System.assertEquals(6, entries[0].Mood_Score__c, 'Mood score should be set');

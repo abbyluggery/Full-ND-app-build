@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Snack</label>
             </value>
+            <value>
+                <fullName>Side Dish</fullName>
+                <default>false</default>
+                <label>Side Dish</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

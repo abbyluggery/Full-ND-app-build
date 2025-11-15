@@ -119,10 +119,14 @@ public with sharing class WinParserService {
             SELECT Id, Journal_Entry__c
             FROM Daily_Routine__c
             WHERE Id IN :dailyRoutineIds
-            AND Journal_Entry__c != null
         ];
 
         for (Daily_Routine__c routine : routines) {
+            // Skip if journal entry is blank (LongTextArea can't be filtered in SOQL WHERE)
+            if (String.isBlank(routine.Journal_Entry__c)) {
+                continue;
+            }
+
             try {
                 List<WinData> wins = extractWins(routine.Journal_Entry__c);
                 if (!wins.isEmpty()) {
