@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activities_Completed__c</fullName>
+    <label>Activities Completed</label>
+    <description>Evening activities completed</description>
+    <type>MultiselectPicklist</type>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <visibleLines>5</visibleLines>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Dinner</fullName>
+                <default>false</default>
+                <label>Dinner</label>
+            </value>
+            <value>
+                <fullName>Dishes</fullName>
+                <default>false</default>
+                <label>Dishes</label>
+            </value>
+            <value>
+                <fullName>Shower</fullName>
+                <default>false</default>
+                <label>Shower</label>
+            </value>
+            <value>
+                <fullName>Skincare</fullName>
+                <default>false</default>
+                <label>Skincare</label>
+            </value>
+            <value>
+                <fullName>Teeth</fullName>
+                <default>false</default>
+                <label>Teeth</label>
+            </value>
+            <value>
+                <fullName>Medications</fullName>
+                <default>false</default>
+                <label>Medications</label>
+            </value>
+            <value>
+                <fullName>Prep Tomorrow</fullName>
+                <default>false</default>
+                <label>Prep Tomorrow</label>
+            </value>
+            <value>
+                <fullName>Read</fullName>
+                <default>false</default>
+                <label>Read</label>
+            </value>
+            <value>
+                <fullName>Journal</fullName>
+                <default>false</default>
+                <label>Journal</label>
+            </value>
+            <value>
+                <fullName>Meditate</fullName>
+                <default>false</default>
+                <label>Meditate</label>
+            </value>
+            <value>
+                <fullName>Stretch</fullName>
+                <default>false</default>
+                <label>Stretch</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

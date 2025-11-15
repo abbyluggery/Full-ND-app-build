@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_Time_After_Start</fullName>
+    <active>true</active>
+    <description>Ensures routine end time is after start time</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Routine_End_Time__c)),
+    Routine_End_Time__c &lt;= Routine_Start_Time__c
+)</errorConditionFormula>
+    <errorDisplayField>Routine_End_Time__c</errorDisplayField>
+    <errorMessage>Routine End Time must be after Routine Start Time.</errorMessage>
+</ValidationRule>

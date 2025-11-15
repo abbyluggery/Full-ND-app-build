@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sleep_Quality_Range</fullName>
+    <active>true</active>
+    <description>Ensures sleep quality is between 1 and 10</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Sleep_Quality__c)),
+    OR(Sleep_Quality__c &lt; 1, Sleep_Quality__c &gt; 10)
+)</errorConditionFormula>
+    <errorDisplayField>Sleep_Quality__c</errorDisplayField>
+    <errorMessage>Sleep Quality must be between 1 and 10.</errorMessage>
+</ValidationRule>

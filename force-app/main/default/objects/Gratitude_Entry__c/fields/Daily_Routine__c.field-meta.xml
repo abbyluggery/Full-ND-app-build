@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Daily_Routine__c</fullName>
+    <label>Daily Routine</label>
+    <description>Lookup to parent Daily_Routine__c record</description>
+    <type>Lookup</type>
+    <referenceTo>Daily_Routine__c</referenceTo>
+    <relationshipLabel>Gratitude Entries</relationshipLabel>
+    <relationshipName>Gratitude_Entries</relationshipName>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <trackTrending>false</trackTrending>
+</CustomField>

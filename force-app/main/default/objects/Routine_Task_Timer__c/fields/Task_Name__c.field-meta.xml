@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_Name__c</fullName>
+    <label>Task Name</label>
+    <description>Name of the routine task</description>
+    <type>Picklist</type>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wake Up</fullName>
+                <default>false</default>
+                <label>Wake Up</label>
+            </value>
+            <value>
+                <fullName>Shower</fullName>
+                <default>false</default>
+                <label>Shower</label>
+            </value>
+            <value>
+                <fullName>Breakfast</fullName>
+                <default>false</default>
+                <label>Breakfast</label>
+            </value>
+            <value>
+                <fullName>Meds</fullName>
+                <default>false</default>
+                <label>Meds</label>
+            </value>
+            <value>
+                <fullName>Exercise</fullName>
+                <default>false</default>
+                <label>Exercise</label>
+            </value>
+            <value>
+                <fullName>Meditation</fullName>
+                <default>false</default>
+                <label>Meditation</label>
+            </value>
+            <value>
+                <fullName>Journaling</fullName>
+                <default>false</default>
+                <label>Journaling</label>
+            </value>
+            <value>
+                <fullName>Planning</fullName>
+                <default>false</default>
+                <label>Planning</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

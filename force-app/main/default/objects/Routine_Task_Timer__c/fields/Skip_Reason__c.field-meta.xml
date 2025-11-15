@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Skip_Reason__c</fullName>
+    <label>Skip Reason</label>
+    <description>Reason for skipping this task</description>
+    <type>Text</type>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+</CustomField>

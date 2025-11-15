@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Processed_By_AI__c</fullName>
+    <label>Processed By AI</label>
+    <description>Whether this analysis was processed by AI</description>
+    <type>Checkbox</type>
+    <defaultValue>true</defaultValue>
+    <trackTrending>false</trackTrending>
+</CustomField>

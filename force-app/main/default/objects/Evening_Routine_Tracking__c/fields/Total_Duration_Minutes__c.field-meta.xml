@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Duration_Minutes__c</fullName>
+    <label>Total Duration (Minutes)</label>
+    <description>Total duration of evening routine</description>
+    <type>Number</type>
+    <formula>IF(
+    NOT(ISBLANK(Routine_End_Time__c)),
+    (Routine_End_Time__c - Routine_Start_Time__c) * 24 * 60,
+    NULL
+)</formula>
+    <precision>10</precision>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+</CustomField>

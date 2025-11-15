@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Stores individual win entries from daily journaling for PWA sync</description>
-    <label>Win Entry</label>
-    <pluralLabel>Win Entries</pluralLabel>
+    <description>Stores daily gratitude entries with timestamp and categorization support</description>
+    <label>Gratitude Entry</label>
+    <pluralLabel>Gratitude Entries</pluralLabel>
     <nameField>
-        <displayFormat>WIN-{0000}</displayFormat>
-        <label>Win Entry Number</label>
+        <displayFormat>GR-{0000}</displayFormat>
+        <label>Gratitude Entry Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <enableReports>true</enableReports>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>

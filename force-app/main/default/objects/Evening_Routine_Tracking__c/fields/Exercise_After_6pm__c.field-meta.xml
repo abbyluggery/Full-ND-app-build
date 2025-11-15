@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exercise_After_6pm__c</fullName>
+    <label>Exercise After 6pm</label>
+    <description>Whether exercise occurred after 6pm</description>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+    <trackTrending>false</trackTrending>
+</CustomField>

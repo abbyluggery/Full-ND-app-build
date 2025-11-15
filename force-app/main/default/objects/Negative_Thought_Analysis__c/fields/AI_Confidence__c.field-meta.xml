@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AI_Confidence__c</fullName>
+    <label>AI Confidence</label>
+    <description>AI confidence level in the analysis (0-100%)</description>
+    <type>Percent</type>
+    <precision>3</precision>
+    <scale>0</scale>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+</CustomField>

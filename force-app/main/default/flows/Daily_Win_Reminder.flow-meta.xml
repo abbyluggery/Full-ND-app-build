@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Scheduled flow that runs every evening at 7 PM to remind users to log their daily wins</description>
+    <label>Daily Win Reminder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Todays_Routine</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-11-15</startDate>
+            <startTime>19:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <recordLookups>
+        <name>Get_Todays_Routine</name>
+        <label>Get Today&apos;s Routine</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Todays_Wins</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Date__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Daily_Routine__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Todays_Wins</name>
+        <label>Get Today&apos;s Win Entries</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Recent_Wins</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CreatedDate</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Win_Entry__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Recent_Wins</name>
+        <label>Get Recent Wins (Past 7 Days)</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_If_Has_Wins_Today</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CreatedDate</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>LastWeekDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Win_Entry__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Win_Text__c</queriedFields>
+        <queriedFields>Category__c</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <decisions>
+        <name>Check_If_Has_Wins_Today</name>
+        <label>Check If Has Wins Today</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Send_Win_Reminder_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Wins Today</defaultConnectorLabel>
+        <rules>
+            <name>Has_Wins_Today</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Todays_Wins</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Encouragement_With_Wins</targetReference>
+            </connector>
+            <label>Has Wins Today</label>
+        </rules>
+    </decisions>
+    <actionCalls>
+        <name>Send_Win_Reminder_Email</name>
+        <label>Send Win Reminder Email</label>
+        <locationX>264</locationX>
+        <locationY>566</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🎯 Don&apos;t Forget to Log Your Wins Today!</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Build_Reminder_Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Encouragement_With_Wins</name>
+        <label>Send Encouragement With Wins</label>
+        <locationX>88</locationX>
+        <locationY>566</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🌟 Great Job Tracking Your Wins!</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Build_Celebration_Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <formulas>
+        <name>LastWeekDate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() - 7</expression>
+    </formulas>
+    <formulas>
+        <name>TodaysWinCount</name>
+        <dataType>Number</dataType>
+        <expression>IF(ISBLANK({!Get_Todays_Wins}), 0, 1)</expression>
+        <scale>0</scale>
+    </formulas>
+    <textTemplates>
+        <name>Build_Reminder_Email</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;🎯 Daily Win Check-In&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Hi there!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;It&apos;s {!$Flow.CurrentDate} evening, and we wanted to check in - have you celebrated any wins today?&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;💡 REMEMBER:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Wins don&apos;t have to be big! They can be:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Got out of bed when it was hard&lt;/li&gt;
+&lt;li&gt;Had a difficult conversation&lt;/li&gt;
+&lt;li&gt;Completed a task you&apos;d been avoiding&lt;/li&gt;
+&lt;li&gt;Practiced self-care&lt;/li&gt;
+&lt;li&gt;Helped someone&lt;/li&gt;
+&lt;li&gt;Learned something new&lt;/li&gt;
+&lt;li&gt;Made progress on a goal&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;🌟 WHY TRACK WINS?&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Research shows that acknowledging your accomplishments helps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Combat imposter syndrome&lt;/li&gt;
+&lt;li&gt;Build confidence and self-esteem&lt;/li&gt;
+&lt;li&gt;Create positive momentum&lt;/li&gt;
+&lt;li&gt;Reframe negative self-talk&lt;/li&gt;
+&lt;li&gt;Track your growth over time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;📝 TAKE 1 MINUTE:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Log at least one win from today in your &lt;a href=&quot;[ORG_URL]/lightning/n/Wellness_Dashboard&quot;&gt;Wellness Dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;You&apos;ve got this! Every step forward counts.&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;---&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Sent by your NeuroThrive Wellness Platform&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Build_Celebration_Email</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;🌟 Way to Go! You&apos;re Tracking Your Wins!&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Celebrating your accomplishments today!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;✅ TODAY&apos;S PROGRESS:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;You&apos;ve logged wins today - that&apos;s excellent self-awareness!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;📊 YOUR RECENT WINS:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;In the past week, you&apos;ve celebrated {!Get_Recent_Wins} wins!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;💪 KEEP IT UP:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You&apos;re building a positive habit&lt;/li&gt;
+&lt;li&gt;Tracking wins helps combat imposter syndrome&lt;/li&gt;
+&lt;li&gt;Each win is evidence of your capabilities&lt;/li&gt;
+&lt;li&gt;You&apos;re creating a record to look back on during tough times&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;🎯 REFLECTION PROMPT:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;What pattern do you notice in your wins this week? What does it tell you about your strengths?&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;View all your wins in your &lt;a href=&quot;[ORG_URL]/lightning/n/Wellness_Dashboard&quot;&gt;Wellness Dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Keep celebrating yourself - you deserve it!&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;---&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Sent by your NeuroThrive Wellness Platform&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

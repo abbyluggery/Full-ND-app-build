@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Severity_Score_Range</fullName>
+    <active>true</active>
+    <description>Ensures severity score is between 1 and 10</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Severity_Score__c)),
+    OR(Severity_Score__c &lt; 1, Severity_Score__c &gt; 10)
+)</errorConditionFormula>
+    <errorDisplayField>Severity_Score__c</errorDisplayField>
+    <errorMessage>Severity Score must be between 1 and 10.</errorMessage>
+</ValidationRule>

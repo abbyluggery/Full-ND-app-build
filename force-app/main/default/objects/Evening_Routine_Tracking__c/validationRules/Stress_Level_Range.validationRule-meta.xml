@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stress_Level_Range</fullName>
+    <active>true</active>
+    <description>Ensures stress level is between 1 and 10</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Stress_Level__c)),
+    OR(Stress_Level__c &lt; 1, Stress_Level__c &gt; 10)
+)</errorConditionFormula>
+    <errorDisplayField>Stress_Level__c</errorDisplayField>
+    <errorMessage>Stress Level must be between 1 and 10.</errorMessage>
+</ValidationRule>

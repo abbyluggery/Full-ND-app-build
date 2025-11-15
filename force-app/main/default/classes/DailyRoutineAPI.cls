@@ -72,6 +72,46 @@ global with sharing class DailyRoutineAPI {
     }
 
     /**
+     * @description Gratitude entry data structure
+     */
+    global class GratitudeData {
+        public String id;
+        public String gratitudeText;
+        public String category; // Personal, Family, Health, Work, Achievement, Other
+        public Integer intensity; // 1-10
+        public String dateRecorded; // ISO date format
+        public Id dailyRoutineId;
+    }
+
+    /**
+     * @description Mood data structure for standalone mood creation
+     */
+    global class MoodData {
+        public Integer mood;
+        public String trigger;
+        public String notes;
+        public DateTime timestamp;
+        public Id dailyRoutineId;
+    }
+
+    /**
+     * @description Therapy protocol data structure
+     */
+    global class TherapyProtocol {
+        public String therapyType; // CBT, DBT, ACT, Mindfulness, Grounding
+        public List<TherapyProtocolStep> steps;
+    }
+
+    /**
+     * @description Therapy protocol step
+     */
+    global class TherapyProtocolStep {
+        public Integer stepNumber;
+        public String stepName;
+        public String instructions;
+    }
+
+    /**
      * @description GET endpoint - Fetch daily routine for specific date
      * @example GET /services/apexrest/routine/daily/2025-11-13
      */
@@ -324,6 +364,162 @@ global with sharing class DailyRoutineAPI {
 
         if (!entriesToUpsert.isEmpty()) {
             upsert entriesToUpsert;
+        }
+    }
+
+    /**
+     * @description POST endpoint - Create gratitude entry
+     * @param gratitudeData Gratitude entry data
+     * @return APIResponse with created entry ID
+     */
+    public static APIResponse createGratitudeEntry(GratitudeData gratitudeData) {
+        try {
+            // Validate input
+            if (gratitudeData == null || String.isBlank(gratitudeData.gratitudeText)) {
+                return new APIResponse(false, 'gratitudeText is required');
+            }
+
+            // Get or create daily routine
+            Id routineId = gratitudeData.dailyRoutineId;
+            if (routineId == null && String.isNotBlank(gratitudeData.dateRecorded)) {
+                Date recordDate = Date.valueOf(gratitudeData.dateRecorded);
+                List<Daily_Routine__c> routines = [
+                    SELECT Id FROM Daily_Routine__c
+                    WHERE Date__c = :recordDate
+                    LIMIT 1
+                ];
+
+                if (routines.isEmpty()) {
+                    Daily_Routine__c routine = new Daily_Routine__c(Date__c = recordDate);
+                    insert routine;
+                    routineId = routine.Id;
+                } else {
+                    routineId = routines[0].Id;
+                }
+            }
+
+            // Create gratitude entry
+            Gratitude_Entry__c entry = new Gratitude_Entry__c();
+            entry.Gratitude_Text__c = gratitudeData.gratitudeText;
+            entry.Category__c = gratitudeData.category;
+            entry.Intensity__c = gratitudeData.intensity;
+            entry.Date_Recorded__c = String.isNotBlank(gratitudeData.dateRecorded) ?
+                Date.valueOf(gratitudeData.dateRecorded) : Date.today();
+            if (routineId != null) {
+                entry.Daily_Routine__c = routineId;
+            }
+
+            insert entry;
+
+            GratitudeData responseData = new GratitudeData();
+            responseData.id = entry.Id;
+            responseData.dateRecorded = String.valueOf(entry.Date_Recorded__c);
+
+            return new APIResponse(true, 'Gratitude entry created successfully', responseData);
+
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'DailyRoutineAPI.createGratitudeEntry error: ' + e.getMessage());
+            return new APIResponse(false, 'Error creating gratitude entry: ' + e.getMessage());
+        }
+    }
+
+    /**
+     * @description POST endpoint - Create mood entry
+     * @param moodData Mood entry data
+     * @return APIResponse with created entry ID
+     */
+    public static APIResponse createMoodEntry(MoodData moodData) {
+        try {
+            // Validate input
+            if (moodData == null || moodData.mood == null) {
+                return new APIResponse(false, 'mood score is required');
+            }
+
+            // Get or create daily routine
+            Id routineId = moodData.dailyRoutineId;
+            if (routineId == null) {
+                Date today = Date.today();
+                List<Daily_Routine__c> routines = [
+                    SELECT Id FROM Daily_Routine__c
+                    WHERE Date__c = :today
+                    LIMIT 1
+                ];
+
+                if (routines.isEmpty()) {
+                    Daily_Routine__c routine = new Daily_Routine__c(Date__c = today);
+                    insert routine;
+                    routineId = routine.Id;
+                } else {
+                    routineId = routines[0].Id;
+                }
+            }
+
+            // Create mood entry
+            Mood_Entry__c entry = new Mood_Entry__c();
+            entry.Daily_Routine__c = routineId;
+            entry.Mood_Score__c = moodData.mood;
+            entry.Notes__c = moodData.notes;
+            entry.Timestamp__c = moodData.timestamp != null ? moodData.timestamp : System.now();
+
+            // Store trigger in notes if provided
+            if (String.isNotBlank(moodData.trigger)) {
+                String noteText = 'Trigger: ' + moodData.trigger;
+                if (String.isNotBlank(moodData.notes)) {
+                    noteText += '\n' + moodData.notes;
+                }
+                entry.Notes__c = noteText;
+            }
+
+            insert entry;
+
+            Map<String, Object> responseData = new Map<String, Object>();
+            responseData.put('id', entry.Id);
+            responseData.put('dailyRoutineId', routineId);
+
+            return new APIResponse(true, 'Mood entry created successfully', responseData);
+
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'DailyRoutineAPI.createMoodEntry error: ' + e.getMessage());
+            return new APIResponse(false, 'Error creating mood entry: ' + e.getMessage());
+        }
+    }
+
+    /**
+     * @description GET endpoint - Fetch available therapy protocols
+     * @return APIResponse with therapy protocol list
+     */
+    public static APIResponse getTherapyProtocols() {
+        try {
+            List<TherapyProtocol> protocols = new List<TherapyProtocol>();
+
+            // Get all therapy types
+            List<String> therapyTypes = new List<String>{'CBT', 'DBT', 'ACT', 'Grounding', 'Mindfulness'};
+
+            for (String therapyType : therapyTypes) {
+                TherapyProtocol protocol = new TherapyProtocol();
+                protocol.therapyType = therapyType;
+                protocol.steps = new List<TherapyProtocolStep>();
+
+                // Get steps from TherapySessionManager
+                List<TherapySessionManager.TherapyStep> managerSteps =
+                    TherapySessionManager.getProtocolSteps(therapyType);
+
+                for (TherapySessionManager.TherapyStep step : managerSteps) {
+                    TherapyProtocolStep protocolStep = new TherapyProtocolStep();
+                    protocolStep.stepNumber = step.stepNumber;
+                    protocolStep.stepName = step.stepName;
+                    protocolStep.instructions = step.instructions;
+                    protocol.steps.add(protocolStep);
+                }
+
+                protocols.add(protocol);
+            }
+
+            return new APIResponse(true, 'Therapy protocols fetched successfully', protocols);
+
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'DailyRoutineAPI.getTherapyProtocols error: ' + e.getMessage());
+            return new APIResponse(false, 'Error fetching therapy protocols: ' + e.getMessage());
         }
     }
 }

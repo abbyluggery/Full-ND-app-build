@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duration_Minutes__c</fullName>
+    <label>Duration (Minutes)</label>
+    <description>Calculated duration from start to end time</description>
+    <type>Number</type>
+    <formula>IF(
+    NOT(ISBLANK(End_Time__c)),
+    (End_Time__c - Start_Time__c) * 24 * 60,
+    NULL
+)</formula>
+    <precision>10</precision>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+</CustomField>

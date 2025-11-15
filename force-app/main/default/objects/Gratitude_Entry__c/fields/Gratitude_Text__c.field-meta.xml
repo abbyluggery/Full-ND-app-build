@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gratitude_Text__c</fullName>
+    <label>Gratitude Text</label>
+    <description>The gratitude entry text</description>
+    <type>LongTextArea</type>
+    <length>1000</length>
+    <visibleLines>4</visibleLines>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+</CustomField>

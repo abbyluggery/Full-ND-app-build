@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AI_Confidence_Range</fullName>
+    <active>true</active>
+    <description>Ensures AI confidence is between 0 and 100 (as decimal 0-1)</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(AI_Confidence__c)),
+    OR(AI_Confidence__c &lt; 0, AI_Confidence__c &gt; 1)
+)</errorConditionFormula>
+    <errorDisplayField>AI_Confidence__c</errorDisplayField>
+    <errorMessage>AI Confidence must be between 0% and 100%.</errorMessage>
+</ValidationRule>

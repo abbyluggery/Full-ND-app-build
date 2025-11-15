@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intensity_Range</fullName>
+    <active>true</active>
+    <description>Ensures intensity is between 1 and 10</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Intensity__c)),
+    OR(Intensity__c &lt; 1, Intensity__c &gt; 10)
+)</errorConditionFormula>
+    <errorDisplayField>Intensity__c</errorDisplayField>
+    <errorMessage>Intensity must be between 1 and 10.</errorMessage>
+</ValidationRule>

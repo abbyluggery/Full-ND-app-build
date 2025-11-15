@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Energy_Score__c</fullName>
-    <label>Energy Score</label>
-    <description>Energy rating from 1-10</description>
+    <fullName>Sleep_Quality__c</fullName>
+    <label>Sleep Quality</label>
+    <description>Sleep quality rating (1-10) - filled next morning</description>
     <type>Number</type>
     <precision>2</precision>
     <scale>0</scale>
-    <required>true</required>
-    <trackHistory>true</trackHistory>
+    <required>false</required>
     <trackTrending>false</trackTrending>
 </CustomField>

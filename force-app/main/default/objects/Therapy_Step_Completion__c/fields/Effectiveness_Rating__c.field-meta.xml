@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Energy_Score__c</fullName>
-    <label>Energy Score</label>
-    <description>Energy rating from 1-10</description>
+    <fullName>Effectiveness_Rating__c</fullName>
+    <label>Effectiveness Rating</label>
+    <description>How effective was this step (1-10)</description>
     <type>Number</type>
     <precision>2</precision>
     <scale>0</scale>
-    <required>true</required>
-    <trackHistory>true</trackHistory>
+    <required>false</required>
     <trackTrending>false</trackTrending>
 </CustomField>

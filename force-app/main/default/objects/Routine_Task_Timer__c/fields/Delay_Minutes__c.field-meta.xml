@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delay_Minutes__c</fullName>
+    <label>Delay (Minutes)</label>
+    <description>Difference between actual and expected duration</description>
+    <type>Number</type>
+    <formula>IF(
+    AND(NOT(ISBLANK(Duration_Minutes__c)), NOT(ISBLANK(Expected_Duration_Minutes__c))),
+    Duration_Minutes__c - Expected_Duration_Minutes__c,
+    NULL
+)</formula>
+    <precision>10</precision>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+</CustomField>

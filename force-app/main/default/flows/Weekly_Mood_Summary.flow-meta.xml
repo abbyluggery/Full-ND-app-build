@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Scheduled flow that runs every Sunday at 8 PM to send weekly mood summary and insights</description>
+    <label>Weekly Mood Summary</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Weekly_Mood_Summary</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Weekly</frequency>
+            <startDate>2025-11-17</startDate>
+            <startTime>20:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <actionCalls>
+        <name>Get_Weekly_Mood_Summary</name>
+        <label>Get Weekly Mood Summary</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <actionName>MoodInsightsInvocable</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Check_If_Has_Mood_Data</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>MoodInsightsInvocable</nameSegment>
+        <outputParameters>
+            <assignToReference>MoodSummary</assignToReference>
+            <name>output</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <decisions>
+        <name>Check_If_Has_Mood_Data</name>
+        <label>Check If Has Mood Data</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Send_No_Data_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Mood Data</defaultConnectorLabel>
+        <rules>
+            <name>Has_Mood_Entries</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>MoodSummary.totalMoodEntries</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Mood_Summary_Email</targetReference>
+            </connector>
+            <label>Has Mood Entries</label>
+        </rules>
+    </decisions>
+    <actionCalls>
+        <name>Send_Mood_Summary_Email</name>
+        <label>Send Mood Summary Email</label>
+        <locationX>88</locationX>
+        <locationY>350</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🧠 Your Weekly Mood Summary - {!$Flow.CurrentDate}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Build_Mood_Summary_Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_No_Data_Email</name>
+        <label>Send Encouragement Email</label>
+        <locationX>264</locationX>
+        <locationY>350</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🧠 Weekly Mood Check-In</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Build_Encouragement_Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <variables>
+        <name>MoodSummary</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>MoodInsightsInvocable.MoodSummaryResult</objectType>
+    </variables>
+    <textTemplates>
+        <name>Build_Mood_Summary_Email</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;🧠 Weekly Mood Summary&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Week ending: {!$Flow.CurrentDate}&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;📊 THIS WEEK&apos;S MOOD STATS:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Mood Check-ins: &lt;b&gt;{!MoodSummary.totalMoodEntries}&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Average Mood: &lt;b&gt;{!MoodSummary.averageMood}/10&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Highest Mood: &lt;b&gt;{!MoodSummary.highestMood}/10&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Lowest Mood: &lt;b&gt;{!MoodSummary.lowestMood}/10&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Overall Trend: &lt;b&gt;{!MoodSummary.moodTrend}&lt;/b&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;💡 INSIGHTS &amp; PATTERNS:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;{!MoodSummary.insightsText}&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;🎯 WELLNESS RECOMMENDATIONS:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Continue tracking your mood daily for better insights&lt;/li&gt;
+&lt;li&gt;Notice patterns between activities and your mood&lt;/li&gt;
+&lt;li&gt;Practice gratitude journaling to boost positive emotions&lt;/li&gt;
+&lt;li&gt;If you notice declining patterns, reach out for support&lt;/li&gt;
+&lt;li&gt;Celebrate your wins - even the small ones!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;🌟 REMEMBER:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Your mental health journey is unique. These insights are here to help you understand yourself better, not to judge. Every step toward self-awareness is progress.&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;View your full mood history in your &lt;a href=&quot;[ORG_URL]/lightning/n/Wellness_Dashboard&quot;&gt;Wellness Dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;---&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Sent by your NeuroThrive Wellness Platform&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Build_Encouragement_Email</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;🧠 Weekly Mood Check-In&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Hello!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;We noticed you haven&apos;t logged any mood entries this week. That&apos;s okay - life gets busy!&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;📱 QUICK TIP:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Tracking your mood regularly helps you:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Identify patterns and triggers&lt;/li&gt;
+&lt;li&gt;Celebrate positive moments&lt;/li&gt;
+&lt;li&gt;Recognize when you might need extra support&lt;/li&gt;
+&lt;li&gt;Build self-awareness and emotional intelligence&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;💪 GET STARTED:&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Take just 30 seconds to log how you&apos;re feeling right now in your &lt;a href=&quot;[ORG_URL]/lightning/n/Wellness_Dashboard&quot;&gt;Wellness Dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Remember: You&apos;re worth taking care of!&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;---&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Sent by your NeuroThrive Wellness Platform&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

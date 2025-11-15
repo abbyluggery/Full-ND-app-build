@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Imposter_Syndrome_Session__c</fullName>
+    <label>Imposter Syndrome Session</label>
+    <description>Optional lookup to imposter syndrome session</description>
+    <type>Lookup</type>
+    <referenceTo>Imposter_Syndrome_Session__c</referenceTo>
+    <relationshipLabel>Therapy Step Completions</relationshipLabel>
+    <relationshipName>Therapy_Step_Completions</relationshipName>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <trackTrending>false</trackTrending>
+</CustomField>

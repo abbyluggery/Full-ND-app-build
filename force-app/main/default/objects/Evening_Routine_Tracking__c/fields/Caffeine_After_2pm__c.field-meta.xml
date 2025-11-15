@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Caffeine_After_2pm__c</fullName>
+    <label>Caffeine After 2pm</label>
+    <description>Whether caffeine was consumed after 2pm</description>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+    <trackTrending>false</trackTrending>
+</CustomField>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Distortion__c</fullName>
+    <label>Primary Distortion</label>
+    <description>The primary cognitive distortion identified</description>
+    <type>Picklist</type>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All-or-Nothing Thinking</fullName>
+                <default>false</default>
+                <label>All-or-Nothing Thinking</label>
+            </value>
+            <value>
+                <fullName>Overgeneralization</fullName>
+                <default>false</default>
+                <label>Overgeneralization</label>
+            </value>
+            <value>
+                <fullName>Mental Filter</fullName>
+                <default>false</default>
+                <label>Mental Filter</label>
+            </value>
+            <value>
+                <fullName>Disqualifying Positives</fullName>
+                <default>false</default>
+                <label>Disqualifying Positives</label>
+            </value>
+            <value>
+                <fullName>Jumping to Conclusions</fullName>
+                <default>false</default>
+                <label>Jumping to Conclusions</label>
+            </value>
+            <value>
+                <fullName>Magnification</fullName>
+                <default>false</default>
+                <label>Magnification</label>
+            </value>
+            <value>
+                <fullName>Emotional Reasoning</fullName>
+                <default>false</default>
+                <label>Emotional Reasoning</label>
+            </value>
+            <value>
+                <fullName>Should Statements</fullName>
+                <default>false</default>
+                <label>Should Statements</label>
+            </value>
+            <value>
+                <fullName>Labeling</fullName>
+                <default>false</default>
+                <label>Labeling</label>
+            </value>
+            <value>
+                <fullName>Personalization</fullName>
+                <default>false</default>
+                <label>Personalization</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

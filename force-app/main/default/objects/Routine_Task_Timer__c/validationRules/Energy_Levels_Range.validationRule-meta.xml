@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Energy_Levels_Range</fullName>
+    <active>true</active>
+    <description>Ensures energy levels are between 1 and 10</description>
+    <errorConditionFormula>OR(
+    AND(NOT(ISBLANK(Energy_Before__c)), OR(Energy_Before__c &lt; 1, Energy_Before__c &gt; 10)),
+    AND(NOT(ISBLANK(Energy_After__c)), OR(Energy_After__c &lt; 1, Energy_After__c &gt; 10))
+)</errorConditionFormula>
+    <errorMessage>Energy levels must be between 1 and 10.</errorMessage>
+</ValidationRule>

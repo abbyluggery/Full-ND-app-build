@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Step_Number_Must_Be_Positive</fullName>
+    <active>true</active>
+    <description>Ensures step number is positive</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Step_Number__c)),
+    Step_Number__c &lt; 1
+)</errorConditionFormula>
+    <errorDisplayField>Step_Number__c</errorDisplayField>
+    <errorMessage>Step Number must be a positive number.</errorMessage>
+</ValidationRule>

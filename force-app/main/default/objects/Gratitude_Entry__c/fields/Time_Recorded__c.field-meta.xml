@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Recorded__c</fullName>
+    <label>Time Recorded</label>
+    <description>Timestamp when gratitude was recorded</description>
+    <type>DateTime</type>
+    <required>true</required>
+    <defaultValue>NOW()</defaultValue>
+    <trackTrending>false</trackTrending>
+</CustomField>
