@@ -1,0 +1,196 @@
+<template>
+    <lightning-card title={pageTitle} icon-name="custom:custom63">
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading wellness data..." size="small"></lightning-spinner>
+        </template>
+
+        <!-- Main content -->
+        <template if:false={isLoading}>
+            <div class="slds-p-horizontal_large slds-p-vertical_medium">
+                <!-- Morning Routine Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Morning Routine</h3>
+                    <lightning-input
+                        type="checkbox"
+                        label="Morning Routine Completed"
+                        checked={morningRoutineComplete}
+                        onchange={handleRoutineToggle}>
+                    </lightning-input>
+                </div>
+
+                <!-- Energy Level Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Energy Level</h3>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <span>{energyLevelLabel} ({energyLevel}/10)</span>
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input
+                                type="range"
+                                min="1"
+                                max="10"
+                                value={energyLevel}
+                                onchange={handleEnergyChange}
+                                class={energyBarClass}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Mood</h3>
+                    <lightning-combobox
+                        name="mood"
+                        label="How are you feeling?"
+                        value={selectedMood}
+                        placeholder="Select your mood"
+                        options={moodOptions}
+                        onchange={handleMoodChange}
+                        required>
+                    </lightning-combobox>
+
+                    <div class="slds-form-element slds-m-top_small">
+                        <label class="slds-form-element__label">
+                            <span>{moodLevelLabel} ({moodLevel}/10)</span>
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input
+                                type="range"
+                                min="1"
+                                max="10"
+                                value={moodLevel}
+                                onchange={handleMoodLevelChange}
+                                class={moodBarClass}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stress Level Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Stress Level</h3>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <span>{stressLevelLabel} ({stressLevel}/10)</span>
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input
+                                type="range"
+                                min="1"
+                                max="10"
+                                value={stressLevel}
+                                onchange={handleStressChange}
+                                class={stressBarClass}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sleep Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Sleep</h3>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                type="number"
+                                label="Hours of Sleep"
+                                value={sleepHours}
+                                min="0"
+                                max="24"
+                                step="0.5"
+                                formatter="decimal"
+                                onchange={handleSleepHoursChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-combobox
+                                name="sleepQuality"
+                                label="Sleep Quality"
+                                value={sleepQuality}
+                                placeholder="Select quality"
+                                options={sleepQualityOptions}
+                                onchange={handleSleepQualityChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Tasks</h3>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                type="number"
+                                label="Tasks Completed"
+                                value={tasksCompleted}
+                                min="0"
+                                onchange={handleTasksCompletedChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                type="number"
+                                label="Tasks Planned"
+                                value={tasksPlanned}
+                                min="0"
+                                onchange={handleTasksPlannedChange}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <template if:true={tasksPlanned}>
+                        <div class="task-progress slds-m-top_small">
+                            <lightning-progress-bar
+                                value={taskCompletionRate}
+                                size="large"
+                                variant={taskCompletionRate >= 80 ? 'success' : 'base'}>
+                            </lightning-progress-bar>
+                            <p class="slds-text-align_center slds-m-top_x-small">
+                                {taskCompletionLabel}
+                            </p>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="wellness-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Notes</h3>
+                    <lightning-textarea
+                        label="Additional Notes"
+                        value={notes}
+                        placeholder="How are you feeling today? Any insights or observations?"
+                        onchange={handleNotesChange}
+                        rows="4">
+                    </lightning-textarea>
+                </div>
+
+                <!-- Recommendations Section -->
+                <template if:true={hasRecommendations}>
+                    <div class="wellness-section recommendations">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">
+                            <lightning-icon icon-name="utility:light_bulb" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            Today's Recommendations
+                        </h3>
+                        <div class="recommendation-box">
+                            <p class="slds-text-body_regular">{recommendations}</p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Save Button -->
+                <div class="slds-m-top_large slds-text-align_center">
+                    <lightning-button
+                        variant="brand"
+                        label={saveButtonLabel}
+                        onclick={handleSave}
+                        disabled={isSaving}
+                        class="save-button">
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

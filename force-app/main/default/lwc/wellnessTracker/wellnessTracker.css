@@ -1,0 +1,168 @@
+.wellness-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid #dddbda;
+}
+
+.wellness-section:last-child {
+    border-bottom: none;
+}
+
+.wellness-section h3 {
+    color: #080707;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Range slider styling */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0176d3;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0176d3;
+    cursor: pointer;
+    border: none;
+}
+
+/* Energy bar colors */
+.energy-bar.low {
+    background: linear-gradient(to right, #c23934 0%, #ea8a00 100%);
+}
+
+.energy-bar.medium {
+    background: linear-gradient(to right, #ffb75d 0%, #ffc454 100%);
+}
+
+.energy-bar.high {
+    background: linear-gradient(to right, #04844b 0%, #41b658 100%);
+}
+
+/* Mood bar colors */
+.mood-bar.low {
+    background: linear-gradient(to right, #706e6b 0%, #939393 100%);
+}
+
+.mood-bar.medium {
+    background: linear-gradient(to right, #ffc454 0%, #91db8b 100%);
+}
+
+.mood-bar.high {
+    background: linear-gradient(to right, #91db8b 0%, #3ba755 100%);
+}
+
+/* Stress bar colors */
+.stress-bar.low {
+    background: linear-gradient(to right, #3ba755 0%, #91db8b 100%);
+}
+
+.stress-bar.medium {
+    background: linear-gradient(to right, #ffc454 0%, #ffb75d 100%);
+}
+
+.stress-bar.high {
+    background: linear-gradient(to right, #ea8a00 0%, #c23934 100%);
+}
+
+/* Task progress */
+.task-progress {
+    padding: 0.5rem;
+    background-color: #f3f2f2;
+    border-radius: 4px;
+}
+
+/* Recommendations */
+.recommendations {
+    background-color: #f0f8ff;
+    border: 1px solid #0176d3;
+    border-radius: 4px;
+}
+
+.recommendation-box {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    line-height: 1.5;
+}
+
+.recommendation-box p {
+    white-space: pre-line;
+}
+
+/* Save button */
+.save-button {
+    min-width: 200px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .wellness-section {
+        padding: 0.75rem;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+}
+
+/* Labels */
+.slds-form-element__label span {
+    font-weight: 600;
+    color: #3e3e3c;
+}
+
+/* Checkbox styling */
+lightning-input[type="checkbox"] {
+    font-size: 1.1rem;
+}
+
+/* Progress bar custom colors */
+lightning-progress-bar[variant="success"] {
+    --slds-c-progress-bar-color-background-fill: #04844b;
+}
+
+/* Icons */
+lightning-icon {
+    vertical-align: middle;
+}
+
+/* Card header */
+lightning-card {
+    border-radius: 8px;
+}
+
+/* Slider focus states */
+input[type="range"]:focus {
+    outline: 2px solid #0176d3;
+    outline-offset: 2px;
+}
+
+/* Energy level specific styles */
+.energy-bar::-webkit-slider-thumb {
+    background: #005fb2;
+}
+
+.mood-bar::-webkit-slider-thumb {
+    background: #3ba755;
+}
+
+.stress-bar::-webkit-slider-thumb {
+    background: #c23934;
+}

@@ -1,0 +1,169 @@
+<template>
+    <lightning-card title="Energy-Adaptive Scheduler" icon-name="custom:custom83">
+        <lightning-button
+            slot="actions"
+            label="Refresh"
+            icon-name="utility:refresh"
+            onclick={handleRefresh}>
+        </lightning-button>
+
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-p-around_large">
+                <lightning-spinner alternative-text="Loading energy patterns..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Main content -->
+        <template if:false={isLoading}>
+            <div class="slds-p-horizontal_large slds-p-vertical_medium">
+                <!-- Data status message -->
+                <lightning-card variant="narrow" class="data-status-card">
+                    <div class="slds-text-align_center slds-p-around_small">
+                        <template if:true={hasEnoughData}>
+                            <lightning-icon icon-name="utility:success" size="small" class="success-icon"></lightning-icon>
+                        </template>
+                        <template if:false={hasEnoughData}>
+                            <lightning-icon icon-name="utility:info" size="small" class="info-icon"></lightning-icon>
+                        </template>
+                        <p class="slds-m-top_x-small">{dataMessage}</p>
+                    </div>
+                </lightning-card>
+
+                <!-- Energy Patterns Summary -->
+                <template if:true={hasPatterns}>
+                    <div class="section-container slds-m-top_large">
+                        <h3 class="slds-text-heading_medium slds-m-bottom_medium">Your Energy Patterns</h3>
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4">
+                                <div class="pattern-card">
+                                    <lightning-icon icon-name="utility:trending" size="small"></lightning-icon>
+                                    <div class="pattern-content">
+                                        <p class="pattern-label">Average Energy</p>
+                                        <p class="pattern-value">{averageEnergyFormatted}/10</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4">
+                                <div class="pattern-card">
+                                    <lightning-icon icon-name="utility:clock" size="small" class="peak-icon"></lightning-icon>
+                                    <div class="pattern-content">
+                                        <p class="pattern-label">Peak Energy Time</p>
+                                        <p class="pattern-value">{peakEnergyTime}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4">
+                                <div class="pattern-card">
+                                    <lightning-icon icon-name="utility:fallback" size="small" class="low-icon"></lightning-icon>
+                                    <div class="pattern-content">
+                                        <p class="pattern-label">Low Energy Time</p>
+                                        <p class="pattern-value">{lowEnergyTime}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4">
+                                <div class="pattern-card">
+                                    <lightning-icon icon-name="utility:smilingface" size="small" class="mood-icon"></lightning-icon>
+                                    <div class="pattern-content">
+                                        <p class="pattern-label">Most Productive Mood</p>
+                                        <p class="pattern-value">{mostProductiveMood}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Optimal Times for Activities -->
+                <template if:true={hasOptimalTimes}>
+                    <div class="section-container slds-m-top_large">
+                        <h3 class="slds-text-heading_medium slds-m-bottom_medium">Optimal Times for Activities</h3>
+                        <div class="activity-grid">
+                            <template for:each={optimalTimes} for:item="activity">
+                                <div key={activity.id} class="activity-card">
+                                    <div class="activity-header">
+                                        <lightning-icon icon-name={activity.icon} size="medium"></lightning-icon>
+                                        <h4 class="activity-name">{activity.name}</h4>
+                                    </div>
+                                    <div class="activity-time">
+                                        <lightning-icon icon-name="utility:clock" size="x-small" class="time-icon"></lightning-icon>
+                                        <span>{activity.timeSlot}</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Current Energy Input -->
+                <div class="section-container slds-m-top_large">
+                    <h3 class="slds-text-heading_medium slds-m-bottom_medium">Get Recommendations Now</h3>
+                    <div class="current-state-inputs">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <span>Current Energy Level ({energyLevelLabel} - {currentEnergyLevel}/10)</span>
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <input
+                                            type="range"
+                                            min="1"
+                                            max="10"
+                                            value={currentEnergyLevel}
+                                            onchange={handleEnergyChange}
+                                            class={energyBarClass}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-combobox
+                                    name="currentMood"
+                                    label="Current Mood"
+                                    value={currentMood}
+                                    placeholder="Select your current mood"
+                                    options={moodOptions}
+                                    onchange={handleMoodChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <template if:true={hasRecommendations}>
+                    <div class="section-container slds-m-top_large recommendations-section">
+                        <h3 class="slds-text-heading_medium slds-m-bottom_medium">
+                            <lightning-icon icon-name="utility:light_bulb" size="small" class="bulb-icon"></lightning-icon>
+                            Recommendations for Right Now
+                        </h3>
+                        <div class="recommendation-box">
+                            <p class="slds-text-body_regular">{recommendations}</p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Help text -->
+                <div class="slds-m-top_large help-text">
+                    <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                    <p class="slds-text-body_small slds-m-left_x-small">
+                        Your optimal activity times are calculated based on your daily wellness tracking data.
+                        The more consistently you track, the better your recommendations become.
+                    </p>
+                </div>
+            </div>
+        </template>
+
+        <!-- Error state -->
+        <template if:true={error}>
+            <div class="slds-p-around_large">
+                <div class="slds-text-color_error slds-text-align_center">
+                    <lightning-icon icon-name="utility:error" size="small" variant="error"></lightning-icon>
+                    <p class="slds-m-top_small">Unable to load energy scheduler data. Please try again.</p>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

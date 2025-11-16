@@ -1,0 +1,266 @@
+.section-container {
+    margin-bottom: 2rem;
+}
+
+.section-container h3 {
+    color: #080707;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+/* Data status card */
+.data-status-card {
+    background-color: #f0f8ff;
+    border: 1px solid #0176d3;
+}
+
+.success-icon {
+    color: #04844b;
+}
+
+.info-icon {
+    color: #0176d3;
+}
+
+/* Pattern cards */
+.pattern-card {
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 100%;
+    transition: all 0.2s ease;
+}
+
+.pattern-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.pattern-content {
+    flex: 1;
+}
+
+.pattern-label {
+    font-size: 0.75rem;
+    color: #706e6b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.pattern-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #080707;
+    margin: 0;
+}
+
+.peak-icon {
+    color: #04844b;
+}
+
+.low-icon {
+    color: #ea8a00;
+}
+
+.mood-icon {
+    color: #8b5cf6;
+}
+
+/* Activity grid */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.activity-card {
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+}
+
+.activity-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    border-color: #0176d3;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.activity-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #080707;
+    margin: 0;
+}
+
+.activity-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f3f2f2;
+    border-radius: 4px;
+}
+
+.time-icon {
+    color: #0176d3;
+}
+
+.activity-time span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3e3e3c;
+}
+
+/* Current state inputs */
+.current-state-inputs {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #dddbda;
+}
+
+/* Range slider styling */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0176d3;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0176d3;
+    cursor: pointer;
+    border: none;
+}
+
+/* Energy bar colors */
+.energy-bar.low {
+    background: linear-gradient(to right, #c23934 0%, #ea8a00 100%);
+}
+
+.energy-bar.medium {
+    background: linear-gradient(to right, #ffb75d 0%, #ffc454 100%);
+}
+
+.energy-bar.high {
+    background: linear-gradient(to right, #04844b 0%, #41b658 100%);
+}
+
+/* Recommendations section */
+.recommendations-section {
+    background-color: #f0f8ff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #0176d3;
+}
+
+.bulb-icon {
+    color: #ea8a00;
+    margin-right: 0.5rem;
+}
+
+.recommendation-box {
+    background-color: white;
+    padding: 1.25rem;
+    border-radius: 4px;
+    line-height: 1.6;
+}
+
+.recommendation-box p {
+    white-space: pre-line;
+    margin: 0;
+}
+
+/* Help text */
+.help-text {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    background-color: #f3f2f2;
+    border-radius: 4px;
+    gap: 0.5rem;
+}
+
+.help-text lightning-icon {
+    color: #706e6b;
+    margin-top: 0.15rem;
+}
+
+.help-text p {
+    color: #3e3e3c;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .activity-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pattern-card {
+        margin-bottom: 0.75rem;
+    }
+
+    .current-state-inputs {
+        padding: 1rem;
+    }
+}
+
+/* Slider focus states */
+input[type="range"]:focus {
+    outline: 2px solid #0176d3;
+    outline-offset: 2px;
+}
+
+/* Card animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.activity-card,
+.pattern-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Label styling */
+.slds-form-element__label span {
+    font-weight: 600;
+    color: #3e3e3c;
+}
